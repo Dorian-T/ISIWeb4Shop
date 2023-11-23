@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IsiWeb4Shop</title>
+    <title>{{ IsiWeb4Shop}}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../Style/Style.css">
 </head>
 
 <body>
@@ -19,35 +20,43 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="Home.html.twig">Accueil <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('Home') }}">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Produits.html.twig">Produits</a>
+                    <a class="nav-link" href="{{ path('Produits') }}">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Compte.html.twig">Compte</a>
+                    <a class="nav-link" href="{{ path('Login') }}">Compte</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('cart') }}">Panier</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="container-fluid bg-dark text-white text-center py-5">
-        <h1 class="display-4">Bienvenue sur Mon Site de Commerce</h1>
-        <p class="lead">Trouvez les meilleurs produits au meilleur prix.</p>
-        <a href="Produits.html.twig" class="btn btn-primary btn-lg">Découvrir</a>
-    </div>
+    <!-- Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="container-fluid bg-dark text-white text-center py-5">
+            <h1 class="display-4">Bienvenue sur IsiWeb4Shop</h1>
+            <p class="lead">Trouvez les meilleurs produits alimentaires en ligne.</p>
+            <a href="{{ path('products') }}" class="btn btn-primary btn-lg">Découvrir</a>
+        </div>
 
-    <!-- Footer -->
-    <footer class="bg-light text-center py-3">
-        <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
-    </footer>
+        <!-- Footer -->
+        <footer class="bg-light text-center py-3">
+            <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
+        </footer>
+
+    </div>
 
     <!-- Bootstrap JS, assurez-vous d'inclure jQuery et Popper.js si nécessaire -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

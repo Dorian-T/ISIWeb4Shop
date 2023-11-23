@@ -33,4 +33,32 @@ function req_products() {
 	return $instances;
 }
 
+function createUser($username, $password) {
+	try {
+		// Utilisez password_hash pour stocker les mots de passe de manière sécurisée
+		$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+		$stmt = $this->pdo->prepare("INSERT INTO logins (customer_id, username, password) VALUES (NULL, ?, ?)");
+		$stmt->execute([$username, $hashedPassword]);
+
+		return true;
+	} catch (PDOException $e) {
+		echo "Erreur lors de la création du compte : " . $e->getMessage();
+		return false;
+	}
+}
+
+function getUserByUsername($username) {
+	try {
+		$stmt = $this->pdo->prepare("SELECT * FROM logins WHERE username = ?");
+		$stmt->execute([$username]);
+
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	} catch (PDOException $e) {
+		echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
+		return false;
+	}
+}
+
+
 ?>
