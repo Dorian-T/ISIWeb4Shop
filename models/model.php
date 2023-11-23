@@ -25,4 +25,12 @@ function update_db($requete) {
 	return $res;
 }
 
+function req_products() {
+	global $connexion;
+	$requete = "SELECT * FROM products";
+	$res = mysqli_query($connexion, $requete);
+	$instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+	return $instances;
+}
+
 ?>

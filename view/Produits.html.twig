@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IsiWeb4Shop</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">IsiWeb4Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="Home.html.twig">Accueil <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Produits.html.twig">Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Compte.html.twig">Compte</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="container-fluid bg-dark text-white text-center py-5">
+            <h1 class="display-4">Bienvenue sur Mon Site de Commerce</h1>
+            <p class="lead">Trouvez les meilleurs produits au meilleur prix.</p>
+            <a href="Produits.html.twig" class="btn btn-primary btn-lg">Découvrir</a>
+        </div>
+
+        <!-- Featured Products -->
+        <div class="container my-5">
+        <div class="container" data-aos="fade-up">
+
+            <header class="section-header">
+                <h2>Produits</h2>
+            </header>
+
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <ul id="portfolio-flters">
+                        <li data-filter="*" class="filter-active">All</li>
+                        <li data-filter=".filter-boissons">Boissons</li>
+                        <li data-filter=".filter-biscuits">Biscuits</li>
+                        <li data-filter=".filter-fruits">Fruits secs</li>
+                    </ul>
+                </div>
+                <div class="row">
+                    {% for produit in produits %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ produit.image }}" class="card-img-top" alt="{{ produit.nom }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produit.nom }}</h5>
+                                    <p class="card-text">{{ produit.description }}</p>
+                                    <a href="#" class="btn btn-primary">Acheter</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                        <div class="portfolio-wrap">
+                            <img src="assets/img/miso2.gif" class="img-fluid" alt="">
+                            <div class="portfolio-info">
+                                <h4>Miso Mania</h4>
+                                <p>C++</p>
+                                <div class="portfolio-links">
+                                    <a href="MisoMania.html" title="More Details"><i class="bi bi-link"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-light text-center py-3">
+            <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
+        </footer>
+
+        <!-- Bootstrap JS, assurez-vous d'inclure jQuery et Popper.js si nécessaire -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
+
+</html>
