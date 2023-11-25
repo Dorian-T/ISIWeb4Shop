@@ -1,16 +1,26 @@
 <?php
+require_once 'models/model.php';
 
-// Incluez l'autoloader de Composer s'il est utilisé
-//require 'vendor/autoload.php';
+class Produits_controller {
+  private $produits_modele;
 
-// Chargez votre configuration Twig
-// $loader = new \Twig\Loader\FilesystemLoader('/chemin/vers/vos/templates');
-// $twig = new \Twig\Environment($loader);
+  public function __construct() {
+    $this->produits_modele = new Produits_modele();
+  }
 
-// Récupérez les produits depuis la base de données
-$produits = req_products();
+  public function afficherProduits() {
+    $products = $this->produits_modele->req_products();
 
-// Chargez le template Twig
-echo $twig->render('produits.twig', ['produits' => $produits]);
+    $loader = new Twig\Loader\FilesystemLoader('view');
+    $twig = new Twig\Environment($loader);
 
+    // Charge le template 'Produits.html.twig'
+    $template = $twig->load('Produits.twig');
+    echo $template->render(['products' => $products]);
+  }
+}
+
+// Exemple d'utilisation du contrôleur
+$controller = new Produits_controller();
+$controller->afficherProduits();
 ?>

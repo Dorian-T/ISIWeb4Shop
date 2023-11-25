@@ -1,11 +1,10 @@
 <?php
-
+require_once 'models/model.php';
 // Incluez l'autoloader de Composer s'il est utilisé
-// require 'vendor/autoload.php';
+include 'vendor/autoload.php';
+$loader = new \Twig\src\Loader\FilesystemLoader('templates');
+$twig = new Twig\src\Environment($loader);
 
-// Chargez votre configuration Twig
-// $loader = new \Twig\Loader\FilesystemLoader('/chemin/vers/vos/templates');
-// $twig = new \Twig\Environment($loader);
 
 // Supposons que $pdo soit votre instance PDO déjà créée
 $model = new Model($pdo);

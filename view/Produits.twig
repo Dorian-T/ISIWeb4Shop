@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ IsiWeb4Shop}}</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../Style/Style.css">
 </head>
 
@@ -21,16 +21,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('Home') }}">Accueil</a>
+                    <a class="nav-link" href="Home.twig">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('Produits') }}">Produits</a>
+                    <a class="nav-link" href="Produits.twig">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('Login') }}">Compte</a>
+                    <a class="nav-link" href="Login.twig">Compte</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('cart') }}">Panier</a>
+                    <a class="nav-link" href="Panier.twig">Panier</a>
                 </li>
             </ul>
         </div>
@@ -38,12 +38,35 @@
 
     <!-- Content -->
     <div class="container">
-        <!-- Hero Section -->
-        <div class="container-fluid bg-dark text-white text-center py-5">
-            <h1 class="display-4">Bienvenue sur IsiWeb4Shop</h1>
-            <p class="lead">Trouvez les meilleurs produits alimentaires en ligne.</p>
-            <a href="{{ path('products') }}" class="btn btn-primary btn-lg">Découvrir</a>
-        </div>
+        <div class="container mt-5">
+        <h1>Liste des Produits</h1>s
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom du Produit</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{product.image}}</td>
+                        {% if product.image %}
+                            <td><img src="{{ asset('images/' ~ product.image) }}" alt="{{ product.name }}" /></td>
+                        {% else %}
+                            <td><img src="{{ asset('images/default.png') }}" alt="default" /></td>
+                        {% endif %}
+                        <td>{{ product.price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        
 
         <!-- Footer -->
         <footer class="bg-light text-center py-3">
