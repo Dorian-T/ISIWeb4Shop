@@ -19,7 +19,7 @@ body {
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 25px;
     font-weight: bold;
     color: #333333;
 }
@@ -29,10 +29,10 @@ body {
 }
 
 .nav-link {
-    font-size: 1.1rem;
+    font-size: 18px;
     font-weight: bold;
     color: #333333;
-    margin-left: 1.5rem;
+    margin-left: 20px;
 }
 
 .nav-link:hover {
@@ -47,7 +47,7 @@ body {
 
 /* Hero Section Styles */
 .container-fluid {
-    padding: 3rem;
+    padding: 50px 0;
     text-align: center;
     color: #ffffff;
 }
@@ -55,7 +55,7 @@ body {
 /* Featured Products Section Styles */
 .container.my-5 {
     background-color: #ffffff;
-    padding: 3rem;
+    padding: 50px 0;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -72,7 +72,7 @@ body {
 /* Footer Styles */
 footer {
     background-color: #ffffff;
-    padding: 1rem;
+    padding: 16px 0;
     bottom: 0;
     width: 100%;
 }
@@ -88,14 +88,167 @@ footer {
     }
 
     .container-fluid {
-        padding: 2rem;
+        padding: 32px 16px;
     }
 
     .container.my-5 {
-        padding: 2rem;
+        padding: 32px 16px;
     }
 
     footer {
         position: relative;
     }
 }
+
+/*--------------------------------------------------------------
+# liste
+--------------------------------------------------------------*/
+.liste {
+    padding: 60px 0;
+  }
+    
+  .liste .liste-wrap {
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.75);
+  }
+  
+  .liste .liste-wrap::before {
+    content: "";
+    background: rgba(255, 255, 255, 0.75);
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    top: 30px;
+    bottom: 30px;
+    transition: all ease-in-out 0.3s;
+    z-index: 2;
+    opacity: 0;
+  }
+  
+  .liste .liste-wrap img {
+    transition: 1s;
+    height: 300px;
+    margin: 0 auto; /* add this line to center the image */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .liste .liste-wrap .liste-info {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    z-index: 3;
+    transition: all ease-in-out 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .liste .liste-wrap .liste-info::before {
+    display: block;
+    content: "";
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    border-top: 3px solid rgba(1, 41, 112, 0.2);
+    border-left: 3px solid rgba(1, 41, 112, 0.2);
+    transition: all 0.5s ease 0s;
+    z-index: 9994;
+  }
+  
+  .liste .liste-wrap .liste-info::after {
+    display: block;
+    content: "";
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    bottom: 35px;
+    right: 35px;
+    border-bottom: 3px solid rgba(1, 41, 112, 0.2);
+    border-right: 3px solid rgba(1, 41, 112, 0.2);
+    transition: all 0.5s ease 0s;
+    z-index: 9994;
+  }
+  
+  .liste .liste-wrap .liste-info h4 {
+    font-size: 20px;
+    color: #012970;
+    font-weight: 700;
+  }
+  
+  .liste .liste-wrap .liste-info p {
+    color: #012970;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .liste .liste-wrap .liste-links {
+    text-align: center;
+    z-index: 4;
+  }
+  
+  .liste .liste-wrap .liste-links a {
+    color: #fff;
+    background: #4154f1;
+    margin: 10px 2px;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+  
+  .liste .liste-wrap .liste-links a i {
+    font-size: 24px;
+    line-height: 0;
+  }
+  
+  .liste .liste-wrap .liste-links a:hover {
+    background: #5969f3;
+  }
+  
+  .liste .liste-wrap:hover img {
+    transform: scale(1.1);
+  }
+  
+  .liste .liste-wrap:hover::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 1;
+  }
+  
+  .liste .liste-wrap:hover .liste-info {
+    opacity: 1;
+  }
+  
+  .liste .liste-wrap:hover .liste-info::before {
+    top: 15px;
+    left: 15px;
+  }
+  
+  .liste .liste-wrap:hover .liste-info::after {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  
+
+  

@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ IsiWeb4Shop}}</title>
+    <link rel="stylesheet" href="../Style/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../Style/Style.css">
 </head>
 
 <body>
@@ -46,12 +46,62 @@
             <a href="{{ path('products') }}" class="btn btn-primary btn-lg">Découvrir</a>
         </div>
 
-        <!-- Footer -->
-        <footer class="bg-light text-center py-3">
-            <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
-        </footer>
-
     </div>
+    <section id="liste" class="liste">
+
+      <div class="container" data-aos="fade-up">
+
+            <div class="row gy-4 liste-container" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-4 col-md-6 liste-item filter-app">
+                    <div class="liste-wrap">
+                        <img src="../Img/banniere1.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Boissons</h4>
+                            <div class="liste-links">
+                                <a href="" title="More Details"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 liste-item filter-web">
+                    <div class="liste-wrap">
+                        <img src="../Img/banniere2.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Biscuits</h4>
+                            <div class="liste-links">
+                                <a href="" title="More Details"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 liste-item filter-web">
+                    <div class="liste-wrap">
+                        <img src="../Img/banniere3.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Fruits secs</h4>
+                            <div class="liste-links">
+                                <a href="" title="More Details"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+      
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3">
+        <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
+    </footer>
+
 
     <!-- Bootstrap JS, assurez-vous d'inclure jQuery et Popper.js si nécessaire -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
