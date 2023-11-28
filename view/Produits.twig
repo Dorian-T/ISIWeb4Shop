@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../Style/Style.css">
+    <link rel="stylesheet" href="Style/style.css">
 </head>
 
 <body>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">IsiWeb4Shop</a>
+        <a class="navbar-brand" href="index.php?action=home">IsiWeb4Shop</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,10 +21,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="Home.twig">Accueil</a>
+                    <a class="nav-link" href="index.php?action=home">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Produits.twig">Produits</a>
+                    <a class="nav-link" href="index.php?action=products">Produits</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Login.twig">Compte</a>
@@ -39,32 +39,44 @@
     <!-- Content -->
     <div class="container">
         <div class="container mt-5">
-        <h1>Liste des Produits</h1>s
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom du Produit</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Prix</th>
-                </tr>
-            </thead>
-            <tbody>
+
+        <section id="liste" class="liste">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                     <h2>Liste Produits</h2>
+                </header>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <ul id="liste-flters">
+                        <li data-filter="*" class="filter-active">All</li>
+                        <li data-filter=".filter-app">Boisson</li>
+                        <li data-filter=".filter-app">Biscuits</li>
+                        <li data-filter=".filter-web">Fruits secs</li>
+                        </ul>
+                    </div>
+                </div>
+
                 {% for product in products %}
-                    <tr>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.description }}</td>
-                        <td>{{product.image}}</td>
-                        {% if product.image %}
-                            <td><img src="images/{{product.image}}" alt="{{ product.name }}" /></td>
-                        {% else %}
-                            <td><img src="" alt="default" /></td>
-                        {% endif %}
-                        <td>{{ product.price }}</td>
-                    </tr>
+                <div class="row gy-4 liste-container" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-4 col-md-6 liste-item filter-app">
+                    <div class="liste-wrap">
+                    <img src="Img/{{product.image}}" class="img-fluid" alt="">
+                    <div class="liste-info">
+                        <h4>{{product.name}}</h4>
+                        <p>{{product.price}}</p>
+                        <div class="liste-links">
+                            <a href="" title="Voir plus"><i class="bi bi-link"></i></a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </section>
     </div>
         
 
