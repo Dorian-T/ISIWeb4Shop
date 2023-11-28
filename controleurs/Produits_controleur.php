@@ -1,7 +1,7 @@
 <?php
-require_once 'models/model.php';
 
 class Produits_controller {
+
   private $produits_modele;
 
   public function __construct() {
@@ -16,11 +16,8 @@ class Produits_controller {
 
     // Charge le template 'Produits.html.twig'
     $template = $twig->load('Produits.twig');
-    echo $template->render(['products' => $products]);
+    echo $template->render(array('products' => $products));
   }
 }
 
-// Exemple d'utilisation du contrôleur
-$controller = new Produits_controller();
-$controller->afficherProduits();
 ?>

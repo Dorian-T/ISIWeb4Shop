@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ IsiWeb4Shop}}</title>
+    <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../Style/Style.css">
 </head>
@@ -56,9 +56,9 @@
                         <td>{{ product.description }}</td>
                         <td>{{product.image}}</td>
                         {% if product.image %}
-                            <td><img src="{{ asset('images/' ~ product.image) }}" alt="{{ product.name }}" /></td>
+                            <td><img src="images/{{product.image}}" alt="{{ product.name }}" /></td>
                         {% else %}
-                            <td><img src="{{ asset('images/default.png') }}" alt="default" /></td>
+                            <td><img src="" alt="default" /></td>
                         {% endif %}
                         <td>{{ product.price }}</td>
                     </tr>
