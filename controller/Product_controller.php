@@ -22,7 +22,7 @@ class Product_controller {
     $twig = new Twig\Environment($loader);
 
     // Charge le template 'Produits.html.twig'
-    $template = $twig->load('Produits.twig');
+    $template = $twig->load('produits.twig');
     echo $template->render(array('products' => $products, 'categories' => $getCategory));
   }
 

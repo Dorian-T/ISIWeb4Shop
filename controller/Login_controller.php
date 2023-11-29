@@ -1,42 +1,70 @@
 <?php
-require_once 'models/model.php';
-// Incluez l'autoloader de Composer s'il est utilisé
-include 'vendor/autoload.php';
-$loader = new \Twig\src\Loader\FilesystemLoader('templates');
-$twig = new Twig\src\Environment($loader);
 
+class Login_controller {
+    private $user_model;
 
-// Supposons que $pdo soit votre instance PDO déjà créée
-$model = new Model($pdo);
+    public function __construct() {
+        $this->user_model = new user_model();
+    }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['register'])) {
-        // Traitement de l'inscription
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    function logIn () {
+        if (isset($_POST['login']) && isset($_POST['password'])) {
+            foreach ($this->user_model->getUtilisateur($_POST['login'], $_POST['password']) as $user) {
+                $login = $user['username'];
+                $password = $user['password'];
+                $cdi = $user['customer_id'];           
+            }
+            if (isset ($login) && isset ($password)) {
+                $_SESSION['customer_id'] = $cdi;
 
-        $success = $model->createUser($username, $password);
+                foreach ($this->user_model->getCustomer($cdi) as $customer) {
+                    $_SESSION['forname'] = $customer['forname'];
+                    $_SESSION['surname'] = $customer['surname'];
+                }
+                header('Location: ./');
+            }
+            var_dump($user_model->getAdmin($_POST['login'], $_POST['password']));
+            foreach ($this->user_model->getAdmin($_POST['login'], $_POST['password']) as $admin) {
+                $login = $admin['username'];
+                $password = $admin['password'];
+                $id = $admin['id'];
+            }
 
-        if ($success) {
-            echo "Compte créé avec succès!";
-        } else {
-            echo "Erreur lors de la création du compte.";
+            if (isset ($login) && isset ($password)) {
+                $_SESSION['admin_id'] = $id;
+                header('Location: ./');
+            }
         }
-    } elseif (isset($_POST['login'])) {
-        // Traitement de la connexion
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $loader = new Twig\Loader\FilesystemLoader('view');
+        $twig = new Twig\Environment($loader);
 
-        $user = $model->getUserByUsername($username);
+        $template = $twig->load('login.twig');
+        echo $template->render(array());    
+    }
 
-        if ($user && password_verify($password, $user['password'])) {
-            echo "Connexion réussie!";
-        } else {
-            echo "Nom d'utilisateur ou mot de passe incorrect.";
+    function logOut () {
+        session_destroy();
+        header('Location: ./');
+    }
+
+    function register(){
+        if (!(empty($_POST))) {
+            $user_model = new user_model();
+            $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['email'], 1);
+
+            foreach ($user_model->getCustomerByPhone($_POST['phone']) as $id) {
+                $cid = $id['id'];
+            };
+            $user_model->addAdress($cid, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
+            $user_model->addLogin($cid, $_POST['username'], $_POST['password']);
+            header('Location: ./');
         }
+        $loader = new Twig\Loader\FilesystemLoader('view');
+        $twig = new Twig\Environment($loader);
+
+        $template = $twig->load('register.twig');
+        echo $template->render(array());
     }
 }
 
-// Chargez le template Twig
-echo $twig->render('login_register.twig');
-
+?>

@@ -40,7 +40,7 @@ class Produits_modele {
 	}
 }
 
-class Login_Model {
+class user_model {
 
 	/** Objet contenant la connexion pdo à la BD */
 	private static $connexion;
@@ -48,42 +48,71 @@ class Login_Model {
 	/** Constructeur établissant la connexion */
 	function __construct()
 	{
-	$dsn="mysql:dbname=".BASE.";host=".SERVER;
-	try{
+		$dsn="mysql:dbname=".BASE.";host=".SERVER;
+		try{
 			self::$connexion=new PDO($dsn,USER,PASSWD);
-	}
-	catch(PDOException $e){
-	  printf("Échec de la connexion : %s\n", $e->getMessage());
-	  $this->connexion = NULL;
-	}
-	}
-
-	function createUser($username, $password) {
-		try {
-			// Utilisez password_hash pour stocker les mots de passe de manière sécurisée
-			$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-			$stmt = $this->pdo->prepare("INSERT INTO logins (customer_id, username, password) VALUES (NULL, ?, ?)");
-			$stmt->execute([$username, $hashedPassword]);
-
-			return true;
-		} catch (PDOException $e) {
-			echo "Erreur lors de la création du compte : " . $e->getMessage();
-			return false;
+		}
+		catch(PDOException $e){
+	  		printf("Échec de la connexion : %s\n", $e->getMessage());
+	  		$this->connexion = NULL;
 		}
 	}
 
-	function getUserByUsername($username) {
-		try {
-			$stmt = $this->pdo->prepare("SELECT * FROM logins WHERE username = ?");
-			$stmt->execute([$username]);
-
-			return $stmt->fetch(PDO::FETCH_ASSOC);
-		} catch (PDOException $e) {
-			echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
-			return false;
-		}
+	function getUtilisateur($login, $password) {
+		$sql = "SELECT * FROM users WHERE login = ? AND password = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$login, $password]);
+		return $data->fetch(PDO::FETCH_ASSOC);
 	}
+
+	function getCustomer ($i)
+	{
+		$sql = "SELECT * FROM customers WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$i]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function getCustomerByPhone ($phone)
+	{
+		$sql = "SELECT * FROM customers WHERE phone = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$phone]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function addCustomer ($forname, $surname, $phone, $email, $registered)
+	{
+		$sql = "INSERT INTO customers (forname, surname, phone, email, registered) VALUES (?, ?, ?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$forname, $surname, $phone, $email, $registered]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function addLogin ($cid, $username, $password)
+	{
+		$sql = "INSERT INTO logins (customer_id, login, password) VALUES (?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$cid, $username, $password]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function addAdress($cid, $add1, $add2, $city, $postcode)
+	{
+		$sql = "INSERT INTO addresses (customer_id, add1, add2, city, postcode) VALUES (?, ?, ?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$cid, $add1, $add2, $city, $postcode]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function getAdmin($login, $password) {
+		$sql = "SELECT * FROM admin where (username=? and password=?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$login, $password]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+
 }
 
 ?>
