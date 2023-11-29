@@ -1,6 +1,6 @@
 <?php
 
-class Produits_controller {
+class Product_controller {
 
   private $produits_modele;
 

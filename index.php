@@ -1,12 +1,12 @@
 <?php
 
 require 'vendor/autoload.php';
-require_once 'models/model.php';
-require_once 'controleurs/Produits_controleur.php';
-require_once 'controleurs/Home_controleur.php';
+require_once 'model/model.php';
+require_once 'controller/Product_controller.php';
+require_once 'controller/Home_controller.php';
 
 $homeController = new Home_controller();
-$productController = new Produits_controller();
+$productController = new Product_controller();
 
 if(isset($_GET['action'])) {
   switch ($_GET['action']) {
