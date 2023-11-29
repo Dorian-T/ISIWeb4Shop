@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 require_once 'model/model.php';
 require_once 'controller/Product_controller.php';
 require_once 'controller/Home_controller.php';
+require_once 'controller/Login_controller.php';
 
 $homeController = new Home_controller();
 $productController = new Product_controller();
