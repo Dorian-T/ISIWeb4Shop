@@ -5,7 +5,7 @@ require_once 'model/model.php';
 require_once 'controller/Product_controller.php';
 require_once 'controller/Home_controller.php';
 
-$homeController = new Home_controller();
+$homeController = new HomeController();
 $productController = new Product_controller();
 
 if (isset($_GET['action'])) {
