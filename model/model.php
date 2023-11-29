@@ -18,9 +18,24 @@ class Produits_modele {
     }
 	}
 
-	function req_products() {
-		$sql = "SELECT * FROM products";
-		$data=self::$connexion->query($sql);
+    function req_products() {
+        $sql = "SELECT * FROM products";
+        $data=self::$connexion->query($sql);
+        return $data->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+	function getCategory() {
+		$sql = "SELECT * FROM categories";
+		$data=self::$connexion->prepare($sql);
+		$data->execute();
+		return $data;
+	}
+
+	function getProductsByCategory($category) {
+		$sql = "SELECT * FROM products WHERE cat_id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$category]);
 		return $data;
 	}
 }

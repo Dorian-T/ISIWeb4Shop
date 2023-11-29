@@ -12,7 +12,7 @@ class Home_controller {
     $twig = new Twig\Environment($loader);
 
     // Charge le template 'Home.html.twig'
-    $template = $twig->load('Home.html.twig');
+    $template = $twig->load('home.twig');
     echo $template->render(array());
   }
 }

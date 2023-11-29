@@ -8,16 +8,24 @@ class Product_controller {
     $this->produits_modele = new Produits_modele();
   }
 
-  public function afficherProduits() {
-    $products = $this->produits_modele->req_products();
+  public function afficherProduitsByCategory() {
+    $getCategory = $this->produits_modele->getCategory();
+
+    $products = [];
+    if (isset($_GET['category'])) {
+        $products = $this->produits_modele->getProductsByCategory($_GET['category'])->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $products = $this->produits_modele->req_products();
+    }
 
     $loader = new Twig\Loader\FilesystemLoader('view');
     $twig = new Twig\Environment($loader);
 
     // Charge le template 'Produits.html.twig'
     $template = $twig->load('Produits.twig');
-    echo $template->render(array('products' => $products));
+    echo $template->render(array('products' => $products, 'categories' => $getCategory));
   }
+
 }
 
 ?>

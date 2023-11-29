@@ -11,7 +11,7 @@ $productController = new Product_controller();
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'products':
-            $productController->afficherProduits();
+            $productController->afficherProduitsByCategory();
             break;
         default:
             header('Location: ./');
