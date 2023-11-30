@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once 'vendor/autoload.php';
 require_once 'model/model.php';
 require_once 'controller/Product_controller.php';
@@ -24,6 +24,12 @@ if (isset($_GET['action'])) {
         case 'register':
             $loginController->register();
             break;
+        case 'registered':
+            $loader = new Twig\Loader\FilesystemLoader('view');
+            $twig = new Twig\Environment($loader);
+            $template = $twig->load('registered.twig');
+            echo $template->render(array());
+            exit();
         default:
             header('Location: ./');
     }

@@ -9,6 +9,13 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
+    {% if session.customer_id is defined %}
+    <div class= ' col-lg-4'>
+        <span class="navbar-text text-upercase">
+            {{ session.firstname }} {{ session.lastname }}
+        </span>
+    </div>
+    {% endif %}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="./">Accueil</a>
