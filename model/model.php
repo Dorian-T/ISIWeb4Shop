@@ -58,10 +58,10 @@ class user_model {
 		}
 	}
 
-	function getUtilisateur($login, $password) {
-		$sql = "SELECT * FROM users WHERE login = ? AND password = ?";
+	function getUtilisateur($login, $mpd) {
+		$sql = "SELECT * FROM logins WHERE (username = ? AND password = ?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$login, $password]);
+		$data->execute(array($login, $mpd));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -69,7 +69,7 @@ class user_model {
 	{
 		$sql = "SELECT * FROM customers WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$i]);
+		$data->execute(array($i));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -77,7 +77,7 @@ class user_model {
 	{
 		$sql = "SELECT * FROM customers WHERE phone = ?";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$phone]);
+		$data->execute(array($phone));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -85,7 +85,7 @@ class user_model {
 	{
 		$sql = "INSERT INTO customers (forname, surname, phone, email, registered) VALUES (?, ?, ?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$forname, $surname, $phone, $email, $registered]);
+		$data->execute(array($forname, $surname, $phone, $email, $registered));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -93,7 +93,7 @@ class user_model {
 	{
 		$sql = "INSERT INTO logins (customer_id, login, password) VALUES (?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$cid, $username, $password]);
+		$data->execute(array($cid, $username, $password));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -101,14 +101,14 @@ class user_model {
 	{
 		$sql = "INSERT INTO addresses (customer_id, add1, add2, city, postcode) VALUES (?, ?, ?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$cid, $add1, $add2, $city, $postcode]);
+		$data->execute(array($cid, $add1, $add2, $city, $postcode));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
 	function getAdmin($login, $password) {
 		$sql = "SELECT * FROM admin where (username=? and password=?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$login, $password]);
+		$data->execute(array($login, $password));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 }

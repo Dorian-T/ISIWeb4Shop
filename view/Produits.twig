@@ -2,8 +2,7 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="container mt-5">
+    <div class="container mt-5">
 
         <section id="liste" class="liste">
 
@@ -25,29 +24,28 @@
                 </form>
 
                 <div class="row gy-4">
-                {% for product in products %}
-                    <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-                       <div class="liste-wrap">
-                            <img src="Img/{{product.image}}" class="img-fluid" alt="">
-                            <div class="liste-info">
-                                <h4>{{product.name}}</h4>
-                                <p>{{product.price}}</p>
-                                <div class="liste-links">
-                                    <a href="" title="Voir plus"><i class="bi bi-link"></i></a>
+                    {% for product in products %}
+                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="liste-wrap">
+                                <img src="Img/{{product.image}}" class="img-fluid" alt="">
+                                <div class="liste-info">
+                                    <p>{{product.description}}</p>
+                                    <div class="liste-links">
+                                        <a href="" title="Voir plus"><i class="bi bi-link"></i></a>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="product-details">
+                                    <h4>{{product.name}}</h4>
+                                    <p>{{product.price}} €</p>
+                                    <p>Quantité : {{product.quantity}}</p>
+                                    <button type="button">Ajouter au panier</button>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         </section>
-        
-
-        <!-- Footer -->
-        <footer class="bg-light text-center py-3">
-            <p>&copy; 2023 Jules Ginhac et Dorian Tonnis</p>
-        </footer>
-
     </div>
 
 {% endblock %}

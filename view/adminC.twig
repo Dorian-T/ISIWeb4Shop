@@ -4,6 +4,25 @@
 
 {% block content %}
 
+    <form action="index.php?action=adminC" method="post">
+        <div class='form-group col-lg-5'>
+            <div class="form-row">
+                <div class="col">
+                    <select class='form-control' name='id'>
+                    {% if order is not empty %}
+                        {% for i in order %}
+                            <option value='{{ i.id }}'>Commande {{ i.id }}</option>
+                        {% endfor %}
+                    {% endif %}
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-secondary btn-lg center-block">Valider la commande</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <table class="table">
         <tr>
             <th scope="col">Numero de Commande </th>
@@ -29,23 +48,5 @@
             {% endfor %}
         {% endif %}
     </table>
-    <form action="index.php?action=adminC" method="post">
-        <div class='form-group col-lg-5'>
-            <div class="form-row">
-                <div class="col">
-                    <select class='form-control' name='id'>
-                    {% if order is not empty %}
-                        {% for i in order %}
-                            <option value='{{ i.id }}'>Commande {{ i.id }}</option>
-                        {% endfor %}
-                    {% endif %}
-                    </select>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-secondary btn-lg center-block">Valider la commande</button>
-                </div>
-            </div>
-        </div>
-    </form>
 
 {% endblock %}

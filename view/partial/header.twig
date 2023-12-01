@@ -23,9 +23,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=products">Produits</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?action=login">Compte</a>
-            </li>
+            {% if session.customer_id is defined or session.admin_id is defined %}
+                <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
+            {% else %}
+                <a class='nav-link' href='index.php?action=login'> Se connecter </a>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=cart">Panier</a>
             </li>

@@ -11,7 +11,7 @@ class Login_controller {
         if (isset($_POST['login']) && isset($_POST['mdp'])) {
             foreach ($this->user_model->getUtilisateur($_POST['login'], $_POST['mdp']) as $i) {
                 $login = $i['username'];
-                $password = $i['password'];
+                $pwd = $i['password'];
                 $cdi = $i['customer_id'];           
             }
             if (isset ($login) && isset ($pwd)) {
@@ -26,12 +26,12 @@ class Login_controller {
 
             var_dump($user_model->getAdmin($_POST['login'], $_POST['mdp']));
             foreach ($this->user_model->getAdmin($_POST['login'], $_POST['mdp']) as $i) {
-                $login = $i['username'];
-                $password = $i['password'];
+                $admin = $i['username'];
+                $mpd = $i['password'];
                 $id = $i['id'];
             }
 
-            if (isset ($login) && isset ($mdp)) {
+            if (isset ($admin) && isset ($mdp)) {
                 $_SESSION['admin_id'] = $id;
                 header('Location: index.php?action=home');
             }
@@ -40,7 +40,7 @@ class Login_controller {
         $twig = new Twig\Environment($loader);
 
         $template = $twig->load('login.twig');
-        echo $template->render(array());    
+        echo $template->render(array());   
     }
 
     function logOut () {
