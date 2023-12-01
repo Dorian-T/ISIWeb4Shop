@@ -1,0 +1,23 @@
+{% extends "layout/base.twig" %}
+
+{% block content %}
+    <link rel="stylesheet" href="style/productDetails.css">
+
+    <div class="container">
+        <h1>{{ product.name }}</h1>
+        <img src="Img/{{ product.image }}" alt="{{ product.name }}">
+        <p>{{ product.description }}</p>
+        <p>Prix : {{ product.price }}</p>
+        <p>Quantité : {{ product.quantity }}</p>
+
+        <h2>Avis des acheteurs</h2>
+        {% for review in reviews %}
+            <div class="review">
+                <h3>{{ review.title }}</h3>
+                <p>Par {{ review.name_user }}</p>
+                <p>{{ review.description }}</p>
+                <p>Note : {{ review.stars }}/5</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

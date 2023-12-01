@@ -38,6 +38,21 @@ class Produits_modele {
 		$data->execute([$category]);
 		return $data;
 	}
+
+	function getProductById($id) {
+		$sql = "SELECT * FROM products WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$id]);
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	public function getReviewsByProductId($id)
+	{
+		$sql = "SELECT * FROM reviews WHERE id_product = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$id]);
+		return $data->fetchAll(PDO::FETCH_ASSOC);
+	}
 }
 
 class user_model {

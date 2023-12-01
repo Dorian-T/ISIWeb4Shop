@@ -51,13 +51,13 @@ class Login_controller {
     function register(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
-            $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['email'], 1);
+            $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['mail'], 1);
 
             foreach ($user_model->getCustomerByPhone($_POST['phone']) as $i) {
                 $cid = $i['id'];
             };
             $user_model->addAdress($cid, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
-            $user_model->addLogin($cid, $_POST['username'], $_POST['password']);
+            $user_model->addLogin($cid, $_POST['username'], $_POST['pwd']);
             header('Location: index.php?action=registered');
             exit();
         }

@@ -37,6 +37,7 @@ justify-content: center;
 align-items: center;
 }
 
+
 .liste .liste-wrap .liste-info p {
 color: #012970;
 font-weight: 600;
@@ -81,6 +82,59 @@ transform: scale(1.1);
 opacity: 1;
 }
 
+.liste .liste-wrap .liste-links {
+  text-align: center; 
+  z-index: 4;
+}
+
+.liste .liste-wrap::before {
+  content: "";
+  background: rgba(255, 255, 255, 0.75);
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 30px;
+  bottom: 30px;
+  transition: all ease-in-out 0.3s;
+  z-index: 2;
+  opacity: 0;
+}
+
+.liste .liste-wrap .liste-info::before {
+  display: block;
+  content: "";
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  border-top: 3px solid rgba(1, 41, 112, 0.2);
+  border-left: 3px solid rgba(1, 41, 112, 0.2);
+  transition: all 0.5s ease 0s;
+  z-index: 9994;
+}
+
+.liste .liste-wrap .liste-info::after {
+  display: block;
+  content: "";
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  bottom: 35px;
+  right: 35px;
+  border-bottom: 3px solid rgba(1, 41, 112, 0.2);
+  border-right: 3px solid rgba(1, 41, 112, 0.2);
+  transition: all 0.5s ease 0s;
+  z-index: 9994;
+}
+
+.liste .liste-wrap:hover::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 1;
+}
 /* Product Details Styles */
 .product-details h4 {
 font-size: 20px;
@@ -112,4 +166,8 @@ transition: 0.3s;
 
 .product-details button:hover {
 background: #5969f3;
+}
+
+.mt-5 {
+  margin-top: 3rem;
 }

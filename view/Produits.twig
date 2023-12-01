@@ -13,6 +13,7 @@
                 </header>
                 
                 <form method="get" action="index.php">
+                    <input type="hidden" name="action" value="products">
                     <label for="category">Filtrer par catégorie :</label>
                     <select name="category" id="category">
                         <option value="all">Tous les produits</option>
@@ -31,7 +32,7 @@
                                 <div class="liste-info">
                                     <p>{{product.description}}</p>
                                     <div class="liste-links">
-                                        <a href="" title="Voir plus"><i class="bi bi-link"></i></a>
+                                        <a href="index.php?action=productDetails&id={{ product.id }}" title="Voir plus"></a>
                                     </div>
                                 </div>
                             </div>
