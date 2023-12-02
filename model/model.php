@@ -39,19 +39,24 @@ class Produits_modele {
 		return $data;
 	}
 
-	function getProductById($id) {
+	public function getProductById($id) {
 		$sql = "SELECT * FROM products WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$id]);
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getReviewsByProductId($id)
-	{
+	public function getReviewsByProductId($id) {
 		$sql = "SELECT * FROM reviews WHERE id_product = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$id]);
 		return $data->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function removeProduct($id, $quantity) {
+		$sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$quantity, $id]);
 	}
 }
 
