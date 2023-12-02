@@ -2,20 +2,32 @@
 
 class Product_controller {
 
-  private $produits_modele;
+  private $produitsModele;
 
   public function __construct() {
-    $this->produits_modele = new Produits_modele();
+    $this->produitsModele = new Produits_modele();
   }
 
   public function afficherProduitsByCategory() {
-    $getCategory = $this->produits_modele->getCategory();
-
+    $getCategory = $this->produitsModele->getCategory()->fetchAll(PDO::FETCH_ASSOC);
     $products = [];
+
+    // Filtrage des produits par catégorie
     if (isset($_GET['category'])) {
-        $products = $this->produits_modele->getProductsByCategory($_GET['category'])->fetchAll(PDO::FETCH_ASSOC);
-    } else {
-        $products = $this->produits_modele->req_products();
+      // Récupère les id des catégories
+      $categoryId = array_map(function($category) {
+        return $category['id'];
+      }, $getCategory);
+
+      if(array_search($_GET['category'], $categoryId) === false) {
+        header('Location: index.php?action=products');
+      }
+      else {
+        $products = $this->produitsModele->getProductsByCategory($_GET['category'])->fetchAll(PDO::FETCH_ASSOC);
+      }
+    }
+    else {
+        $products = $this->produitsModele->req_products();
     }
 
     $loader = new Twig\Loader\FilesystemLoader('view');
@@ -28,8 +40,8 @@ class Product_controller {
 
   public function productDetails($id) {
     
-      $product = $this->produits_modele->getProductById($id);
-      $reviews = $this->produits_modele->getReviewsByProductId($id);
+      $product = $this->produitsModele->getProductById($id);
+      $reviews = $this->produitsModele->getReviewsByProductId($id);
   
       $loader = new Twig\Loader\FilesystemLoader('view');
       $twig = new Twig\Environment($loader);
@@ -37,7 +49,4 @@ class Product_controller {
       $template = $twig->load('productDetails.twig');
       echo $template->render(array('product' => $product, 'reviews' => $reviews));
   }
-
 }
-
-?>

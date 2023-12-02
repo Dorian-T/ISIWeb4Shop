@@ -171,6 +171,3 @@ class admin_model {
 		$data->execute(array($status, $id));
 	}
 }
-
-
-?>
