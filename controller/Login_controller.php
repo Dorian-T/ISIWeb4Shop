@@ -24,10 +24,10 @@ class Login_controller {
                 header('Location: index.php?action=home');
             }
 
-            var_dump($user_model->getAdmin($_POST['login'], $_POST['mdp']));
+            var_dump($this->user_model->getAdmin($_POST['login'], $_POST['mdp']));
             foreach ($this->user_model->getAdmin($_POST['login'], $_POST['mdp']) as $i) {
                 $admin = $i['username'];
-                $mpd = $i['password'];
+                $mdp = $i['password'];
                 $id = $i['id'];
             }
 
