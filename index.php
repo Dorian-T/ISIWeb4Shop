@@ -7,7 +7,7 @@ require_once 'controller/Home_controller.php';
 require_once 'controller/Login_controller.php';
 require_once 'controller/Admin_controller.php';
 
-$homeController = new Home_controller();
+$homeController = new HomeController();
 $productController = new Product_controller();
 $loginController = new Login_controller();
 $adminController = new Admin_controller();
