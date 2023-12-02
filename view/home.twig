@@ -1,0 +1,60 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}IsiWeb4Shop{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="container-fluid bg-dark text-white text-center py-5">
+            <h1 class="display-4">Bienvenue sur IsiWeb4Shop</h1>
+            <p class="lead">Trouvez les meilleurs produits alimentaires en ligne.</p>
+            <a href="index.php?action=products" class="btn btn-primary btn-lg">Découvrir</a>
+        </div>
+
+    </div>
+    <section id="liste" class="liste mt-5">
+
+      <div class="container" data-aos="fade-up">
+
+            <div class="row gy-4 liste-container" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-4 col-md-6 liste-item filter-app">
+                    <div class="liste-wrap">
+                        <img src="Img/banniere1.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Boissons</h4>
+                            <div class="liste-links">
+                                <a href="index.php?action=products&category=1" title="Voir Plus"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 liste-item filter-web">
+                    <div class="liste-wrap">
+                        <img src="Img/banniere2.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Biscuits</h4>
+                            <div class="liste-links">
+                                <a href="index.php?action=products&category=2" title="Voir Plus"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 liste-item filter-web">
+                    <div class="liste-wrap">
+                        <img src="Img/banniere3.jpg" class="img-fluid" alt="">
+                        <div class="liste-info">
+                            <h4>Fruits secs</h4>
+                            <div class="liste-links">
+                                <a href="index.php?action=products&category=3" title="Voir Plus"><i class="bi bi-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
