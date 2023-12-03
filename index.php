@@ -51,6 +51,9 @@ if (isset($_GET['action'])) {
         case 'payement':
             $payementController->Payement();
             break;
+        case 'livraison':
+            $payementController->AddressLivraison();
+            break;
         default:
             header('Location: ./');
     }
