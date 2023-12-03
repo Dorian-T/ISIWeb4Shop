@@ -6,11 +6,13 @@ require_once 'controller/Product_controller.php';
 require_once 'controller/Home_controller.php';
 require_once 'controller/Login_controller.php';
 require_once 'controller/Admin_controller.php';
+require_once 'controller/Payement_controller.php';
 
 $homeController = new Home_controller();
 $productController = new Product_controller();
 $loginController = new Login_controller();
 $adminController = new Admin_controller();
+$payementController = new Payement_controller();
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -45,6 +47,9 @@ if (isset($_GET['action'])) {
             break;
         case 'adminC':
             $adminController->GenerateCommand();
+            break;
+        case 'payement':
+            $payementController->Payement();
             break;
         default:
             header('Location: ./');
