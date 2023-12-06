@@ -5,6 +5,7 @@ class ProductController {
     private $twig;
 
     private $produitsModele;
+    private $user_model;
 
     /**
      * ProductController constructor.
@@ -14,6 +15,7 @@ class ProductController {
     public function __construct($twig) {
         $this->twig = $twig;
         $this->produitsModele = new Produits_modele();
+        $this->user_model = new user_model();
     }
 
     /**
@@ -40,6 +42,8 @@ class ProductController {
      * @return void
      */
     public function products(): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+
         $getCategory = $this->produitsModele->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
 
@@ -60,7 +64,7 @@ class ProductController {
         }
 
         $template = $this->twig->load('products.twig');
-        echo $template->render(array('products' => $products, 'categories' => $getCategory));
+        echo $template->render(array('products' => $products, 'categories' => $getCategory, 'customer' => $customer));
     }
 
     /**

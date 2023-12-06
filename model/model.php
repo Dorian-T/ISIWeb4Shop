@@ -133,10 +133,10 @@ class user_model {
 		}
 	}
 
-	function getUtilisateur($login, $mpd) {
-		$sql = "SELECT * FROM logins WHERE (username = ? AND password = ?)";
+	function getUtilisateurByLogin($login) {
+		$sql = "SELECT * FROM logins JOIN  customers ON customers.id = logins.customer_id  WHERE (username = ? )" ;
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($login, $mpd));
+		$data->execute(array($login));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
@@ -156,34 +156,29 @@ class user_model {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function addCustomer ($forname, $surname, $phone, $email, $registered)
+	function addCustomer ($forname, $surname, $phone, $email, $registered, $add1, $add2, $city, $postcode)
 	{
-		$sql = "INSERT INTO customers (forname, surname, phone, email, registered) VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO customers (forname, surname, phone, email, registered, add1, add2, add3, postcode) VALUES ('".$forname."', '".$surname."', '".$phone."', '".$email."', '".$registered."', '".$add1."', '".$add2."', '".$city."', '".$postcode."')";
+		$data = self::$connexion->prepare($sql);
+		$data->execute();
+		$sql = "SELECT id FROM customers ORDER BY id DESC LIMIT 1";
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($forname, $surname, $phone, $email, $registered));
-		return $data->fetch(PDO::FETCH_ASSOC);
+		$data->execute();
+		$cid = $data->fetch(PDO::FETCH_ASSOC);
+		return  $cid['id'];
 	}
 
 	function addLogin ($cid, $username, $password)
 	{
-		$sql = "INSERT INTO logins (customer_id, login, password) VALUES (?, ?, ?)";
+		$sql = "INSERT INTO logins (customer_id, username, password) VALUES (?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($cid, $username, $password));
-		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function addAdress($cid, $add1, $add2, $city, $postcode)
-	{
-		$sql = "INSERT INTO addresses (customer_id, add1, add2, city, postcode) VALUES (?, ?, ?, ?, ?)";
+	function getAdminByLogin($login) {
+		$sql = "SELECT * FROM admin where (username=?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($cid, $add1, $add2, $city, $postcode));
-		return $data->fetch(PDO::FETCH_ASSOC);
-	}
-
-	function getAdmin($login, $password) {
-		$sql = "SELECT * FROM admin where (username=? and password=?)";
-		$data=self::$connexion->prepare($sql);
-		$data->execute(array($login, $password));
+		$data->execute(array($login));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 }

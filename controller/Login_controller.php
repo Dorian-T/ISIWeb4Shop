@@ -9,33 +9,39 @@ class Login_controller {
 
     function logIn () {
         if (isset($_POST['login']) && isset($_POST['mdp'])) {
-            foreach ($this->user_model->getUtilisateur($_POST['login'], $_POST['mdp']) as $i) {
-                $login = $i['username'];
-                $pwd = $i['password'];
-                $cdi = $i['customer_id'];           
-            }
-            if (isset ($login) && isset ($pwd)) {
-                $_SESSION['customer_id'] = $cdi;
 
-                foreach ($this->user_model->getCustomer($cdi) as $i) {
-                    $_SESSION['firstname'] = $i['forname'];
-                    $_SESSION['lastname'] = $i['surname'];
+            $user = $this->user_model->getUtilisateurByLogin($_POST['login']);
+
+            if ($user != null) {
+                $login = $user['username'];
+                $pwdHashed = $user['password'];
+                $cdi = $user['customer_id'];  
+                
+                if (password_verify($_POST['mdp'], $pwdHashed)) {
+
+                    $_SESSION['customer_id'] = $cdi;
+                    $_SESSION['firstname'] = $user['forname'];
+                    $_SESSION['lastname'] = $user['surname'];
+                    header('Location: index.php?action=home');
+                    exit();
                 }
-                header('Location: index.php?action=home');
             }
 
-            var_dump($this->user_model->getAdmin($_POST['login'], $_POST['mdp']));
-            foreach ($this->user_model->getAdmin($_POST['login'], $_POST['mdp']) as $i) {
-                $admin = $i['username'];
-                $mdp = $i['password'];
-                $id = $i['id'];
-            }
+            $userAdmin = $this->user_model->getAdminByLogin($_POST['login']);
 
-            if (isset ($admin) && isset ($mdp)) {
-                $_SESSION['admin_id'] = $id;
-                header('Location: index.php?action=home');
+            if ($userAdmin != null) {
+                $admin = $userAdmin['username'];
+                $pwdHashed = $userAdmin['password'];
+                $id = $userAdmin['id'];
+
+                if (password_verify($_POST['mdp'], $pwdHashed)) {
+                    $_SESSION['admin_id'] = $id;
+                    header('Location: index.php?action=home');
+                    exit();
+                }
             }
         }
+
         $loader = new Twig\Loader\FilesystemLoader('view');
         $twig = new Twig\Environment($loader);
 
@@ -51,21 +57,18 @@ class Login_controller {
     function register(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
-            $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['mail'], 1);
-
-            foreach ($user_model->getCustomerByPhone($_POST['phone']) as $i) {
-                $cid = $i['id'];
-            };
-            $user_model->addAdress($cid, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
-            $user_model->addLogin($cid, $_POST['username'], $_POST['pwd']);
+            
+            $cid = $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['email'], 1, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
+            $user_model->addLogin($cid, $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             header('Location: index.php?action=registered');
             exit();
+        } else {
+            $loader = new Twig\Loader\FilesystemLoader('view');
+            $twig = new Twig\Environment($loader);
+            
+            $template = $twig->load('register.twig');
+            echo $template->render(array());
         }
-        $loader = new Twig\Loader\FilesystemLoader('view');
-        $twig = new Twig\Environment($loader);
-
-        $template = $twig->load('register.twig');
-        echo $template->render(array());
     }
 }
 
