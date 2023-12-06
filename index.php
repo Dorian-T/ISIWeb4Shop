@@ -10,11 +10,8 @@ require_once 'controller/Login_controller.php';
 require_once 'controller/Admin_controller.php';
 require_once 'controller/CartController.php';
 
-$loader = new Twig\Loader\FilesystemLoader('view');
+$loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
 $twig = new Twig\Environment($loader);
-
-$loginController = new Login_controller();
-$adminController = new Admin_controller();
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -29,14 +26,17 @@ if (isset($_GET['action'])) {
             break;
 
         case 'login':
+            $loginController = new Login_controller();
             $loginController->logIn();
             break;
 
         case 'logout':
+            $loginController = new Login_controller();
             $loginController->logOut();
             break;
 
         case 'register':
+            $loginController = new Login_controller();
             $loginController->register();
             break;
 
@@ -47,10 +47,12 @@ if (isset($_GET['action'])) {
             break;
 
         case 'adminP':
+            $adminController = new Admin_controller();
             $adminController->GenerateProduct();
             break;
 
         case 'adminC':
+            $adminController = new Admin_controller();
             $adminController->GenerateCommand();
             break;
 
