@@ -6,11 +6,23 @@ class ProductController {
 
     private $produitsModele;
 
+    /**
+     * ProductController constructor.
+     *
+     * @param $twig The Twig instance used for rendering views.
+     */
     public function __construct($twig) {
         $this->twig = $twig;
         $this->produitsModele = new Produits_modele();
     }
 
+    /**
+     * Prints the product with the given ID.
+     * If no ID is given, prints the list of products.
+     *
+     * @param int $id The ID of the product to print.
+     * @return void
+     */
     public function print($id): void {
         if(isset($_POST['id'])) {
             $this->addTocart($_POST['id']);
@@ -22,6 +34,11 @@ class ProductController {
         }
     }
 
+    /**
+     * Retrieves the list of products.
+     *
+     * @return void
+     */
     public function products(): void {
         $getCategory = $this->produitsModele->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
@@ -82,13 +99,9 @@ class ProductController {
             } else {
                 $_SESSION['cart'][$id] = 1;
             }
-            var_dump($_SESSION);
-
-            // Enlève le produit du stock
-            $this->produitsModele->removeProduct($id, 1);
 
             // Ajoute le produit au panier dans la base de données
-                // $this->produitsModele->addProductToCart($_SESSION['user']['id'], $id, 1, isset($_SESSION['user']));
+            $this->produitsModele->addProductToCart($_SESSION['user']['id'] ?? null, session_id(), $product, 1);
         }
     }
 }
