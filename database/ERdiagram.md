@@ -67,5 +67,4 @@ erDiagram
     customers ||--|| logins: x
     customers ||--|| adresses: x
     orders }o--|| adresses: delivery
-
 ```

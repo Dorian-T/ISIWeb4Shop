@@ -1,21 +1,20 @@
 <?php
-require("connect.php");
+require_once "connect.php";
 
 class Produits_modele {
 	/** Objet contenant la connexion pdo à la BD */
 	private static $connexion;
 
 	/** Constructeur établissant la connexion */
-	function __construct()
-	{
-    $dsn="mysql:dbname=".BASE.";host=".SERVER;
-    try{
+	public function __construct() {
+		$dsn="mysql:dbname=".BASE.";host=".SERVER;
+		try {
 			self::$connexion=new PDO($dsn,USER,PASSWD);
-    }
-    catch(PDOException $e){
-      printf("Échec de la connexion : %s\n", $e->getMessage());
-      $this->connexion = NULL;
-    }
+		}
+		catch(PDOException $e) {
+			printf("Échec de la connexion : %s\n", $e->getMessage());
+			$this->connexion = null;
+		}
 	}
 
     function req_products() {
@@ -23,7 +22,6 @@ class Produits_modele {
         $data=self::$connexion->query($sql);
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
 	function getCategory() {
 		$sql = "SELECT * FROM categories";
@@ -39,19 +37,81 @@ class Produits_modele {
 		return $data;
 	}
 
-	function getProductById($id) {
+	public function getProductById($id) {
 		$sql = "SELECT * FROM products WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$id]);
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function getReviewsByProductId($id)
-	{
+	public function getReviewsByProductId($id) {
 		$sql = "SELECT * FROM reviews WHERE id_product = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$id]);
 		return $data->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function addProductToCart($userId, $sessionId, $product, $quantity) {
+		// Suppression du produit du stock
+		$this->removeProduct($product['id'], $quantity);
+
+		// Création ou mise à jour du panier
+		$this->updateCart($userId, $sessionId, $product, $quantity);
+
+		// Ajout du produit au panier
+		$this->addProduct($userId, $product, $quantity);
+	}
+
+	private function removeProduct($id, $quantity) {
+		$sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$quantity, $id]);
+	}
+
+	private function updateCart($userId, $sessionId, $product, $quantity) { // TODO: utiliser la table customers
+		// Récupération du panier de l'utilisateur s'il en a déjà un
+		$sql = 'SELECT id
+				FROM orders
+				WHERE session = ? AND status = 0';
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$sessionId]);
+		$id = $data->fetch(PDO::FETCH_ASSOC);
+		var_dump($id);
+
+		// Si l'utilisateur n'a pas de panier, on en crée un
+		if(!$id) {
+			$sql = 'INSERT INTO orders (customer_id, registered, date, status, session, total)
+					VALUES (?, ?, ?, ?, ?, ?)';
+			$data=self::$connexion->prepare($sql);
+			$t = $data->execute([$userId, ($userId == null) ? 0 : 1, date('Y-m-d'), 0, $sessionId, $product['price'] * $quantity]);
+			if($t) echo "ok";
+			else echo "nope";
+			sleep(5);
+		}
+
+		// Sinon on met à jour le panier
+		else {
+			$sql = 'UPDATE orders
+					SET date = ? AND session = ? AND total = total + ?
+					WHERE id = ?';
+			$data=self::$connexion->prepare($sql);
+			$data->execute([date('Y-m-d'), $sessionId, $product['price'] * $quantity, $id['id']]);
+		}
+	}
+
+	private function addProduct($userId, $product, $quantity) {
+		// Récupération du panier de l'utilisateur
+		$sql = 'SELECT id
+				FROM orders
+				WHERE customer_id = ? AND status = 0';
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$userId]);
+		$cartId = $data->fetch(PDO::FETCH_ASSOC)['id'];
+
+		// Ajout du produit au panier
+		$sql = 'INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)';
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$cartId, $product['id'], $quantity]);
 	}
 }
 

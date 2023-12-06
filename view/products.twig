@@ -32,15 +32,18 @@
                                 <div class="liste-info">
                                     <p>{{product.description}}</p>
                                     <div class="liste-links">
-                                        <a href="index.php?action=productDetails&id={{ product.id }}" title="Voir plus"></a>
+                                        <a href="index.php?action=products&id={{ product.id }}" title="Voir plus"></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="product-details">
-                                    <h4>{{product.name}}</h4>
-                                    <p>{{product.price}} €</p>
-                                    <p>Quantité : {{product.quantity}}</p>
-                                    <button type="button">Ajouter au panier</button>
+                                <h4>{{product.name}}</h4>
+                                <p>{{product.price}} €</p>
+                                <p>Quantité : {{product.quantity}}</p>
+                                <form method="post">
+                                    <input type="hidden" name="id" value="{{ product.id }}">
+                                    <button type="submit">Ajouter au panier</button>
+                                </form>
                             </div>
                         </div>
                     {% endfor %}
