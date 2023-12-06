@@ -2,35 +2,33 @@
 
 {% block content %} 
     
-    <div class="container">
-        <h2>Adresse de livraison</h2>
-        <form action="index.php?action=payement" method="post">
-            <div class="form-group">
-                <label for="forname">Prénom:</label>
-                <input type="text" id="forname" name="forname" required>
-            </div>
-            <div class="form-group">
-                <label for="surname">Nom de famille:</label>
-                <input type="text" id="surname" name="surname" required>
-            </div>
-            <div class="form-group">
-                <label for="add1">Adresse 1:</label>
-                <input type="text" id="add1" name="add1" required>
-            </div>
-            <div class="form-group">
-                <label for="add2">Adresse 2:</label>
-                <input type="text" id="add2" name="add2">
-            </div>
-            <div class="form-group">
-                <label for="city">Ville:</label>
-                <input type="text" id="city" name="city" required>
-            </div>
-            <div class="form-group">
-                <label for="postcode">Code postal:</label>
-                <input type="text" id="postcode" name="postcode" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Continuer</button>
+<section>
+        <h2>Choisissez ou Ajoutez une Adresse de Livraison</h2>
+        <form method="post" action="index.php?action=payement">
+            <input type="hidden" name="action" value="payement">
+            <label for="SelectAdress">Choisir une adresse existante:</label>
+            <select name="SelectAdress" id="SelectAdress">
+                {% for address in addresses %}
+                    <option value="{{ address.id }}">{{ address.add1 }}, {{ address.city }}, {{ address.postcode }}</option>
+                {% endfor %}
+            </select>
+
+            <p>OU</p>
+
+            <label for="nouvadresse">Ajouter une nouvelle adresse:</label>
+            <!-- Ajoutez ici les champs pour une nouvelle adresse -->
+            <input type="text" name="forname" placeholder="Prénom" required>
+            <input type="text" name="surname" placeholder="Nom" required>
+            <input type="text" name="add1" placeholder="Adresse" required>
+            <input type="text" name="add2" placeholder="Complément d'adresse">
+            <input type="text" name="city" placeholder="Ville" required>
+            <input type="text" name="postcode" placeholder="Code Postal" required>
+            <input type="text" name="country" placeholder="Pays" required>
+            <input type="text" name="phone" placeholder="Téléphone" required>
+            <input type="text" name="email" placeholder="Email" required>
+            
+            <input type="submit" value="Continuer vers le Paiement">
         </form>
-    </div>
+    </section>
 
 {% endblock %}
