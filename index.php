@@ -33,6 +33,10 @@ if (isset($_GET['action'])) {
             $loginController = new Login_controller();
             $loginController->register();
             break;
+        case 'registerAdmin':
+            $loginController = new Login_controller();
+            $loginController->registerAdmin();
+            break;
         case 'logout':
             $loginController = new Login_controller();
             $loginController->logOut();

@@ -70,6 +70,23 @@ class Login_controller {
             echo $template->render(array());
         }
     }
+
+    function registerAdmin(){
+        if (!(empty($_POST))) {
+            $user_model = new user_model();
+            
+            $user_model->addAdmin($_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
+            var_dump($user_model);
+            header('Location: index.php?action=registered');
+            exit();
+        } else {
+            $loader = new Twig\Loader\FilesystemLoader('view');
+            $twig = new Twig\Environment($loader);
+            
+            $template = $twig->load('registerAdmin.twig');
+            echo $template->render(array());
+        }
+    }
 }
 
 ?>

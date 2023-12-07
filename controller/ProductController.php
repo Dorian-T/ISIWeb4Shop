@@ -74,11 +74,12 @@ class ProductController {
      * @return void
      */
     public function productDetails($id): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
         $product = $this->produitsModele->getProductById($id);
         $reviews = $this->produitsModele->getReviewsByProductId($id);
 
         $template = $this->twig->load('productDetails.twig');
-        echo $template->render(array('product' => $product, 'reviews' => $reviews));
+        echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer));
     }
 
     /**

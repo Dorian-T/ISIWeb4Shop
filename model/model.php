@@ -168,6 +168,13 @@ class user_model {
 		return  $cid['id'];
 	}
 
+	function addAdmin ($username, $password)
+	{
+		$sql = "INSERT INTO admin (username, password) VALUES ('".$username."', '".$password."')";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($username, $password));
+	}
+
 	function addLogin ($cid, $username, $password)
 	{
 		$sql = "INSERT INTO logins (customer_id, username, password) VALUES (?, ?, ?)";
