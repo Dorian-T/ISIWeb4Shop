@@ -4,11 +4,19 @@
     <link rel="stylesheet" href="style/productDetails.css">
 
     <div class="container">
-        <h1>{{ product.name }}</h1>
-        <img src="Img/{{ product.image }}" alt="{{ product.name }}">
-        <p>{{ product.description }}</p>
-        <p>Prix : {{ product.price }}</p>
-        <p>Quantité : {{ product.quantity }}</p>
+        <div class="product-details">
+            <img class="product-image" src="Img/{{ product.image }}" alt="{{ product.name }}">
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p>{{ product.description }}</p>
+                <p>Prix : {{ product.price }}</p>
+                <p>Quantité : {{ product.quantity }}</p>
+                <div class="product-action">
+                    <input type="number" min="1" max="{{ product.quantity }}" value="1">
+                    <button>Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
 
         <h2>Avis des acheteurs</h2>
         {% for review in reviews %}

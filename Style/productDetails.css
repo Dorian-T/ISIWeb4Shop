@@ -4,6 +4,8 @@
     width: 80%;
     margin: auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .container h1 {
@@ -34,10 +36,33 @@
 .container .review h3 {
     color: #4154f1;
     font-size: 1.2em;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .container .review p {
     color: #012970;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.product-image {
+    width: 50%;
+    object-fit: cover;
+}
+
+.product-info {
+    width: 50%;
+    padding: 20px;
+}
+
+.product-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
