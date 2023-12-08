@@ -232,6 +232,12 @@ class admin_model {
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($status, $id));
 	}
+	
+	public function updateProduct($id, $name, $description, $price, $quantity, $cat_id) {
+		$sql = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ?, cat_id = ? WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($name, $description, $price, $quantity, $cat_id, $id));
+	}
 }
 
 class payement_model {

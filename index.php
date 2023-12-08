@@ -53,6 +53,11 @@ if (isset($_GET['action'])) {
             $adminController->GenerateProduct();
             break;
 
+        case 'updateProduct':
+            $adminController = new Admin_controller();
+            $adminController->UpdateProduct();
+            break;
+
         case 'adminC':
             $adminController = new Admin_controller();
             $adminController->GenerateCommand();

@@ -10,6 +10,7 @@
         <th scope="col">Nom</th>
         <th scope="col">Description</th>
         <th scope="col">Prix</th>
+        <th scope="col">Action</th>
     </tr>
     {% if orderAdmin is not empty %}
         {% for i in orderAdmin %}
@@ -18,6 +19,12 @@
                 <td>{{ i.name }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.price }}</td>
+                <td>
+                    <form action="index.php?action=updateProduct" method="post">
+                        <input type="hidden" name="id" value="{{ i.id }}">
+                        <button type="submit">Modifier</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     {% endif %}

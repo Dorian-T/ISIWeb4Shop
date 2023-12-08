@@ -1,0 +1,30 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}IsiWeb4Shop - Modifier Produit{% endblock %}
+
+{% block content %}
+
+<h2>Modifier Produit</h2>
+
+<form action="index.php?action=updateProduct" method="post">
+    <input type="hidden" name="id" value="{{ product.id }}">
+
+    <label for="name">Nom:</label>
+    <input type="text" id="name" name="name" value="{{ product.name }}" required>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" value="{{ product.description }}" required>
+
+    <label for="price">Prix:</label>
+    <input type="number" id="price" name="price" value="{{ product.price }}" required>
+
+    <label for="quantity">Quantité:</label>
+    <input type="number" id="quantity" name="quantity" value="{{ product.quantity }}" required>
+
+    <label for="cat_id">Catégorie ID:</label>
+    <input type="number" id="cat_id" name="cat_id" value="{{ product.cat_id }}" required>
+
+    <button type="submit">Mettre à jour</button>
+</form>
+
+{% endblock %}
