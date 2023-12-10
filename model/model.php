@@ -62,6 +62,12 @@ class Produits_modele {
 		$this->addProduct($userId, $product, $quantity);
 	}
 
+	public function addComment($id_product, $name_user, $stars, $title, $description) {
+		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$id_product, $id_customer, $comment, $note]);
+	}
+
 	private function removeProduct($id, $quantity) {
 		$sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);

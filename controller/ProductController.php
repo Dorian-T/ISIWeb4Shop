@@ -84,6 +84,27 @@ class ProductController {
         echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
     }
 
+    public function addReview(): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupérez les données du formulaire
+            $productId = $_POST['productId'];
+            $name = $_POST['name'];
+            $stars = $_POST['stars'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+
+            $this->produitsModele->addComment($productId, $name, $stars, $title, $description);
+
+            header('Location: index.php?action=product&id=' . $productId);
+            exit();
+        }
+
+        $template = $this->twig->load('productDetails.twig');
+        echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
+    }
+
     /**
      * Adds a product to the cart.
      * If the product doesn't exist or is out of stock, does nothing.
