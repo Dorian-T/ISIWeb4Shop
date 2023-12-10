@@ -30,12 +30,13 @@ class Login_controller {
             $userAdmin = $this->user_model->getAdminByLogin($_POST['login']);
 
             if ($userAdmin != null) {
-                $admin = $userAdmin['username'];
+                $login = $userAdmin['username'];
                 $pwdHashed = $userAdmin['password'];
                 $id = $userAdmin['id'];
 
                 if (password_verify($_POST['mdp'], $pwdHashed)) {
                     $_SESSION['admin_id'] = $id;
+                    $_SESSION['username'] = $userAdmin['username'];
                     header('Location: index.php?action=home');
                     exit();
                 }

@@ -148,6 +148,14 @@ class user_model {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
+	function getAdmin ($i)
+	{
+		$sql = "SELECT * FROM admin WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($i));
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
 	function getCustomerByPhone ($phone)
 	{
 		$sql = "SELECT * FROM customers WHERE phone = ?";

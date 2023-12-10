@@ -15,6 +15,12 @@
                 {{ customer.forname }} {{ customer.surname }}
             </span>
         </div>
+    {% elseif admin %}
+        <div class= ' col-lg-4'>
+            <span class="navbar-text text-upercase">
+                <p> Admin: {{ admin.username}} </p>
+            </span>
+        </div>
     {% endif %}
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -25,12 +31,22 @@
             </li>
             {% if customer %}
                 <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
+            {% elseif admin %}
+                <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
             {% else %}
                 <a class='nav-link' href='index.php?action=login'> Se connecter </a>
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=cart">Panier</a>
             </li>
+            {% if admin %}
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=adminC">Commande</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=adminP">Gestion</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
