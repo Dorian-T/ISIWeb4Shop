@@ -51,15 +51,138 @@ class Produits_modele {
 		return $data->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function addProductToCart($userId, $sessionId, $product, $quantity) {
-		// Suppression du produit du stock
-		$this->removeProduct($product['id'], $quantity);
+
+	// Panier :
+
+	/**
+	 * Ajoute un produit au panier de l'utilisateur.
+	 *
+	 * @param int $sessionId L'ID de la session de l'utilisateur.
+	 * @param array $product Le produit à ajouter.
+	 * @param int $quantity La quantité à ajouter.
+	 *
+	 * @return void
+	 */
+	public function addProductToCart(array $product, int $quantity): void {
+		// Récupération ou création du customer
+		$this->getCustomer(session_id());
 
 		// Création ou mise à jour du panier
-		$this->updateCart($userId, $sessionId, $product, $quantity);
+		$this->updateCart($product, $quantity);
 
 		// Ajout du produit au panier
-		$this->addProduct($userId, $product, $quantity);
+		$this->addProduct($product, $quantity);
+	}
+
+	/**
+	 * Met le customer_id dans la session si le customer existe, ou crée un nouveau customer.
+	 * Met hasCart à true, dans la session, si le customer a un panier, false sinon.
+	 *
+	 * @param string $sessionId The session ID.
+	 *
+	 * @return void
+	 */
+	private function getCustomer(string $sessionId): void {
+		// Si on connait le customer_id, on vérifie s'il a un panier
+		if(!isset($_SESSION['customer_id'])) {
+			$sql = 'SELECT id FROM orders WHERE customer_id = ?';
+			$data=self::$connexion->prepare($sql);
+			$data->execute([$sessionId]);
+			$data = $data->fetch(PDO::FETCH_ASSOC);
+			if($data) {
+				$_SESSION['hasCart'] = true;
+			}
+			else {
+				$_SESSION['hasCart'] = false;
+			}
+		}
+		else {
+			// Récupération du customer
+			$sql = 'SELECT customer_id
+					FROM orders
+					WHERE session = ?';
+			$data=self::$connexion->prepare($sql);
+			$data->execute([$sessionId]);
+			$data = $data->fetch(PDO::FETCH_ASSOC);
+
+			// Si le customer n'existe pas, on le crée
+			if(!$data) {
+				$sql = 'INSERT INTO customers (registered) VALUES (0)';
+				$data=self::$connexion->prepare($sql);
+				$data->execute([$sessionId]);
+				$data = $data->fetch(PDO::FETCH_ASSOC);
+				$_SESSION['customer_id'] = self::$connexion->lastInsertId();
+				$_SESSION['hasCart'] = false;
+			}
+			else {
+				$_SESSION['customer_id'] = $data['customer_id'];
+				$_SESSION['hasCart'] = true;
+			}
+		}
+	}
+
+	/**
+	 * Met à jour le panier de l'utilisateur.
+	 * Si l'utilisateur n'a pas de panier, en crée un.
+	 * Met le numéro du panier dans la session.
+	 *
+	 * @param array $product Le produit à ajouter.
+	 * @param int $quantity La quantité à ajouter.
+	 *
+	 * @return void
+	 */
+	private function updateCart(array $product, int $quantity): void {
+		// Si l'utilisateur a déjà un panier, on le met à jour
+		if($_SESSION['hasCart']) {
+			// Récupération du panier
+			$sql = 'SELECT id
+					FROM orders
+					WHERE customer_id = ? AND status = 0';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$_SESSION['customer_id']]);
+			$id = $data->fetch(PDO::FETCH_ASSOC)['id'];
+			$_SESSION['cartId'] = $id;
+
+			// Mise à jour du panier
+			$sql = 'UPDATE orders
+					SET date = ? AND session = ? AND total = total + ?
+					WHERE id = ?';
+			$data=self::$connexion->prepare($sql);
+			$data->execute([date('Y-m-d'), session_id(), $product['price'] * $quantity, $id]);
+		}
+
+		// Si l'utilisateur n'a pas de panier, on en crée un
+		else {
+			// Est-ce que le customer est connecté ?
+			$sql = 'SELECT registered FROM customers WHERE id = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$_SESSION['customer_id']]);
+			$registered = $data->fetch(PDO::FETCH_ASSOC)['registered'];
+
+			// Création du panier
+			$sql = 'INSERT INTO orders (customer_id, registered, date, status, session, total)
+					VALUES (?, ?, ?, ?, ?, ?)';
+			$data=self::$connexion->prepare($sql);
+			$data->execute(
+				[$_SESSION['customer_id'], $registered, date('Y-m-d'), 0, session_id(), $product['price'] * $quantity]
+			);
+			$_SESSION['cartId'] = self::$connexion->lastInsertId();
+		}
+	}
+
+	/**
+	 * Ajoute un produit au panier de l'utilisateur.
+	 * Si le produit est déjà dans le panier, incrémente la quantité.
+	 *
+	 * @param array $product Le produit à ajouter.
+	 * @param int $quantity La quantité à ajouter.
+	 */
+	private function addProduct(array $product, int $quantity): void {
+		// TODO : si le produit est déjà dans le panier, on incrémente la quantité
+		// Ajout du produit au panier
+		$sql = 'INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)';
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$_SESSION['cartId'], $product['id'], $quantity]);
 	}
 
 	public function addComment($id_product, $name_user, $stars, $title, $description) {
@@ -72,52 +195,6 @@ class Produits_modele {
 		$sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$quantity, $id]);
-	}
-
-	private function updateCart($userId, $sessionId, $product, $quantity) { // TODO: utiliser la table customers
-		// Récupération du panier de l'utilisateur s'il en a déjà un
-		$sql = 'SELECT id
-				FROM orders
-				WHERE session = ? AND status = 0';
-		$data = self::$connexion->prepare($sql);
-		$data->execute([$sessionId]);
-		$id = $data->fetch(PDO::FETCH_ASSOC);
-		var_dump($id);
-
-		// Si l'utilisateur n'a pas de panier, on en crée un
-		if(!$id) {
-			$sql = 'INSERT INTO orders (customer_id, registered, date, status, session, total)
-					VALUES (?, ?, ?, ?, ?, ?)';
-			$data=self::$connexion->prepare($sql);
-			$t = $data->execute([$userId, ($userId == null) ? 0 : 1, date('Y-m-d'), 0, $sessionId, $product['price'] * $quantity]);
-			if($t) echo "ok";
-			else echo "nope";
-			sleep(5);
-		}
-
-		// Sinon on met à jour le panier
-		else {
-			$sql = 'UPDATE orders
-					SET date = ? AND session = ? AND total = total + ?
-					WHERE id = ?';
-			$data=self::$connexion->prepare($sql);
-			$data->execute([date('Y-m-d'), $sessionId, $product['price'] * $quantity, $id['id']]);
-		}
-	}
-
-	private function addProduct($userId, $product, $quantity) {
-		// Récupération du panier de l'utilisateur
-		$sql = 'SELECT id
-				FROM orders
-				WHERE customer_id = ? AND status = 0';
-		$data=self::$connexion->prepare($sql);
-		$data->execute([$userId]);
-		$cartId = $data->fetch(PDO::FETCH_ASSOC)['id'];
-
-		// Ajout du produit au panier
-		$sql = 'INSERT INTO orderitems (order_id, product_id, quantity) VALUES (?, ?, ?)';
-		$data=self::$connexion->prepare($sql);
-		$data->execute([$cartId, $product['id'], $quantity]);
 	}
 }
 

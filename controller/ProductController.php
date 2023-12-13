@@ -129,7 +129,7 @@ class ProductController {
             }
 
             // Ajoute le produit au panier dans la base de données
-            $this->produitsModele->addProductToCart($_SESSION['user']['id'] ?? null, session_id(), $product, 1);
+            $this->produitsModele->addProductToCart($product, 1);
         }
     }
 }
