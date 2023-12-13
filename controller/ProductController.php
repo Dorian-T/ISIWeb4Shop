@@ -5,6 +5,7 @@ class ProductController {
     private $twig;
 
     private $produitsModele;
+    private $user_model;
 
     /**
      * ProductController constructor.
@@ -14,6 +15,7 @@ class ProductController {
     public function __construct($twig) {
         $this->twig = $twig;
         $this->produitsModele = new Produits_modele();
+        $this->user_model = new user_model();
     }
 
     /**
@@ -40,6 +42,9 @@ class ProductController {
      * @return void
      */
     public function products(): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+
         $getCategory = $this->produitsModele->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
 
@@ -60,7 +65,7 @@ class ProductController {
         }
 
         $template = $this->twig->load('products.twig');
-        echo $template->render(array('products' => $products, 'categories' => $getCategory));
+        echo $template->render(array('products' => $products, 'categories' => $getCategory, 'customer' => $customer, 'admin' => $admin));
     }
 
     /**
@@ -70,11 +75,34 @@ class ProductController {
      * @return void
      */
     public function productDetails($id): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
         $product = $this->produitsModele->getProductById($id);
         $reviews = $this->produitsModele->getReviewsByProductId($id);
 
         $template = $this->twig->load('productDetails.twig');
-        echo $template->render(array('product' => $product, 'reviews' => $reviews));
+        echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
+    }
+
+    public function addReview(): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupérez les données du formulaire
+            $productId = $_POST['productId'];
+            $name = $_POST['name'];
+            $stars = $_POST['stars'];
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+
+            $this->produitsModele->addComment($productId, $name, $stars, $title, $description);
+
+            header('Location: index.php?action=product&id=' . $productId);
+            exit();
+        }
+
+        $template = $this->twig->load('productDetails.twig');
+        echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
     }
 
     /**

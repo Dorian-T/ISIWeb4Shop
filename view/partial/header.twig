@@ -9,10 +9,16 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-    {% if session.customer_id is defined %}
+    {% if customer %}
         <div class= ' col-lg-4'>
             <span class="navbar-text text-upercase">
-                {{ session.firstname }} {{ session.lastname }}
+                {{ customer.forname }} {{ customer.surname }}
+            </span>
+        </div>
+    {% elseif admin %}
+        <div class= ' col-lg-4'>
+            <span class="navbar-text text-upercase">
+                <p> Admin: {{ admin.username}} </p>
             </span>
         </div>
     {% endif %}
@@ -23,7 +29,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=products">Produits</a>
             </li>
-            {% if session.customer_id is defined %}
+            {% if customer %}
+                <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
+            {% elseif admin %}
                 <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
             {% else %}
                 <a class='nav-link' href='index.php?action=login'> Se connecter </a>
@@ -31,6 +39,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=cart">Panier</a>
             </li>
+            {% if admin %}
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=adminC">Commande</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=adminP">Gestion</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

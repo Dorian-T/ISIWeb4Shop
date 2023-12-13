@@ -3,12 +3,15 @@
 class Payement_controller {
 
     private $payement_model;
+    private $user_model;
 
     public function __construct() {
         $this->payement_model = new Payement_model();
     }
 
     function Payement() {
+
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
 
         if (!empty($_POST)) {
             $_SESSION['statut'] = 2;
@@ -50,7 +53,7 @@ class Payement_controller {
         $twig = new Twig\Environment($loader);
 
         $template = $twig->load('payement.twig');
-        echo $template->render(array());
+        echo $template->render(array('customer' => $customer));
     }
 
 }

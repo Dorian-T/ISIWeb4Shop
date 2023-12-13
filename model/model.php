@@ -62,6 +62,12 @@ class Produits_modele {
 		$this->addProduct($userId, $product, $quantity);
 	}
 
+	public function addComment($id_product, $name_user, $stars, $title, $description) {
+		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$id_product, $id_customer, $comment, $note]);
+	}
+
 	private function removeProduct($id, $quantity) {
 		$sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
@@ -133,16 +139,24 @@ class user_model {
 		}
 	}
 
-	function getUtilisateur($login, $mpd) {
-		$sql = "SELECT * FROM logins WHERE (username = ? AND password = ?)";
+	function getUtilisateurByLogin($login) {
+		$sql = "SELECT * FROM logins JOIN  customers ON customers.id = logins.customer_id  WHERE (username = ? )" ;
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($login, $mpd));
+		$data->execute(array($login));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
 	function getCustomer ($i)
 	{
 		$sql = "SELECT * FROM customers WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($i));
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
+	function getAdmin ($i)
+	{
+		$sql = "SELECT * FROM admin WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($i));
 		return $data->fetch(PDO::FETCH_ASSOC);
@@ -156,34 +170,36 @@ class user_model {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function addCustomer ($forname, $surname, $phone, $email, $registered)
+	function addCustomer ($forname, $surname, $phone, $email, $registered, $add1, $add2, $city, $postcode)
 	{
-		$sql = "INSERT INTO customers (forname, surname, phone, email, registered) VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO customers (forname, surname, phone, email, registered, add1, add2, add3, postcode) VALUES ('".$forname."', '".$surname."', '".$phone."', '".$email."', '".$registered."', '".$add1."', '".$add2."', '".$city."', '".$postcode."')";
+		$data = self::$connexion->prepare($sql);
+		$data->execute();
+		$sql = "SELECT id FROM customers ORDER BY id DESC LIMIT 1";
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($forname, $surname, $phone, $email, $registered));
-		return $data->fetch(PDO::FETCH_ASSOC);
+		$data->execute();
+		$cid = $data->fetch(PDO::FETCH_ASSOC);
+		return  $cid['id'];
+	}
+
+	function addAdmin ($username, $password)
+	{
+		$sql = "INSERT INTO admin (username, password) VALUES ('".$username."', '".$password."')";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($username, $password));
 	}
 
 	function addLogin ($cid, $username, $password)
 	{
-		$sql = "INSERT INTO logins (customer_id, login, password) VALUES (?, ?, ?)";
+		$sql = "INSERT INTO logins (customer_id, username, password) VALUES (?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($cid, $username, $password));
-		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	function addAdress($cid, $add1, $add2, $city, $postcode)
-	{
-		$sql = "INSERT INTO addresses (customer_id, add1, add2, city, postcode) VALUES (?, ?, ?, ?, ?)";
+	function getAdminByLogin($login) {
+		$sql = "SELECT * FROM admin where (username=?)";
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($cid, $add1, $add2, $city, $postcode));
-		return $data->fetch(PDO::FETCH_ASSOC);
-	}
-
-	function getAdmin($login, $password) {
-		$sql = "SELECT * FROM admin where (username=? and password=?)";
-		$data=self::$connexion->prepare($sql);
-		$data->execute(array($login, $password));
+		$data->execute(array($login));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 }
@@ -229,6 +245,12 @@ class admin_model {
 		$sql = "UPDATE orders SET status = ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($status, $id));
+	}
+	
+	public function updateProduct($id, $name, $description, $price, $quantity, $cat_id) {
+		$sql = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ?, cat_id = ? WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($name, $description, $price, $quantity, $cat_id, $id));
 	}
 }
 
