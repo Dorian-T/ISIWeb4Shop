@@ -100,9 +100,11 @@ class ProductController {
             header('Location: index.php?action=product&id=' . $productId);
             exit();
         }
+        header('Location: index.php?action=home');
+        exit();
 
         $template = $this->twig->load('productDetails.twig');
-        echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
+        echo $template->render(array('customer' => $customer, 'admin' => $admin));
     }
 
     /**

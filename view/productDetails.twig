@@ -30,7 +30,7 @@
 
         <div class="add-review">
             <h2>Ajouter un commentaire</h2>
-            <form action="index.php?action=addReview" method="post">
+            <form action="index.php?action=products&id={{ product.id }}" method="post">
                 <input type="hidden" name="productId" value="{{ product.id }}">
                 <label for="name">Votre nom :</label>
                 <input type="text" name="name" required>

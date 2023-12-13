@@ -63,9 +63,9 @@ class Produits_modele {
 	}
 
 	public function addComment($id_product, $name_user, $stars, $title, $description) {
-		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (".$id_product.", '".$name_user."', ".$stars.", '".$title."', '".$description."')";
 		$data=self::$connexion->prepare($sql);
-		$data->execute([$id_product, $id_customer, $comment, $note]);
+		$data->execute();
 	}
 
 	private function removeProduct($id, $quantity) {
