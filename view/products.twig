@@ -26,9 +26,9 @@
 
                 <div class="row gy-4">
                     {% for product in products %}
-                        <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                        <div id="product-card" class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                             <div class="liste-wrap">
-                                <img src="Img/{{product.image}}" class="img-fluid" alt="">
+                                <img src="assets/img/{{product.image}}" class="img-fluid" alt="">
                                 <a href="index.php?action=products&id={{ product.id }}" title="Voir plus">
                                     <div class="liste-info">
                                         <p>{{product.description}}</p>
@@ -38,12 +38,18 @@
 
                             <div class="product-details">
                                 <h4>{{product.name}}</h4>
-                                <p>{{product.price}} €</p>
-                                <p>Quantité : {{product.quantity}}</p>
-                                <form method="post">
-                                    <input type="hidden" name="id" value="{{ product.id }}">
-                                    <button type="submit">Ajouter au panier</button>                 
-                                </form>
+                                <div>
+                                    <div>
+                                        <p>{{product.price}} €</p>
+                                        <p>Quantité : {{product.quantity}}</p>
+                                    </div>
+                                    <form method="post">
+                                        <input type="hidden" name="id" value="{{ product.id }}">
+                                        <button type="submit">
+                                            <img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
+                                        </button>                 
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
