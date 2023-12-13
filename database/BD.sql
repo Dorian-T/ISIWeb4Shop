@@ -51,15 +51,15 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
-  `forname` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `add1` varchar(50) NOT NULL,
-  `add2` varchar(50) NOT NULL,
-  `add3` varchar(50) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `registered` tinyint(4) NOT NULL
+  `forname` varchar(50),
+  `surname` varchar(50),
+  `add1` varchar(50),
+  `add2` varchar(50),
+  `add3` varchar(50),
+  `postcode` varchar(10),
+  `phone` varchar(20),
+  `email` varchar(150),
+  `registered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
