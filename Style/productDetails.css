@@ -14,7 +14,7 @@
     margin-bottom: 20px;
 }
 
-.container img {
+.container .product-details > img {
     width: 100%;
     max-width: 500px;
     height: auto;
