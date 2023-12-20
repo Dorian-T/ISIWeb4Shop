@@ -9,6 +9,7 @@ require_once 'controller/HomeController.php';
 require_once 'controller/LoginController.php';
 require_once 'controller/Admin_controller.php';
 require_once 'controller/CartController.php';
+require_once 'controller/Payement_controller.php';
 
 $loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
 $twig = new Twig\Environment($loader);
@@ -68,6 +69,7 @@ if (isset($_GET['action'])) {
             break;
 
         case 'payement':
+            $payementController = new Payement_controller();
             $payementController->Payement();
             break;
         default:
