@@ -80,10 +80,10 @@ CREATE TABLE `delivery_addresses` (
   `id` int(11) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `add1` varchar(50) NOT NULL,
-  `add2` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
+  `add1` varchar(50),
+  `add2` varchar(50),
+  `city` varchar(50),
+  `postcode` varchar(10),
   `phone` varchar(20) NOT NULL,
   `email` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
