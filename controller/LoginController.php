@@ -1,19 +1,42 @@
 <?php
 
-class Login_controller {
-    private $user_model;
+/**
+ * Class LoginController
+ *
+ * This class handles the login functionality of the application.
+ */
+class LoginController {
+    /**
+     * The user model instance.
+     */
+    private $userModel;
 
-    public function __construct() {
-        $this->user_model = new user_model();
+    /**
+     * The Twig environment used for rendering templates.
+     */
+    private $twig;
+
+    /**
+     * LoginController constructor.
+     *
+     * @param $twig The Twig instance used for rendering views.
+     */
+    public function __construct($twig) {
+        $this->userModel = new user_model();
+        $this->twig = $twig;
     }
 
-    function logIn () {
+    /**
+     * Logs in the user.
+     *
+     * @return void
+     */
+    public function logIn () {
         if (isset($_POST['login']) && isset($_POST['mdp'])) {
 
-            $user = $this->user_model->getUtilisateurByLogin($_POST['login']);
+            $user = $this->userModel->getUtilisateurByLogin($_POST['login']);
 
             if ($user != null) {
-                $login = $user['username'];
                 $pwdHashed = $user['password'];
                 $cdi = $user['customer_id'];
                 
@@ -30,10 +53,9 @@ class Login_controller {
                 }
             }
 
-            $userAdmin = $this->user_model->getAdminByLogin($_POST['login']);
+            $userAdmin = $this->userModel->getAdminByLogin($_POST['login']);
 
             if ($userAdmin != null) {
-                $login = $userAdmin['username'];
                 $pwdHashed = $userAdmin['password'];
                 $id = $userAdmin['id'];
 
@@ -49,36 +71,49 @@ class Login_controller {
             }
         }
 
-        $loader = new Twig\Loader\FilesystemLoader('view');
-        $twig = new Twig\Environment($loader);
-
-        $template = $twig->load('login.twig');
+        $template = $this->twig->load('login.twig');
         echo $template->render(array());
     }
 
-    function logOut () {
+    /**
+     * Logs out the user.
+     */
+    public function logOut () {
         session_destroy();
         header('Location: index.php?action=home');
     }
 
-    function register(){
+    /**
+     * Registers a new user.
+     */
+    public function register(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
 
-            $cid = $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['email'], 1, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
+            $cid = $user_model->addCustomer(
+                $_POST['forname'],
+                $_POST['surname'],
+                $_POST['phone'],
+                $_POST['email'],
+                1,
+                $_POST['add1'],
+                $_POST['add2'],
+                $_POST['city'],
+                $_POST['postcode']
+            );
             $user_model->addLogin($cid, $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             header('Location: index.php?action=registered');
             exit();
         } else {
-            $loader = new Twig\Loader\FilesystemLoader('view');
-            $twig = new Twig\Environment($loader);
-
-            $template = $twig->load('register.twig');
+            $template = $this->twig->load('register.twig');
             echo $template->render(array());
         }
     }
 
-    function registerAdmin(){
+    /**
+     * Registers an admin.
+     */
+    public function registerAdmin(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
 
@@ -86,11 +121,9 @@ class Login_controller {
             var_dump($user_model);
             header('Location: index.php?action=registered');
             exit();
-        } else {
-            $loader = new Twig\Loader\FilesystemLoader('view');
-            $twig = new Twig\Environment($loader);
-
-            $template = $twig->load('registerAdmin.twig');
+        }
+        else {
+            $template = $this->twig->load('registerAdmin.twig');
             echo $template->render(array());
         }
     }

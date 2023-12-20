@@ -1,14 +1,14 @@
 <?php
 
+session_start();
+
 require_once 'vendor/autoload.php';
 require_once 'model/model.php';
 require_once 'controller/ProductController.php';
-require_once 'controller/Home_controller.php';
-require_once 'controller/Login_controller.php';
+require_once 'controller/HomeController.php';
+require_once 'controller/LoginController.php';
 require_once 'controller/Admin_controller.php';
 require_once 'controller/CartController.php';
-
-session_start();
 
 $loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
 $twig = new Twig\Environment($loader);
@@ -25,27 +25,26 @@ if (isset($_GET['action'])) {
             }
             break;
 
+        // Connexion et inscription
         case 'login':
-            $loginController = new Login_controller();
+            $loginController = new LoginController($twig);
             $loginController->logIn();
             break;
         case 'register':
-            $loginController = new Login_controller();
+            $loginController = new LoginController($twig);
             $loginController->register();
             break;
         case 'registerAdmin':
-            $loginController = new Login_controller();
+            $loginController = new LoginController($twig);
             $loginController->registerAdmin();
             break;
         case 'logout':
-            $loginController = new Login_controller();
+            $loginController = new LoginController($twig);
             $loginController->logOut();
             break;
-
         case 'registered':
             $template = $twig->load('registered.twig');
             echo $template->render(array());
-            exit();
             break;
 
         case 'adminP':
@@ -76,6 +75,6 @@ if (isset($_GET['action'])) {
     }
 }
 else {
-    $homeController = new Home_controller();
+    $homeController = new HomeController($twig);
     $homeController->afficherHome();
 }
