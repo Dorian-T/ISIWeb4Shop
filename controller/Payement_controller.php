@@ -7,6 +7,7 @@ class Payement_controller {
 
     public function __construct() {
         $this->payement_model = new Payement_model();
+        $this->user_model = new User_model();
     }
 
     function Payement() {
@@ -27,20 +28,22 @@ class Payement_controller {
                     header('Location: https://www.paypal.com/fr/home');
                     break;
                 case 'cb':
+                    $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
                     $loader = new Twig\Loader\FilesystemLoader('view');
                     $twig = new Twig\Environment($loader);
                     $template = $twig->load('cb.twig');
-                    echo $template->render(array());
+                    echo $template->render(array('customer' => $customer));
                     exit();
                     break;
                 case 'cheque':
                     header('Location: facturePDF.php');
                     break;
                 case 'virement':
+                    $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
                     $loader = new Twig\Loader\FilesystemLoader('view');
                     $twig = new Twig\Environment($loader);
                     $template = $twig->load('virement.twig');
-                    echo $template->render(array());
+                    echo $template->render(array('customer' => $customer));
                     exit();
                     break;
                 default:

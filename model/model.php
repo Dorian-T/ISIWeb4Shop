@@ -420,9 +420,9 @@ class Livraison_model {
     /**
      * Ajoute une nouvelle adresse de livraison pour un client.
      */
-    public function addDeliveryAddress($customer_id, $address) {
+    public function addDeliveryAddress($address, $customerId=null, $sessionId=null) {
         $sql = "INSERT INTO delivery_addresses (id, firstname, lastname, add1, add2, city, postcode, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data=self::$connexion->prepare($sql);
-		$data->execute([$customer_id, $address['firstname'], $address['lastname'], $address['add1'], $address['add2'], $address['city'], $address['postcode'], $address['phone'], $address['email']]);
+		$data->execute([$customerId, $address['firstname'], $address['lastname'], $address['add1'], $address['add2'], $address['city'], $address['postcode'], $address['phone'], $address['email']]);
     }
 }
