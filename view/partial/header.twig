@@ -26,25 +26,29 @@
             <li class="nav-item">
                 <a class="nav-link" href="./">Accueil</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?action=products">Produits</a>
-            </li>
             {% if customer %}
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=products">Produits</a>
+                </li>
                 <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=cart">Panier</a>
+                </li>
             {% elseif admin %}
                 <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
-            {% else %}
-                <a class='nav-link' href='index.php?action=login'> Se connecter </a>
-            {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?action=cart">Panier</a>
-            </li>
-            {% if admin %}
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?action=adminC">Commande</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?action=adminP">Gestion</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=products">Produits</a>
+                 </li>
+                <a class='nav-link' href='index.php?action=login'> Se connecter </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=cart">Panier</a>
                 </li>
             {% endif %}
         </ul>
