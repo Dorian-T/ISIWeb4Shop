@@ -1,43 +1,48 @@
-{% extends "layout/base.twig" %}
+{% extends "partial/loginPage.twig" %}
 
-{% block content %}
-
+{% block loginForm %}
 
 <h1>Inscription</h1>
 
 <form method="post" action="index.php?action=register">
     <input type="hidden" name="action" value="register">
-    <label for="forname">Prénom :</label>
-    <input type="text" id="forname" name="forname" required>
-    <br>
-    <label for="surname">Nom :</label>
-    <input type="text" id="surname" name="surname" required>
-    <br>
+
+    <div>
+        <div>
+            <label for="forname">Prénom :</label>
+            <input type="text" id="forname" name="forname" required>
+        </div>
+        <div>
+            <label for="surname">Nom :</label>
+            <input type="text" id="surname" name="surname" required>
+        </div>
+    </div>
+
     <label for="phone">Téléphone :</label>
     <input type="text" id="phone" name="phone" required>
-    <br>
+
     <label for="email">Email :</label>
     <input type="email" id="email" name="email" required>
-    <br>
+
     <label for="add1">Adresse 1 :</label>
     <input type="text" id="add1" name="add1" required>
-    <br>
+
     <label for="add2">Adresse 2 :</label>
     <input type="text" id="add2" name="add2">
-    <br>
+
     <label for="city">Ville :</label>
     <input type="text" id="city" name="city" required>
-    <br>
+
     <label for="postcode">Code postal :</label>
     <input type="text" id="postcode" name="postcode" required>
-    <br>
+
     <label for="username">Nom d'utilisateur :</label>
     <input type="text" id="username" name="username" required>
-    <br>
+
     <label for="password">Mot de passe :</label>
     <input type="password" id="password" name="password" required>
-    <br>
-    <button type="submit">S'inscrire</button>
+
+    <input type="submit" value="S'inscrire">
 </form>
 
 <p>Déjà inscrit ? <a href="index.php?action=login">Connectez-vous ici</a>.</p>

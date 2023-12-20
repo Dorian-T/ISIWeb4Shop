@@ -15,7 +15,7 @@ class Login_controller {
             if ($user != null) {
                 $login = $user['username'];
                 $pwdHashed = $user['password'];
-                $cdi = $user['customer_id'];  
+                $cdi = $user['customer_id'];
                 
                 if (password_verify($_POST['mdp'], $pwdHashed)) {
 
@@ -24,6 +24,9 @@ class Login_controller {
                     $_SESSION['lastname'] = $user['surname'];
                     header('Location: index.php?action=home');
                     exit();
+                }
+                else {
+                    echo '<script>alert("La connexion a échoué")</script>';
                 }
             }
 
@@ -40,6 +43,9 @@ class Login_controller {
                     header('Location: index.php?action=home');
                     exit();
                 }
+                else {
+                    echo '<script>alert("La connexion a échoué")</script>';
+                }
             }
         }
 
@@ -47,7 +53,7 @@ class Login_controller {
         $twig = new Twig\Environment($loader);
 
         $template = $twig->load('login.twig');
-        echo $template->render(array());   
+        echo $template->render(array());
     }
 
     function logOut () {
@@ -58,7 +64,7 @@ class Login_controller {
     function register(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
-            
+
             $cid = $user_model->addCustomer($_POST['forname'], $_POST['surname'], $_POST['phone'], $_POST['email'], 1, $_POST['add1'], $_POST['add2'], $_POST['city'], $_POST['postcode']);
             $user_model->addLogin($cid, $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             header('Location: index.php?action=registered');
@@ -66,7 +72,7 @@ class Login_controller {
         } else {
             $loader = new Twig\Loader\FilesystemLoader('view');
             $twig = new Twig\Environment($loader);
-            
+
             $template = $twig->load('register.twig');
             echo $template->render(array());
         }
@@ -75,7 +81,7 @@ class Login_controller {
     function registerAdmin(){
         if (!(empty($_POST))) {
             $user_model = new user_model();
-            
+
             $user_model->addAdmin($_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             var_dump($user_model);
             header('Location: index.php?action=registered');
@@ -83,11 +89,9 @@ class Login_controller {
         } else {
             $loader = new Twig\Loader\FilesystemLoader('view');
             $twig = new Twig\Environment($loader);
-            
+
             $template = $twig->load('registerAdmin.twig');
             echo $template->render(array());
         }
     }
 }
-
-?>
