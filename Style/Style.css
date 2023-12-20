@@ -174,44 +174,6 @@ header nav img {
 }
 
 
-/* Login */
-
-#loginPage {
-  margin: 50px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #5bc0de;
-  border-radius: 5px;
-}
-
-#loginPage > div {
-  display: flex;
-}
-
-#loginPage h1 {
-  margin: 10px 0;
-}
-
-#loginPage label {
-  display: block;
-  margin: 8px 0 0 0;
-}
-
-#loginPage input {
-  display: block;
-}
-
-#loginPage input[type="submit"] {
-  margin: 10px auto;
-}
-
-#loginPage a {
-  color: #0056b3;
-}
-
-
 /* Footer */
 
 footer p {

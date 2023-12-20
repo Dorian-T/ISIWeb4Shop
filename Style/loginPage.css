@@ -1,0 +1,44 @@
+#loginPage {
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #5bc0de;
+    border-radius: 5px;
+}
+
+#loginPage form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#loginPage form > div {
+    display: flex;
+}
+
+#loginPage form > div > div {
+    margin: 0 10px;
+}
+
+#loginPage h1 {
+    margin: 10px 0;
+}
+
+#loginPage label {
+    display: block;
+    margin: 8px 0 0 0;
+}
+
+#loginPage input {
+    display: block;
+}
+
+#loginPage input[type="submit"] {
+    margin: 10px auto;
+}
+
+#loginPage a {
+    color: #0056b3;
+}
