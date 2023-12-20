@@ -36,10 +36,11 @@ class Admin_controller {
         $twig = new Twig\Environment($loader);
 
         $template = $twig->load('adminP.twig');
-        echo $template->render(array('orderAdmin' => $orderAdmin));
+        echo $template->render(array('orderAdmin' => $orderAdmin, 'admin' => $admin));
     }
 
     function UpdateProduct() {
+        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
         $orderAdmin = $this->admin_model->getAllProducts();
         if (!(empty($_POST))) {
             foreach ($orderAdmin as $i) {
