@@ -1,0 +1,19 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}IsiWeb4Shop{% endblock %}
+
+{% block content %}
+    {% if delivery_address %}
+        <h2>Adresse de livraison existante :</h2>
+        <p>{{ delivery_address.add1 }}, {{ delivery_address.add2 }}, {{ delivery_address.city }}, {{ delivery_address.postcode }}</p>
+    {% else %}
+        <h2>Ajouter une nouvelle adresse de livraison :</h2>
+        <form method='post' action='ajouter_adresse.php'>
+            Addresse: <input type='text' name='add1'><br>
+            Complément d'adresse: <input type='text' name='add2'><br>
+            Ville: <input type='text' name='city'><br>
+            Code postal: <input type='text' name='postcode'><br>
+            <input type='submit' value='Ajouter Adresse'>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -10,6 +10,7 @@ require_once 'controller/LoginController.php';
 require_once 'controller/Admin_controller.php';
 require_once 'controller/CartController.php';
 require_once 'controller/Payement_controller.php';
+require_once 'controller/LivraisonController.php';
 
 $loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
 $twig = new Twig\Environment($loader);
@@ -72,6 +73,10 @@ if (isset($_GET['action'])) {
             $payementController = new Payement_controller();
             $payementController->Payement();
             break;
+        case 'livraison':
+            $livraisonController = new LivraisonController($twig);
+            $livraisonController->showDeliveryAddressOrForm();
+        break;
         default:
             header('Location: ./');
     }
