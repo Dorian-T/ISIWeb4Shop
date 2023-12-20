@@ -2,18 +2,18 @@
 
 {% block loginForm %}
 
-<h1>Connexion</h1>
+	<h1>Connexion</h1>
 
-<form method="post" action="index.php?action=login">
-    <label for="login">Nom d'utilisateur :</label>
-    <input type="text" id="login" name="login" required>
+	<form method="post" action="index.php?action=login">
+		<label for="login">Nom d'utilisateur :</label>
+		<input type="text" id="login" name="login" required>
 
-    <label for="mdp">Mot de passe :</label>
-    <input type="password" id="mdp" name="mdp" required>
+		<label for="mdp">Mot de passe :</label>
+		<input type="password" id="mdp" name="mdp" required>
 
-    <input type="submit" value="Se connecter">
-</form>
+		<input type="submit" value="Se connecter" class="btn btn-light">
+	</form>
 
-<p>Pas encore de compte ? <a href="index.php?action=register">Inscrivez-vous ici</a>.</p>
+	<p>Pas encore de compte ?<a href="index.php?action=register">Inscrivez-vous ici</a>.</p>
 
 {% endblock %}
