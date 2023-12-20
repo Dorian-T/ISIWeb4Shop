@@ -348,7 +348,8 @@ class payement_model {
 	}
 
 	function updateOrder($id, $cid, $r, $adress, $payement, $status, $total,$session) {
-		$sql = "UPDATE orders SET customer_id = ?,registered = ?,delivery_add_id = ?,payment_type = ?, status = ?, total = ?, session = ?  where id= ?";
+		$sql = "UPDATE orders SET customer_id = ?, registered = ?, delivery_address = ?, payement = ?, status = ?, total = ?, session = ? WHERE id = ?";
+
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($id, $cid, $r, $adress, $payement, $status, $total, $session));
 	}
