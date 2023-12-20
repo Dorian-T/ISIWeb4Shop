@@ -7,9 +7,26 @@ body {
 }
 
 /* Header */
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
 header nav img {
   height: 40px;
 }
+
+
+/* Main */
+
+main {
+  position: sticky;
+}
+
 
 /* liste Section Styles */
 .liste .liste-wrap {
@@ -175,6 +192,14 @@ header nav img {
 
 
 /* Footer */
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
 
 footer p {
   margin: 0;
