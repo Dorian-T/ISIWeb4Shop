@@ -4,17 +4,45 @@
 
 {% block content %}
 
-<form action="index.php?action=updateProduct" method="post">
-    <input type="hidden" name="id" value="{{ product.id }}">
-    <label for="name">Nom:</label><br>
-    <input type="text" id="name" name="name" value="{{ product.name }}"><br>
-    <label for="description">Description:</label><br>
-    <input type="text" id="description" name="description" value="{{ product.description }}"><br>
-    <label for="price">Prix:</label><br>
-    <input type="text" id="price" name="price" value="{{ product.price }}"><br>
-    <label for="quantity">Quantité:</label><br>
-    <input type="text" id="quantity" name="quantity" value="{{ product.quantity }}"><br>
-    <input type="submit" value="Mettre à jour">
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h3 class="text-center">Modifier le produit</h3>
+                </div>
+                <div class="card-body">
+                    <form action="index.php?action=updateProduct" method="post">
+                        <input type="hidden" name="id" value="{{ product.id }}">
+                        
+                        <div class="form-group">
+                            <label for="name">Nom:</label>
+                            <input type="text" id="name" name="name" class="form-control" value="{{ product.name }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description" class="form-control">{{ product.description }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="price">Prix:</label>
+                            <input type="text" id="price" name="price" class="form-control" value="{{ product.price }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Quantité:</label>
+                            <input type="text" id="quantity" name="quantity" class="form-control" value="{{ product.quantity }}">
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

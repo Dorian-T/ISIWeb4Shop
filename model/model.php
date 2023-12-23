@@ -325,11 +325,11 @@ class admin_model {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
-	public function updateOderAdmin($id, $status) {
+	public function updateOrderAdmin($id, $status) {
 		$sql = "UPDATE orders SET status = ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($status, $id));
-	}
+	}	
 	
 	public function updateProduct($id, $name, $description, $price, $quantity) {
 		$sql = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ? WHERE id = ?";

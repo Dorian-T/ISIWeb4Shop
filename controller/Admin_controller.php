@@ -3,6 +3,7 @@
 class Admin_controller {
     
     private $admin_model;
+    private $user_model;
     
     public function __construct() {
         $this->admin_model = new admin_model();
