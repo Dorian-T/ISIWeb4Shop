@@ -4,79 +4,59 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h1 class="mb-4">Adresse de livraison</h1>
-
-        {% if delivery_address %}
-            <div class="mb-4">
-                <h2>Choisir une adresse existante :</h2>
-                <form method="post" action="index.php?action=payement">
-                    <div class="mb-3">
-                        <label class="form-label">Nom:</label>
-                        <p class="form-control-static">{{ delivery_address.surname }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Ajouter une nouvelle adresse de livraison :</h2>
+                <form action="index.php?action=payement" method="post">
+                    <div class="form-group">
+                        <label for="firstname">Prénom:</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname" value="">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Prénom:</label>
-                        <p class="form-control-static">{{ delivery_address.forname }}</p>
+                    <div class="form-group">
+                        <label for="lastname">Nom:</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Adresse 1:</label>
-                        <p class="form-control-static">{{ delivery_address.add1 }}</p>
+                    <div class="form-group">
+                        <label for="add1">Adresse 1:</label>
+                        <input type="text" class="form-control" id="add1" name="add1" value="">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Adresse 2:</label>
-                        <p class="form-control-static">{{ delivery_address.add2 }}</p>
+                    <div class="form-group">
+                        <label for="add2">Adresse 2:</label>
+                        <input type="text" class="form-control" id="add2" name="add2" value="">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ville:</label>
-                        <p class="form-control-static">{{ delivery_address.add3 }}</p>
+                    <div class="form-group">
+                        <label for="city">Ville:</label>
+                        <input type="text" class="form-control" id="city" name="city" value="">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Code postal:</label>
-                        <p class="form-control-static">{{ delivery_address.postcode }}</p>
+                    <div class="form-group">
+                        <label for="postcode">Code postal:</label>
+                        <input type="text" class="form-control" id="postcode" name="postcode" value="">
                     </div>
-                    <button type="submit" class="btn btn-primary">Choisir</button>
+                    <div class="form-group">
+                        <label for="phone">Téléphone:</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email" value="">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Enregistrer">
                 </form>
             </div>
-        {% endif %}
-
-        <div>
-            <h2>Ajouter une nouvelle adresse de livraison :</h2>
-            <form action="index.php?action=payement" method="post">
-                <!-- Utilisez la classe "form-group" pour chaque champ du formulaire -->
-                <div class="mb-3">
-                    <label for="firstname" class="form-label">Prénom:</label>
-                    <input type="text" class="form-control" id="firstname" name="firstname" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastname" class="form-label">Nom:</label>
-                    <input type="text" class="form-control" id="lastname" name="lastname" required>
-                </div>
-                <div class="mb-3">
-                    <label for="add1" class="form-label">Adresse 1:</label>
-                    <input type="text" class="form-control" id="add1" name="add1" required>
-                </div>
-                <div class="mb-3">
-                    <label for="add2" class="form-label">Adresse 2:</label>
-                    <input type="text" class="form-control" id="add2" name="add2">
-                </div>
-                <div class="mb-3">
-                    <label for="city" class="form-label">Ville:</label>
-                    <input type="text" class="form-control" id="city" name="city" required>
-                </div>
-                <div class="mb-3">
-                    <label for="postcode" class="form-label">Code postal:</label>
-                    <input type="text" class="form-control" id="postcode" name="postcode" required>
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Téléphone:</label>
-                    <input type="text" class="form-control" id="phone" name="phone">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-            </form>
+            <div class="col-md-6">
+                {% if delivery_address %}
+                    <h2>Choisir une adresse existante :</h2>
+                    <form method='post' action='index.php?action=payement'>
+                        <p> Nom: {{ delivery_address.surname }} </p>
+                        <p> Prénom: {{ delivery_address.forname }} </p>
+                        <p> Adresse 1: {{ delivery_address.add1 }} </p>
+                        <p> Adresse 2: {{ delivery_address.add2 }} </p>
+                        <p> Ville: {{ delivery_address.add3 }} </p>
+                        <p> Code postal: {{ delivery_address.postcode }} </p>
+                        <input type='submit' class="btn btn-secondary" value='Choisir'>
+                    </form>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
