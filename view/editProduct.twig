@@ -1,0 +1,20 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}Modifier le produit{% endblock %}
+
+{% block content %}
+
+<form action="index.php?action=updateProduct" method="post">
+    <input type="hidden" name="id" value="{{ product.id }}">
+    <label for="name">Nom:</label><br>
+    <input type="text" id="name" name="name" value="{{ product.name }}"><br>
+    <label for="description">Description:</label><br>
+    <input type="text" id="description" name="description" value="{{ product.description }}"><br>
+    <label for="price">Prix:</label><br>
+    <input type="text" id="price" name="price" value="{{ product.price }}"><br>
+    <label for="quantity">Quantité:</label><br>
+    <input type="text" id="quantity" name="quantity" value="{{ product.quantity }}"><br>
+    <input type="submit" value="Mettre à jour">
+</form>
+
+{% endblock %}

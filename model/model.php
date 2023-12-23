@@ -318,17 +318,31 @@ class admin_model {
 		return $data->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	function getProduct($id) {
+		$sql = "SELECT * FROM products WHERE id = ?";
+		$data=self::$connexion->prepare($sql);
+		$data->execute(array($id));
+		return $data->fetch(PDO::FETCH_ASSOC);
+	}
+
 	public function updateOderAdmin($id, $status) {
 		$sql = "UPDATE orders SET status = ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($status, $id));
 	}
 	
-	public function updateProduct($id, $name, $description, $price, $quantity, $cat_id) {
-		$sql = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ?, cat_id = ? WHERE id = ?";
+	public function updateProduct($id, $name, $description, $price, $quantity) {
+		$sql = "UPDATE products SET name = ?, description = ?, price = ?, quantity = ? WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
-		$data->execute(array($name, $description, $price, $quantity, $cat_id, $id));
+		$data->execute(array($name, $description, $price, $quantity, $id));
 	}
+
+	public function deleteProduct($id) {
+		$sql = "DELETE FROM products WHERE id = ?";
+		$data = self::$connexion->prepare($sql);
+		$data->execute(array($id));
+	}
+	
 }
 
 class payement_model {

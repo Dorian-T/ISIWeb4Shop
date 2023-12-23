@@ -59,6 +59,16 @@ if (isset($_GET['action'])) {
             $adminController->UpdateProduct();
             break;
 
+        case 'editProduct':
+            $adminController = new Admin_controller();
+            $adminController->EditProduct();
+            break;
+
+        case 'deleteProduct':
+            $adminController = new Admin_controller();
+            $adminController->DeleteProduct();
+            break;
+            
         case 'adminC':
             $adminController = new Admin_controller();
             $adminController->GenerateCommand();
