@@ -1,41 +1,82 @@
 {% extends "layout/base.twig" %}
 
-{% block title %}IsiWeb4Shop{% endblock %}
+{% block title %}IsiWeb4Shop - Adresse de livraison{% endblock %}
 
 {% block content %}
-    <h1>Addresse de livraison</h1>
-    {% if delivery_address %}
-        <h2>Choissir adresse existante :</h2>
-        <form method='post' action='index.php?action=payement'>
-            <p> Nom: {{ delivery_address.forname }}  </p>
-            <p> Prénom: {{ delivery_address.surname }}  </p>
-            <p> Addresse: {{ delivery_address.add1 }}  </p>
-            <p> Complément d'adresse: {{ delivery_address.add2 }}  </p>
-            <p> Ville: {{ delivery_address.add3 }}  </p>
-            <p> Code postal: {{ delivery_address.postcode }}  </p>
-            <input type='submit' value='Choisir'>
-        </form>
-    {% endif %}
-    <h2>Autre adresse de livraison</h2>
-        <form action="index.php?action=payement" method="post">
-        <label for="firstname">Prénom:</label><br>
-        <input type="text" id="firstname" name="firstname" value="{{ delivery_address.surname }}"><br>
-        <label for="lastname">Nom:</label><br>
-        <input type="text" id="lastname" name="lastname" value="{{ delivery_address.forname }}"><br>
-        <label for="add1">Adresse 1:</label><br>
-        <input type="text" id="add1" name="add1" value="{{ delivery_address.add1 }}"><br>
-        <label for="add2">Adresse 2:</label><br>
-        <input type="text" id="add2" name="add2" value="{{ delivery_address.add2 }}"><br>
-        <label for="city">Ville:</label><br>
-        <input type="text" id="city" name="city" value="{{ delivery_address.add3 }}"><br>
-        <label for="postcode">Code postal:</label><br>
-        <input type="text" id="postcode" name="postcode" value="{{ delivery_address.postcode }}"><br>
-        <label for="phone">Téléphone:</label><br>
-        <input type="text" id="phone" name="phone" value="{{ delivery_address.phone }}"><br>
-        <label for="email">Email:</label><br>
-        <input type="text" id="email" name="email" value="{{ delivery_address.email }}"><br>
-        <input type="submit" value="Enregistrer">
-    </form>
+    <div class="container mt-5">
+        <h1 class="mb-4">Adresse de livraison</h1>
 
-    
+        {% if delivery_address %}
+            <div class="mb-4">
+                <h2>Choisir une adresse existante :</h2>
+                <form method="post" action="index.php?action=payement">
+                    <div class="mb-3">
+                        <label class="form-label">Nom:</label>
+                        <p class="form-control-static">{{ delivery_address.surname }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Prénom:</label>
+                        <p class="form-control-static">{{ delivery_address.forname }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Adresse 1:</label>
+                        <p class="form-control-static">{{ delivery_address.add1 }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Adresse 2:</label>
+                        <p class="form-control-static">{{ delivery_address.add2 }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ville:</label>
+                        <p class="form-control-static">{{ delivery_address.add3 }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Code postal:</label>
+                        <p class="form-control-static">{{ delivery_address.postcode }}</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Choisir</button>
+                </form>
+            </div>
+        {% endif %}
+
+        <div>
+            <h2>Ajouter une nouvelle adresse de livraison :</h2>
+            <form action="index.php?action=payement" method="post">
+                <!-- Utilisez la classe "form-group" pour chaque champ du formulaire -->
+                <div class="mb-3">
+                    <label for="firstname" class="form-label">Prénom:</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Nom:</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" required>
+                </div>
+                <div class="mb-3">
+                    <label for="add1" class="form-label">Adresse 1:</label>
+                    <input type="text" class="form-control" id="add1" name="add1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="add2" class="form-label">Adresse 2:</label>
+                    <input type="text" class="form-control" id="add2" name="add2">
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">Ville:</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="mb-3">
+                    <label for="postcode" class="form-label">Code postal:</label>
+                    <input type="text" class="form-control" id="postcode" name="postcode" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Téléphone:</label>
+                    <input type="text" class="form-control" id="phone" name="phone">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

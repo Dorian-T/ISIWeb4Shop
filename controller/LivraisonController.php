@@ -8,6 +8,7 @@ class LivraisonController {
 
     function __construct($twig){
         $this->livraison_model = new Livraison_model();
+        $this->user_model = new User_model();
         $this->twig = $twig;
     }
 
@@ -18,6 +19,7 @@ class LivraisonController {
      * @return array|false Les détails de l'adresse de livraison ou false si l'utilisateur n'est pas connecté.
      */
     public function getDeliveryAddressForLoggedInUser() {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
         if (isset($_SESSION['customer_id'])) {
             $customerId = $_SESSION['customer_id'];
             return $this->livraison_model->getAddressByCustomer($customerId);
@@ -29,17 +31,27 @@ class LivraisonController {
         }
     
         $template = $this->twig->load('livraison.twig');
-        echo $template->render(array());
+        echo $template->render(array('customer' => $customer));
     }
 
 
     /**
      * Affiche l'adresse de livraison de l'utilisateur connecté ou permet à l'utilisateur d'ajouter une nouvelle adresse.
      */
-    public function showDeliveryAddressOrForm() {
-        $delivery_address = $this->getDeliveryAddressForLoggedInUser();
-
-        $template = $this->twig->load('livraison.twig');
-        echo $template->render(array('delivery_address' => $delivery_address));
+    public function showDeliveryAddressOrForm(): void {
+        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        if (isset($_SESSION['customer_id'])) {
+            // Récupérez l'adresse de livraison existante depuis la base de données
+            $livraisonModel = new Livraison_model();
+            $customerId = $_SESSION['customer_id']; // Assurez-vous que vous avez une variable de session pour stocker l'ID du client
+            $deliveryAddress = $livraisonModel->getAddressByCustomer($customerId);
+    
+            $template = $this->twig->load('livraison.twig');
+            echo $template->render(array('delivery_address' => $deliveryAddress));
+        } else {
+            // Affichez le formulaire pour ajouter une nouvelle adresse de livraison
+            $template = $this->twig->load('livraison.twig');
+            echo $template->render(array('delivery_address' => null, 'customer' => $customer));
+        }
     }
 }
