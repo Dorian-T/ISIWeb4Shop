@@ -2,23 +2,28 @@
 
 {% block content %}
 
-    <div class="container">
-        <h2 class="my-4">Entrez vos informations de virement bancaire</h2>
-        <form action="index.php?action=process_bank_transfer" method="post">
-            <div class="form-group">
-                <label for="bankName">Nom de la banque</label>
-                <input type="text" class="form-control" id="bankName" name="bankName" required>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title my-4">Entrez vos informations de virement bancaire</h2>
+                <form action="index.php?action=process_bank_transfer" method="post">
+                    <!-- Utilisez la classe "form-group" pour chaque champ du formulaire -->
+                    <div class="form-group">
+                        <label for="bankName">Nom de la banque</label>
+                        <input type="text" class="form-control" id="bankName" name="bankName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="iban">IBAN</label>
+                        <input type="text" class="form-control" id="iban" name="iban" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bic">BIC</label>
+                        <input type="text" class="form-control" id="bic" name="bic" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Payer</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="iban">IBAN</label>
-                <input type="text" class="form-control" id="iban" name="iban" required>
-            </div>
-            <div class="form-group">
-                <label for="bic">BIC</label>
-                <input type="text" class="form-control" id="bic" name="bic" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Payer</button>
-        </form>
+        </div>
     </div>
 
 {% endblock %}

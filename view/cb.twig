@@ -2,23 +2,27 @@
 
 {% block content %}  
     
-    <div class="container">
-        <h2 class="my-4">Entrez vos informations de carte bancaire</h2>
-        <form action="index.php?action=process_card_payment" method="post">
-            <div class="form-group">
-                <label for="cardNumber">Numéro de carte</label>
-                <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title my-4">Entrez vos informations de carte bancaire</h2>
+                <form action="index.php?action=process_card_payment" method="post">
+                    <div class="form-group">
+                        <label for="cardNumber">Numéro de carte</label>
+                        <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryDate">Date d'expiration</label>
+                        <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/AA" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" class="form-control" id="cvv" name="cvv" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Payer</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="expiryDate">Date d'expiration</label>
-                <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/AA" required>
-            </div>
-            <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="text" class="form-control" id="cvv" name="cvv" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Payer</button>
-        </form>
+        </div>
     </div>
 
 {% endblock %}
