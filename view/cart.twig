@@ -1,5 +1,49 @@
 {% extends 'layout/base.twig' %}
 
 {% block content %}
-    <h1>Panier</h1>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Panier</h1>
+
+        {% if cart %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix unitaire</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for itemId, item in cart %}
+                        {% set total = total + item.product.price * item.quantity %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.product.price }} €</td>
+                            <td>{{ item.product.price * item.quantity }} €</td>
+                            <td>
+                                <form method="post" action="index.php?action=removeFromCart">
+                                    <input type="hidden" name="id" value="{{ itemId }}">
+                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="text-end">
+                <p class="fw-bold">Total de la commande : {{ total }} €</p>
+                <!-- Ajoutez ici le formulaire pour passer la commande -->
+                <form action="index.php?action=livraison" method="post">
+                    <input type="submit" class="btn btn-primary" value="Commander">
+                </form>
+            </div>
+        {% else %}
+            <p class="mt-4">Votre panier est vide.</p>
+        {% endif %}
+    </div>
 {% endblock %}

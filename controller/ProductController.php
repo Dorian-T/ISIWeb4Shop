@@ -117,19 +117,42 @@ class ProductController {
     public function addTocart($id): void {
         // Vérifie si le produit existe dans la base de données
         $product = $this->produitsModele->getProductById($id);
-        if($product != null && $product['quantity'] > 0) {
+        if ($product != null && $product['quantity'] > 0) {
             // Ajoute le produit au panier dans la session
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
             if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]++;
+                $_SESSION['cart'][$id]['quantity']++;
             } else {
-                $_SESSION['cart'][$id] = 1;
+                $_SESSION['cart'][$id] = [
+                    'quantity' => 1,
+                    'product' => $product,
+                ];
             }
-
+    
             // Ajoute le produit au panier dans la base de données
             $this->produitsModele->addProductToCart($product, 1);
         }
     }
+
+    public function removeProductFromCart($productId): void {
+        // Vérifie si le produit existe dans la session
+        if (isset($_SESSION['cart'][$productId])) {
+            // Retire le produit de la session
+            unset($_SESSION['cart'][$productId]);
+    
+            // Met à jour le panier dans la base de données
+            $this->produitsModele->removeProduct($productId, 1);
+        }
+    }    
+
+    private function calculateTotal($cart): float {
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['product']['price'] * $item['quantity'];
+        }
+        return $total;
+    }
+    
 }

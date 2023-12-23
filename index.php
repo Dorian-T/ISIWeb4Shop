@@ -3,7 +3,12 @@
 session_start();
 
 require_once 'vendor/autoload.php';
-require_once 'model/model.php';
+require_once 'model/product_model.php';
+require_once 'model/user_model.php';
+require_once 'model/admin_model.php';
+require_once 'model/payement_model.php';
+require_once 'model/facture_model.php';
+require_once 'model/livraison_model.php';
 require_once 'controller/ProductController.php';
 require_once 'controller/HomeController.php';
 require_once 'controller/LoginController.php';
@@ -77,6 +82,15 @@ if (isset($_GET['action'])) {
         case 'cart':
             $cartController = new CartController($twig);
             $cartController->print();
+            break;
+        
+        case 'removeFromCart':
+            $productController = new ProductController($twig);
+            if (isset($_POST['id'])) {
+                $productController->removeProductFromCart($_POST['id']);
+            }
+            // Redirigez l'utilisateur vers la page du panier après la suppression
+            header('Location: index.php?action=cart');
             break;
 
         case 'payement':
