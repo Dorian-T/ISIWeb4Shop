@@ -22,7 +22,7 @@ class LoginController {
      * @param $twig The Twig instance used for rendering views.
      */
     public function __construct($twig) {
-        $this->userModel = new user_model();
+        $this->userModel = new UserModel();
         $this->twig = $twig;
     }
 

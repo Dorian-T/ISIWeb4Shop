@@ -1,11 +1,22 @@
 <?php
+
 require_once "connect.php";
 
-class Produits_modele {
-	/** Objet contenant la connexion pdo à la BD */
+
+/**
+ * Class ProductModel
+ * This class is the model used for the product page.
+ */
+class ProductModel {
+	
+	/**
+	 * The PDO instance used to connect to the database.
+	 */
 	private static $connexion;
 
-	/** Constructeur établissant la connexion */
+	/**
+	 * ProductModel constructor.
+	 */
 	public function __construct() {
 		$dsn="mysql:dbname=".BASE.";host=".SERVER;
 		try {
@@ -17,26 +28,44 @@ class Produits_modele {
 		}
 	}
 
-    function req_products() {
+	/**
+	 * This function returns the products in the database.
+	 * @return array
+	 */
+    public function getProducts() {
         $sql = "SELECT * FROM products";
         $data=self::$connexion->query($sql);
         return $data->fetchAll(PDO::FETCH_ASSOC);
     }
 
-	function getCategory() {
+	/**
+	 * This function returns the categories in the database.
+	 * @return array
+	 */
+	public function getCategory() {
 		$sql = "SELECT * FROM categories";
 		$data=self::$connexion->prepare($sql);
 		$data->execute();
 		return $data;
 	}
 
-	function getProductsByCategory($category) {
+	/**
+	 * This function returns the products due to the cat_id in the database.
+	 * @param $category int The id of the category.
+	 * @return array
+	 */
+	public function getProductsByCategory($category) {
 		$sql = "SELECT * FROM products WHERE cat_id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$category]);
 		return $data;
 	}
 
+	/**
+	 * This function returns the products due to the id in the database.
+	 * @param $id int The id of the product.
+	 * @return array
+	 */
 	public function getProductById($id) {
 		$sql = "SELECT * FROM products WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
@@ -44,6 +73,11 @@ class Produits_modele {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 
+	/**
+	 * This function returns the reviews due to the id in the database.
+	 * @param $id int The id of the product.
+	 * @return array
+	 */
 	public function getReviewsByProductId($id) {
 		$sql = "SELECT * FROM reviews WHERE id_product = ?";
 		$data=self::$connexion->prepare($sql);
@@ -185,16 +219,31 @@ class Produits_modele {
 		$data->execute([$_SESSION['cartId'], $product['id'], $quantity]);
 	}
 
+	/**
+	 * ajout d'un commentaire
+	 * @param $id_product int The id of the product.
+	 * @param $name_user string The name of the user.
+	 * @param $stars int The number of stars.
+	 * @param $title string The title of the comment.
+	 * @param $description string The description of the comment.
+	 */
 	public function addComment($id_product, $name_user, $stars, $title, $description) {
 		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
 		$data=self::$connexion->prepare($sql);
 		$data->execute([$id_product, $name_user, $stars, $title, $description]);
 	}
 
+	/**
+	 * This function updates the products due to the quantity in the database.
+	 * @param $id int The id of the product.
+	 * @param $quantity int The quantity of the product.
+	 * @return array
+	 */
 	public function removeProduct($id, $quantity) {
         $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
         $data = self::$connexion->prepare($sql);
         $data->execute([$quantity, $id]);
     }
 }
+
 ?>

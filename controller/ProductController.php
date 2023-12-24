@@ -1,11 +1,26 @@
 <?php
 
+/**
+ * Class ProductController
+ *
+ * This class is responsible for handling the product page functionality.
+ */
 class ProductController {
 
+    /**
+     * The Twig instance used for rendering views.
+     */
     private $twig;
 
-    private $produitsModele;
-    private $user_model;
+    /**
+     * The product model instance.
+     */
+    private $productModel;
+
+    /**
+     * The user model instance.
+     */
+    private $userModel;
 
     /**
      * ProductController constructor.
@@ -14,8 +29,8 @@ class ProductController {
      */
     public function __construct($twig) {
         $this->twig = $twig;
-        $this->produitsModele = new Produits_modele();
-        $this->user_model = new user_model();
+        $this->productModel = new ProductModel();
+        $this->userModel = new UserModel();
     }
 
     /**
@@ -45,7 +60,7 @@ class ProductController {
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
         $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
 
-        $getCategory = $this->produitsModele->getCategory()->fetchAll(PDO::FETCH_ASSOC);
+        $getCategory = $this->productModel->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
 
         // Filtrage des produits par catégorie
@@ -58,10 +73,10 @@ class ProductController {
             if (array_search($_GET['category'], $categoryId) === false) {
                 header('Location: index.php?action=products');
             } else {
-                $products = $this->produitsModele->getProductsByCategory($_GET['category'])->fetchAll(PDO::FETCH_ASSOC);
+                $products = $this->productModel->getProductsByCategory($_GET['category'])->fetchAll(PDO::FETCH_ASSOC);
             }
         } else {
-            $products = $this->produitsModele->req_products();
+            $products = $this->productModel->getProducts();
         }
 
         $template = $this->twig->load('products.twig');
@@ -77,13 +92,18 @@ class ProductController {
     public function productDetails($id): void {
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
         $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
-        $product = $this->produitsModele->getProductById($id);
-        $reviews = $this->produitsModele->getReviewsByProductId($id);
+        $product = $this->productModel->getProductById($id);
+        $reviews = $this->productModel->getReviewsByProductId($id);
 
         $template = $this->twig->load('productDetails.twig');
         echo $template->render(array('product' => $product, 'reviews' => $reviews, 'customer' => $customer, 'admin' => $admin));
     }
 
+    /**
+     * Adds a review to a product.
+     *
+     * @return void
+     */
     public function addReview(): void {
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
         $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
@@ -95,7 +115,7 @@ class ProductController {
             $title = $_POST['title'];
             $description = $_POST['description'];
 
-            $this->produitsModele->addComment($productId, $name, $stars, $title, $description);
+            $this->productModel->addComment($productId, $name, $stars, $title, $description);
 
             header('Location: index.php?action=product&id=' . $productId);
             exit();
@@ -116,7 +136,7 @@ class ProductController {
      */
     public function addTocart($id): void {
         // Vérifie si le produit existe dans la base de données
-        $product = $this->produitsModele->getProductById($id);
+        $product = $this->productModel->getProductById($id);
         if ($product != null && $product['quantity'] > 0) {
             // Ajoute le produit au panier dans la session
             if (!isset($_SESSION['cart'])) {
@@ -132,10 +152,17 @@ class ProductController {
             }
     
             // Ajoute le produit au panier dans la base de données
-            $this->produitsModele->addProductToCart($product, 1);
+            $this->productModel->addProductToCart($product, 1);
         }
     }
 
+    /**
+     * Removes a product from the cart.
+     * If the product doesn't exist in the cart, does nothing.
+     *
+     * @param int $productId The ID of the product to remove.
+     * @return void
+     */
     public function removeProductFromCart($productId): void {
         // Vérifie si le produit existe dans la session
         if (isset($_SESSION['cart'][$productId])) {
@@ -143,10 +170,18 @@ class ProductController {
             unset($_SESSION['cart'][$productId]);
     
             // Met à jour le panier dans la base de données
-            $this->produitsModele->removeProduct($productId, 1);
+            $this->productModel->removeProduct($productId, 1);
         }
-    }    
+    }
 
+    /**
+     * Updates the quantity of a product in the cart.
+     * If the product doesn't exist in the cart, does nothing.
+     *
+     * @param int $productId The ID of the product to update.
+     * @param int $quantity The new quantity.
+     * @return void
+     */
     private function calculateTotal($cart): float {
         $total = 0;
         foreach ($cart as $item) {

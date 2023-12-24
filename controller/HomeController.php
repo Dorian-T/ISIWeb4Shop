@@ -22,7 +22,7 @@ class HomeController {
      * @param $twig The Twig instance used for rendering templates.
      */
     public function __construct($twig) {
-        $this->userModel = new user_model();
+        $this->userModel = new UserModel();
         $this->twig = $twig;
     }
 
@@ -38,3 +38,5 @@ class HomeController {
         echo $template->render(array('customer' => $customer, 'admin' => $admin));
     }
 }
+
+?>

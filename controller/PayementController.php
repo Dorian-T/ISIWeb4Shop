@@ -1,16 +1,42 @@
 <?php
 
-class Payement_controller {
+/**
+ * Class PayementController
+ *
+ * This class is responsible for handling the payement page functionality.
+ */
+class PayementController {
 
-    private $payement_model;
-    private $user_model;
+    /**
+     * The payement model instance.
+     */
+    private $payementModel;
 
-    public function __construct() {
-        $this->payement_model = new Payement_model();
-        $this->user_model = new User_model();
+    /**
+     * The user model instance.
+     */
+    private $userModel;
+
+    /**
+     * The Twig environment used for rendering templates.
+     */
+    private $twig;
+
+    /**
+     * PayementController constructor.
+     */
+    public function __construct($twig) {
+        $this->payementModel = new PayementModel();
+        $this->userModel = new UserModel();
+        $this->twig = $twig;
     }
 
-    function Payement() {
+    /**
+     * Display the payement page.
+     * 
+     * @return void
+     */
+    public function payement() {
 
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
 
@@ -19,7 +45,7 @@ class Payement_controller {
             if(isset($_SESSION['customer_id'], $_SESSION['SESS_ORDERNUM'], $_SESSION['adresse_id'], $_SESSION['total'])){
                 $this->payement_model->updateOrder($_SESSION['SESS_ORDERNUM'], $_SESSION['customer_id'], 1, $_SESSION['adresse_id'], 1, 2, $_SESSION['total'], '');
             }
-            else if(isset($_SESSION['SESS_ORDERNUM'], $_SESSION['adresse_id'], $_SESSION['total'])){
+            elseif(isset($_SESSION['SESS_ORDERNUM'], $_SESSION['adresse_id'], $_SESSION['total'])){
                 $this->payement_model->updateOrder($_SESSION['SESS_ORDERNUM'], 0, 0, $_SESSION['adresse_id'], 1, 2, $_SESSION['total'], session_id());
             }
 
@@ -49,13 +75,10 @@ class Payement_controller {
                 default:
                     header('Location: index.php?action=home');
                     break;
-            } 
+            }
         }
 
-        $loader = new Twig\Loader\FilesystemLoader('view');
-        $twig = new Twig\Environment($loader);
-
-        $template = $twig->load('payement.twig');
+        $template = $this->twig->load('payement.twig');
         echo $template->render(array('customer' => $customer));
     }
 

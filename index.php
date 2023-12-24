@@ -3,19 +3,20 @@
 session_start();
 
 require_once 'vendor/autoload.php';
-require_once 'model/product_model.php';
-require_once 'model/user_model.php';
-require_once 'model/admin_model.php';
-require_once 'model/payement_model.php';
-require_once 'model/facture_model.php';
-require_once 'model/livraison_model.php';
+require_once 'model/productModel.php';
+require_once 'model/userModel.php';
+require_once 'model/adminModel.php';
+require_once 'model/payementModel.php';
+require_once 'model/factureModel.php';
+require_once 'model/livraisonModel.php';
 require_once 'controller/ProductController.php';
 require_once 'controller/HomeController.php';
 require_once 'controller/LoginController.php';
-require_once 'controller/Admin_controller.php';
+require_once 'controller/AdminController.php';
 require_once 'controller/CartController.php';
-require_once 'controller/Payement_controller.php';
+require_once 'controller/PayementController.php';
 require_once 'controller/LivraisonController.php';
+
 
 $loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
 $twig = new Twig\Environment($loader);
@@ -55,28 +56,28 @@ if (isset($_GET['action'])) {
             break;
 
         case 'adminP':
-            $adminController = new Admin_controller();
-            $adminController->GenerateProduct();
+            $adminController = new AdminController($twig);
+            $adminController->generateProduct();
             break;
 
         case 'updateProduct':
-            $adminController = new Admin_controller();
-            $adminController->UpdateProduct();
+            $adminController = new AdminController($twig);
+            $adminController->updateProduct();
             break;
 
         case 'editProduct':
-            $adminController = new Admin_controller();
-            $adminController->EditProduct();
+            $adminController = new AdminController($twig);
+            $adminController->editProduct();
             break;
 
         case 'deleteProduct':
-            $adminController = new Admin_controller();
-            $adminController->DeleteProduct();
+            $adminController = new AdminController($twig);
+            $adminController->deleteProduct();
             break;
             
         case 'adminC':
-            $adminController = new Admin_controller();
-            $adminController->GenerateCommand();
+            $adminController = new AdminController($twig);
+            $adminController->generateCommand();
             break;
 
         case 'cart':
@@ -94,8 +95,8 @@ if (isset($_GET['action'])) {
             break;
 
         case 'payement':
-            $payementController = new Payement_controller();
-            $payementController->Payement();
+            $payementController = new PayementController($twig);
+            $payementController->payement();
             break;
         case 'livraison':
             $livraisonController = new LivraisonController($twig);

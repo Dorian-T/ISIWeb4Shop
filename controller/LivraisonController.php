@@ -1,22 +1,43 @@
 <?php
 
+/**
+ * Class LivraisonController
+ *
+ * This class is responsible for handling the delivery page functionality.
+ */
 class LivraisonController {
 
-    private $livraison_model;
-    private $twig;
+    /**
+     * The delivery model instance.
+     */
+    private $livraisonModel;
+
+    /**
+     * The user model instance.
+     */
     private $userModel;
 
-    function __construct($twig){
-        $this->livraison_model = new Livraison_model();
-        $this->user_model = new User_model();
+    /**
+     * The Twig environment used for rendering templates.
+     */
+    private $twig;
+
+    /**
+     * LivraisonController constructor.
+     *
+     * @param $twig The Twig instance used for rendering templates.
+     */
+    public function __construct($twig){
+        $this->livraisonModel = new LivraisonModel();
+        $this->userModel = new UserModel();
         $this->twig = $twig;
     }
 
     /**
-     * Obtient l'adresse de livraison de l'utilisateur connecté.
-     * Si l'utilisateur n'est pas connecté, retourne false.
+     * Gets the delivery address of the logged-in user.
+     * If the user is not logged in, returns false.
      *
-     * @return array|false Les détails de l'adresse de livraison ou false si l'utilisateur n'est pas connecté.
+     * @return array|false Delivery address details or false if the user is not logged in.
      */
     public function getDeliveryAddressForLoggedInUser() {
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
@@ -24,7 +45,7 @@ class LivraisonController {
             $customerId = $_SESSION['customer_id'];
             return $this->livraison_model->getAddressByCustomer($customerId);
         }
-        else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sessionId = session_id();
             $address = $_POST;
             $this->livraison_model->addDeliveryAddress($address, null, $sessionId);
@@ -36,7 +57,9 @@ class LivraisonController {
 
 
     /**
-     * Affiche l'adresse de livraison de l'utilisateur connecté ou permet à l'utilisateur d'ajouter une nouvelle adresse.
+     * Displays the delivery address of the logged-in user, or allows the user to add a new address.
+     * 
+     * @return array
      */
     public function showDeliveryAddressOrForm(): void {
         $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
@@ -55,3 +78,5 @@ class LivraisonController {
         }
     }
 }
+
+?>
