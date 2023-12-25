@@ -38,7 +38,7 @@ class PayementController {
      */
     public function payement() {
 
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
 
         if (!empty($_POST)) {
             $_SESSION['statut'] = 2;
@@ -54,7 +54,7 @@ class PayementController {
                     header('Location: https://www.paypal.com/fr/home');
                     break;
                 case 'cb':
-                    $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+                    $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
                     $loader = new Twig\Loader\FilesystemLoader('view');
                     $twig = new Twig\Environment($loader);
                     $template = $twig->load('cb.twig');
@@ -65,7 +65,7 @@ class PayementController {
                     header('Location: facturePDF.php');
                     break;
                 case 'virement':
-                    $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+                    $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
                     $loader = new Twig\Loader\FilesystemLoader('view');
                     $twig = new Twig\Environment($loader);
                     $template = $twig->load('virement.twig');

@@ -40,7 +40,7 @@ class LivraisonController {
      * @return array|false Delivery address details or false if the user is not logged in.
      */
     public function getDeliveryAddressForLoggedInUser() {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
         if (isset($_SESSION['customer_id'])) {
             $customerId = $_SESSION['customer_id'];
             return $this->livraison_model->getAddressByCustomer($customerId);
@@ -62,10 +62,10 @@ class LivraisonController {
      * @return array
      */
     public function showDeliveryAddressOrForm(): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
         if (isset($_SESSION['customer_id'])) {
             // Récupérez l'adresse de livraison existante depuis la base de données
-            $livraisonModel = new Livraison_model();
+            $livraisonModel = new LivraisonModel();
             $customerId = $_SESSION['customer_id']; // Assurez-vous que vous avez une variable de session pour stocker l'ID du client
             $deliveryAddress = $livraisonModel->getAddressByCustomer($customerId);
     

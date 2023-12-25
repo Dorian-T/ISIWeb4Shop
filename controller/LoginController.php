@@ -88,9 +88,9 @@ class LoginController {
      */
     public function register(){
         if (!(empty($_POST))) {
-            $user_model = new user_model();
+            $userModel = new UserModel();
 
-            $cid = $user_model->addCustomer(
+            $cid = $userModel->addCustomer(
                 $_POST['forname'],
                 $_POST['surname'],
                 $_POST['phone'],
@@ -101,7 +101,7 @@ class LoginController {
                 $_POST['city'],
                 $_POST['postcode']
             );
-            $user_model->addLogin($cid, $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
+            $userModel->addLogin($cid, $_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
             header('Location: index.php?action=registered');
             exit();
         } else {
@@ -115,10 +115,10 @@ class LoginController {
      */
     public function registerAdmin(){
         if (!(empty($_POST))) {
-            $user_model = new user_model();
+            $userModel = new UserModel();
 
-            $user_model->addAdmin($_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
-            var_dump($user_model);
+            $userModel->addAdmin($_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT));
+            var_dump($userModel);
             header('Location: index.php?action=registered');
             exit();
         }

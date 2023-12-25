@@ -57,8 +57,8 @@ class ProductController {
      * @return void
      */
     public function products(): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
 
         $getCategory = $this->productModel->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
@@ -90,8 +90,8 @@ class ProductController {
      * @return void
      */
     public function productDetails($id): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
         $product = $this->productModel->getProductById($id);
         $reviews = $this->productModel->getReviewsByProductId($id);
 
@@ -105,8 +105,8 @@ class ProductController {
      * @return void
      */
     public function addReview(): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->user_model->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->user_model->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérez les données du formulaire
             $productId = $_POST['productId'];
