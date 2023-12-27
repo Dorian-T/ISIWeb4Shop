@@ -1,32 +1,14 @@
 <?php
+
 require_once "connect.php";
+require_once "model.php";
 
 /**
  * Class UserModel
  * This class is the model used for the user page.
+ * It extends the Model class.
  */
-class UserModel {
-
-	/**
-	 * The PDO instance used to connect to the database.
-	 */
-	private static $connexion;
-
-	/**
-	 * UserModel constructor.
-	 */
-	public function __construct()
-	{
-		$dsn="mysql:dbname=".BASE.";host=".SERVER;
-		try{
-			self::$connexion=new PDO($dsn,USER,PASSWD);
-		}
-		catch(PDOException $e){
-	  		printf("Échec de la connexion : %s\n", $e->getMessage());
-	  		$this->connexion = null;
-		}
-	}
-
+class UserModel extends Model {
 	/**
 	 * This function returns the user in the database.
 	 * @param $login string The login of the user.
@@ -93,7 +75,8 @@ class UserModel {
 	 */
 	public function addCustomer ($forname, $surname, $phone, $email, $registered, $add1, $add2, $city, $postcode)
 	{
-		$sql = "INSERT INTO customers (forname, surname, phone, email, registered, add1, add2, add3, postcode) VALUES ('".$forname."', '".$surname."', '".$phone."', '".$email."', '".$registered."', '".$add1."', '".$add2."', '".$city."', '".$postcode."')";
+		$sql = "INSERT INTO customers (forname, surname, phone, email, registered, add1, add2, add3, postcode)
+				VALUES ('".$forname."', '".$surname."', '".$phone."', '".$email."', '".$registered."', '".$add1."', '".$add2."', '".$city."', '".$postcode."')";
 		$data = self::$connexion->prepare($sql);
 		$data->execute();
 		$sql = "SELECT id FROM customers ORDER BY id DESC LIMIT 1";
@@ -140,5 +123,3 @@ class UserModel {
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
 }
-
-?>

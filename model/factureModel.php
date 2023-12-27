@@ -1,33 +1,14 @@
 <?php
 
 require_once 'model/connect.php';
+require_once 'model/model.php';
 
 /**
  * Class FactureModel
  * This class is the model used for the facture page.
+ * It extends the Model class.
  */
-class FactureModel {
-
-	/**
-	 * The PDO instance used to connect to the database.
-	 */
-	private static $connexion;
-
-	/**
-	 * FactureModel constructor.
-	 */
-	public function __construct()
-	{
-		$dsn="mysql:dbname=".BASE.";host=".SERVER;
-		try{
-			self::$connexion=new PDO($dsn,USER,PASSWD);
-		}
-		catch(PDOException $e){
-	  		printf("Échec de la connexion : %s\n", $e->getMessage());
-	  		$this->connexion = null;
-		}
-	}
-
+class FactureModel extends Model {
 	/**
 	 * This function returns the devilery addresses in the database.
 	 * @return array
@@ -51,7 +32,4 @@ class FactureModel {
 		$data->execute(array($order_id));
 		return $data->fetch(PDO::FETCH_ASSOC);
 	}
-
 }
-
-?>

@@ -1,33 +1,14 @@
 <?php
 
 require_once "connect.php";
-
+require_once "model.php";
 
 /**
  * Class ProductModel
  * This class is the model used for the product page.
+ * It extends the Model class.
  */
-class ProductModel {
-	
-	/**
-	 * The PDO instance used to connect to the database.
-	 */
-	private static $connexion;
-
-	/**
-	 * ProductModel constructor.
-	 */
-	public function __construct() {
-		$dsn="mysql:dbname=".BASE.";host=".SERVER;
-		try {
-			self::$connexion=new PDO($dsn,USER,PASSWD);
-		}
-		catch(PDOException $e) {
-			printf("Échec de la connexion : %s\n", $e->getMessage());
-			$this->connexion = null;
-		}
-	}
-
+class ProductModel extends Model {
 	/**
 	 * This function returns the products in the database.
 	 * @return array
