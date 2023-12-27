@@ -98,6 +98,10 @@ if (isset($_GET['action'])) {
             $payementController = new PayementController($twig);
             $payementController->payement();
             break;
+        case 'thankyou':
+            $payementController = new PayementController($twig);
+            $payementController->thankYou();
+            break;
         case 'livraison':
             $livraisonController = new LivraisonController($twig);
             $livraisonController->showDeliveryAddressOrForm();
