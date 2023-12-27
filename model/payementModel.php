@@ -44,5 +44,20 @@ class PayementModel {
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($id, $cid, $r, $adress, $payement, $status, $total, $session));
 	}
+
+	/**
+     * This function retrieves the details of a specific order from the database.
+     * @param $orderId int The ID of the order to retrieve details for.
+     * @return array|null Details of the order, or null if the order is not found.
+     */
+    public function getOrderDetails($orderId) {
+        $sql = "SELECT * FROM orders WHERE id = ?";
+        $data = self::$connexion->prepare($sql);
+        $data->execute([$orderId]);
+
+        $orderDetails = $data->fetch(PDO::FETCH_ASSOC);
+
+        return $orderDetails ? $orderDetails : null;
+    }
 }
 ?>

@@ -70,6 +70,7 @@ class PayementController {
                     $twig = new Twig\Environment($loader);
                     $template = $twig->load('virement.twig');
                     echo $template->render(array('customer' => $customer));
+                    $this->thankYou();
                     exit();
                     break;
                 default:
@@ -80,6 +81,15 @@ class PayementController {
 
         $template = $this->twig->load('payement.twig');
         echo $template->render(array('customer' => $customer));
+    }
+
+    public function thankYou() {
+        // Récupérez les détails de la commande depuis la base de données ou la session
+        $orderDetails = $this->payementModel->getOrderDetails($_SESSION['SESS_ORDERNUM']);
+    
+        // Chargez le template de remerciement avec les détails de la commande
+        $template = $this->twig->load('thank_you.twig');
+        echo $template->render(array('orderDetails' => $orderDetails));
     }
 
 }

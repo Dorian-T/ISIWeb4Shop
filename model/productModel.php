@@ -108,52 +108,30 @@ class ProductModel {
 		$this->addProduct($product, $quantity);
 	}
 
-	/**
-	 * Met le customer_id dans la session si le customer existe, ou crée un nouveau customer.
-	 * Met hasCart à true, dans la session, si le customer a un panier, false sinon.
-	 *
-	 * @param string $sessionId The session ID.
-	 *
-	 * @return void
-	 */
 	private function getCustomer(string $sessionId): void {
-		// Si on connait le customer_id, on vérifie s'il a un panier
-		if(!isset($_SESSION['customer_id'])) {
-			$sql = 'SELECT id FROM orders WHERE customer_id = ?';
-			$data=self::$connexion->prepare($sql);
+		// Si le customer_id n'est pas défini, vérifie s'il existe dans la base de données
+		if (!isset($_SESSION['customer_id'])) {
+			$sql = 'SELECT customer_id FROM orders WHERE session = ?';
+			$data = self::$connexion->prepare($sql);
 			$data->execute([$sessionId]);
 			$data = $data->fetch(PDO::FETCH_ASSOC);
-			if($data) {
-				$_SESSION['hasCart'] = true;
-			}
-			else {
-				$_SESSION['hasCart'] = false;
-			}
-		}
-		else {
-			// Récupération du customer
-			$sql = 'SELECT customer_id
-					FROM orders
-					WHERE session = ?';
-			$data=self::$connexion->prepare($sql);
-			$data->execute([$sessionId]);
-			$data = $data->fetch(PDO::FETCH_ASSOC);
-
-			// Si le customer n'existe pas, on le crée
-			if(!$data) {
+	
+			// Si le customer n'existe pas, créez un nouveau customer
+			if (!$data) {
 				$sql = 'INSERT INTO customers (registered) VALUES (0)';
-				$data=self::$connexion->prepare($sql);
+				$data = self::$connexion->prepare($sql);
 				$data->execute([$sessionId]);
-				$data = $data->fetch(PDO::FETCH_ASSOC);
 				$_SESSION['customer_id'] = self::$connexion->lastInsertId();
-				$_SESSION['hasCart'] = false;
-			}
-			else {
+			} else {
+				// Le customer existe, mettez à jour la session
 				$_SESSION['customer_id'] = $data['customer_id'];
-				$_SESSION['hasCart'] = true;
 			}
+	
+			// Vérifiez s'il a un panier
+			$_SESSION['hasCart'] = ($data !== false);
 		}
 	}
+
 
 	/**
 	 * Met à jour le panier de l'utilisateur.
