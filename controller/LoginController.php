@@ -74,13 +74,20 @@ class LoginController {
         $template = $this->twig->load('login.twig');
         echo $template->render(array());
     }
-
     /**
      * Logs out the user.
      */
-    public function logOut () {
+    public function logOut() {
+        // Vider les variables de session liées à l'utilisateur
+        unset($_SESSION['customer_id']);
+        unset($_SESSION['hasCart']);
+
+        // Détruire la session
         session_destroy();
+
+        // Rediriger l'utilisateur vers la page d'accueil
         header('Location: index.php?action=home');
+        exit();
     }
 
     /**

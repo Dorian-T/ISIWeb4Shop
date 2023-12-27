@@ -82,6 +82,12 @@ class PayementController {
         echo $template->render(array('customer' => $customer));
     }
 
+    public function thankYou() {
+        // Chargez le template de remerciement avec les détails de la commande
+        $template = $this->twig->load('thankyou.twig');
+        echo $template->render(array());
+    }
+
 }
 
 

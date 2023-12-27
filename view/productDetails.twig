@@ -3,24 +3,25 @@
 {% block content %}
     <link rel="stylesheet" href="style/productDetails.css">
 
-    <div class="container">
-        <div class="product-details">
-            <img class="product-image" src="assets/img/{{ product.image }}" alt="{{ product.name }}">
-            <div class="product-info">
+    <div class="container mt-5">
+        <div class="product-details row">
+            <img class="product-image col-md-6" src="assets/img/{{ product.image }}" alt="{{ product.name }}">
+            <div class="product-info col-md-6">
                 <h1>{{ product.name }}</h1>
                 <p>{{ product.description }}</p>
-                <p>Prix : {{ product.price }}</p>
-                <p>Quantité : {{ product.quantity }}</p>
+                <p>Prix : {{ product.price }} €</p>
+                <p>Quantité disponible : {{ product.quantity }}</p>
                 <div class="product-action">
-                    <input type="number" min="1" max="{{ product.quantity }}" value="1">
-                    <button>
+                    <input type="number" class="form-control" min="1" max="{{ product.quantity }}" value="1">
+                    <button class="btn btn-primary">
                         <img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
+                        Ajouter au panier
                     </button>
                 </div>
             </div>
         </div>
 
-        <h2>Avis des acheteurs</h2>
+        <h2 class="mt-5">Avis des acheteurs</h2>
         {% for review in reviews %}
             <div class="review">
                 <h3>{{ review.title }}</h3>
@@ -29,26 +30,34 @@
                 <p>Note : {{ review.stars }}/5</p>
             </div>
         {% endfor %}
-
-        <div class="add-review">
+        
+        <div class="add-review mt-4">
             <h2>Ajouter un commentaire</h2>
             <form action="index.php?action=addReview" method="post">
                 <input type="hidden" name="productId" value="{{ product.id }}">
-                <label for="name">Votre nom :</label>
-                <input type="text" name="name" required>
-                <label for="stars">Votre note :</label>
-                <select name="stars" required>
-                    <option value="1">1 étoile</option>
-                    <option value="2">2 étoiles</option>
-                    <option value="3">3 étoiles</option>
-                    <option value="4">4 étoiles</option>
-                    <option value="5">5 étoiles</option>
-                </select>
-                <label for="title">Titre du commentaire :</label>
-                <input type="text" name="title" required>
-                <label for="description">Votre commentaire :</label>
-                <textarea name="description" required></textarea>
-                <button type="submit">Ajouter le commentaire</button>
+                <div class="form-group">
+                    <label for="name">Votre nom :</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="stars">Votre note :</label>
+                    <select class="form-control" name="stars" required>
+                        <option value="1">1 étoile</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="5">5 étoiles</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Titre du commentaire :</label>
+                    <input type="text" class="form-control" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Votre commentaire :</label>
+                    <textarea class="form-control" name="description" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Ajouter le commentaire</button>
             </form>
         </div>
     </div>
