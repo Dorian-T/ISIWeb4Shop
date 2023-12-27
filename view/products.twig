@@ -9,20 +9,24 @@
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
-                     <h2>Liste Produits</h2>
+                        <h2>Liste Produits</h2>
                 </div>
-                
-                <form method="get" action="index.php">
-                    <input type="hidden" name="action" value="products">
-                    <label for="category">Filtrer par catégorie :</label>
-                    <select name="category" id="category">
-                        <option value="all">Tous les produits</option>
-                        {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit">Filtrer</button>
-                </form>
+
+                    <form method="get" action="index.php" class="form-inline mt-3">
+                        <input type="hidden" name="action" value="products">
+
+                        <div class="form-group mr-2">
+                            <label for="category" class="mr-2">Filtrer par catégorie :</label>
+                            <select name="category" id="category" class="form-control">
+                                <option value="all">Tous les produits</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                    </form>
 
                 <div class="row gy-4">
                     {% for product in products %}

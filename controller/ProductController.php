@@ -107,6 +107,7 @@ class ProductController {
     public function addReview(): void {
         $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
         $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérez les données du formulaire
             $productId = $_POST['productId'];
@@ -115,15 +116,18 @@ class ProductController {
             $title = $_POST['title'];
             $description = $_POST['description'];
 
+            // Ajoutez le commentaire à la base de données
             $this->productModel->addComment($productId, $name, $stars, $title, $description);
 
-            header('Location: index.php?action=product&id=' . $productId);
+            // Redirigez l'utilisateur vers la page du produit après l'ajout du commentaire
+            header('Location: index.php?action=products&id=' . $productId);
             exit();
         }
 
         $template = $this->twig->load('productDetails.twig');
         echo $template->render(array('customer' => $customer, 'admin' => $admin));
     }
+
 
     /**
      * Adds a product to the cart.
