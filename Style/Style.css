@@ -24,8 +24,9 @@ header nav img {
 /* Main */
 
 main {
+  margin-bottom: 60px;
+  padding: 1px;
   position: sticky;
-  margin-bottom: 50px;
 }
 
 

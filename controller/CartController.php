@@ -12,6 +12,8 @@ class CartController {
      */
     private $twig;
 
+    private $productModel;
+
     /**
      * CartController constructor.
      *
@@ -19,18 +21,21 @@ class CartController {
      */
     public function __construct($twig) {
         $this->twig = $twig;
+        $this->productModel = new ProductModel();
     }
 
     /**
      * Display the cart page.
+     * @return void
      */
-    public function print() {
-        $loader = new Twig\Loader\FilesystemLoader('view');
-        $twig = new Twig\Environment($loader);
-    
-        $template = $twig->load('cart.twig');
-        echo $template->render(['cart' => isset($_SESSION['cart']) ? $_SESSION['cart'] : []]);
+    public function print(): void {
+        if(isset($_POST['productIdToDelete'])) {
+            $this->productModel->removeProduct($_POST['productIdToDelete'], session_id(), $_SESSION['customer_id'] ?? null);
+        }
+
+        $cart = $this->productModel->getCart(session_id(), $_SESSION['customer_id'] ?? null);
+
+        $template = $this->twig->load('cart.twig');
+        echo $template->render(['cart' => $cart]);
     }
 }
-
-?>

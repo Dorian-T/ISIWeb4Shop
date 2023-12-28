@@ -184,16 +184,16 @@ class ProductController {
      * @param int $productId The ID of the product to remove.
      * @return void
      */
-    public function removeProductFromCart($productId): void {
-        // Vérifie si le produit existe dans la session
-        if (isset($_SESSION['cart'][$productId])) {
-            // Retire le produit de la session
-            unset($_SESSION['cart'][$productId]);
+    // public function removeProductFromCart($productId): void {
+    //     // Vérifie si le produit existe dans la session
+    //     if (isset($_SESSION['cart'][$productId])) {
+    //         // Retire le produit de la session
+    //         unset($_SESSION['cart'][$productId]);
     
-            // Met à jour le panier dans la base de données
-            $this->productModel->removeProduct($productId, 1);
-        }
-    }
+    //         // Met à jour le panier dans la base de données
+    //         $this->productModel->removeProduct($productId, 1);
+    //     }
+    // }
 
     /**
      * Updates the quantity of a product in the cart.

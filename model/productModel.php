@@ -133,7 +133,7 @@ class ProductModel extends Model {
 		// Mise à jour du total du panier
 		$sql = 'UPDATE orders SET total = total + ? WHERE id = ?';
 		$data = self::$connexion->prepare($sql);
-		$data->execute([$product['price'], $cartId]);
+		$data->execute([$product['price']*$quantity, $cartId]);
 	}
 
 	/**
@@ -148,6 +148,31 @@ class ProductModel extends Model {
 		$data = self::$connexion->prepare($sql);
 		$data->execute([$cartId, $productId]);
 		return $data->fetch(PDO::FETCH_ASSOC) !== false;
+	}
+
+	public function getCart(string $sessionId, int $customerId): array {
+		// Récupération du panier
+		// L'utilisateur est connecté
+		if($customerId !== null) {
+			$cartId = $this->getCartIdByCustomerId($customerId);
+		}
+		// L'utilisateur n'est pas connecté
+		else {
+			$cartId = $this->getCartIdBySessionId($sessionId);
+		}
+
+		if($cartId) {
+			$sql = 'SELECT P.id, P.name, P.price, I.quantity
+					FROM orderitems I JOIN products P ON I.product_id = P.id
+					WHERE order_id = ?';
+			$items = self::$connexion->prepare($sql);
+			$items->execute([$cartId]);
+			$items = $items->fetchAll(PDO::FETCH_ASSOC);
+
+			return $items;
+		} else {
+			return [];
+		}
 	}
 
 	/**
@@ -165,14 +190,35 @@ class ProductModel extends Model {
 	}
 
 	/**
-	 * This function updates the products due to the quantity in the database.
+	 * This function removes a product from the cart.
 	 * @param $id int The id of the product.
-	 * @param $quantity int The quantity of the product.
-	 * @return array
+	 * @param $sessionId string The session id.
+	 * @param $customerId int The id of the customer.
+	 * @return void
 	 */
-	public function removeProduct($id, $quantity) {
-        $sql = "UPDATE products SET quantity = quantity - ? WHERE id = ?";
-        $data = self::$connexion->prepare($sql);
-        $data->execute([$quantity, $id]);
+	public function removeProduct($id, $sessionId, $customerId): void { // TODO: update total
+		echo 'removeProduct<br>';
+		if($customerId !== null) {
+			echo 'customer<br>';
+			$sql = 'DELETE
+					FROM orderitems
+					WHERE product_id = ? AND order_id = (
+						SELECT id
+						FROM orders
+						WHERE customer_id = ?
+					)';
+		}
+		else {
+			echo 'session<br>';
+			$sql = 'DELETE
+					FROM orderitems
+					WHERE product_id = ? AND order_id = (
+						SELECT id
+						FROM orders
+						WHERE session = ?
+					)';
+		}
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$id, $customerId ?? $sessionId]);
     }
 }

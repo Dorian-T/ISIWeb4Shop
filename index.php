@@ -19,7 +19,7 @@ require_once 'controller/PayementController.php';
 require_once 'controller/LivraisonController.php';
 
 
-$loader = new Twig\Loader\FilesystemLoader('view'); // TODO : passer twig en variable dans chaque constructeur
+$loader = new Twig\Loader\FilesystemLoader('view');
 $twig = new Twig\Environment($loader);
 
 if (isset($_GET['action'])) {
