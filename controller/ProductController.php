@@ -150,13 +150,13 @@ class ProductController {
 
                 // Le panier existe
                 if($cartId != -1) {
-                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                    $this->productModel->addProductToCart($cartId, $product, $quantity);
                 }
                 // Le panier n'existe pas
                 else {
                     $this->productModel->createCart(session_id(), $_SESSION['customer_id']);
                     $cartId = $this->productModel->getCartIdByCustomerId($_SESSION['customer_id']);
-                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                    $this->productModel->addProductToCart($cartId, $product, $quantity);
                 }
             }
             // Le client n'est pas connecté
@@ -165,13 +165,13 @@ class ProductController {
 
                 // Le panier existe
                 if($cartId != -1) {
-                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                    $this->productModel->addProductToCart($cartId, $product, $quantity);
                 }
                 // Le panier n'existe pas
                 else {
                     $this->productModel->createCart(session_id());
                     $cartId = $this->productModel->getCartIdBySessionId(session_id());
-                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                    $this->productModel->addProductToCart($cartId, $product, $quantity);
                 }
             }
         }
