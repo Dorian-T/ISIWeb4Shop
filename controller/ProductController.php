@@ -42,7 +42,7 @@ class ProductController {
      */
     public function print($id): void {
         if(isset($_POST['id'])) {
-            $this->addTocart($_POST['id']);
+            $this->addTocart($_POST['id'], 1);
         }
         if (isset($id)) {
             $this->productDetails($id);
@@ -138,25 +138,42 @@ class ProductController {
      * @param int $id The ID of the product to add.
      * @return void
      */
-    public function addTocart($id): void {
-        // Vérifie si le produit existe dans la base de données
+    public function addTocart($id, $quantity): void {
         $product = $this->productModel->getProductById($id);
-        if ($product != null && $product['quantity'] > 0) {
-            // Ajoute le produit au panier dans la session
-            if (!isset($_SESSION['cart'])) {
-                $_SESSION['cart'] = [];
+
+        // Le produit existe et est en stock
+        if ($product != null && $product['quantity'] > $quantity) {
+
+            // Le client est connecté
+            if (isset($_SESSION['customer_id'])) {
+                $cartId = $this->productModel->getCartIdByCustomerId($_SESSION['customer_id']);
+
+                // Le panier existe
+                if($cartId != -1) {
+                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                }
+                // Le panier n'existe pas
+                else {
+                    $this->productModel->createCart(session_id(), $_SESSION['customer_id']);
+                    $cartId = $this->productModel->getCartIdByCustomerId($_SESSION['customer_id']);
+                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                }
             }
-            if (isset($_SESSION['cart'][$id])) {
-                $_SESSION['cart'][$id]['quantity']++;
-            } else {
-                $_SESSION['cart'][$id] = [
-                    'quantity' => 1,
-                    'product' => $product,
-                ];
+            // Le client n'est pas connecté
+            else {
+                $cartId = $this->productModel->getCartIdBySessionId(session_id());
+
+                // Le panier existe
+                if($cartId != -1) {
+                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                }
+                // Le panier n'existe pas
+                else {
+                    $this->productModel->createCart(session_id());
+                    $cartId = $this->productModel->getCartIdBySessionId(session_id());
+                    // $this->productModel->addProductToCart($cartId, $product, $quantity);
+                }
             }
-    
-            // Ajoute le produit au panier dans la base de données
-            $this->productModel->addProductToCart($product, 1);
         }
     }
 

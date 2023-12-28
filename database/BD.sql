@@ -108,7 +108,7 @@ CREATE TABLE `logins` (
   `id` int(11) NOT NULL,
   `customer_id` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(40) NOT NULL
+  `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -158,7 +158,7 @@ INSERT INTO `orderitems` (`id`, `order_id`, `product_id`, `quantity`) VALUES
 
 CREATE TABLE `orders` (
   `id` int(20) NOT NULL,
-  `customer_id` int(11) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
   `registered` int(11) NOT NULL,
   `delivery_add_id` int(11) DEFAULT NULL,
   `payment_type` varchar(6) DEFAULT NULL,

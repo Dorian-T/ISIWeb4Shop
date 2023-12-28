@@ -69,6 +69,32 @@ class ProductModel extends Model {
 
 	// Panier :
 
+	public function getCartIdByCustomerId(int $id): int {
+		$sql = "SELECT id FROM orders WHERE customer_id = ? AND status = 0";
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$id]);
+		$data = $data->fetch(PDO::FETCH_ASSOC);
+		return $data ? $data['id'] : -1;
+	}
+
+	public function getCartIdBySessionId(string $sessionId): int {
+		$sql = "SELECT id FROM orders WHERE session = ? AND status = 0";
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$sessionId]);
+		$data = $data->fetch(PDO::FETCH_ASSOC);
+		return $data ? $data['id'] : -1;
+	}
+
+	public function createCart(string $sessionId, int $customerId = null): void {
+		$sql = "INSERT INTO orders (customer_id, registered, date, status, session, total) VALUES (?, ?, ?, ?, ?, ?)";
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$customerId, 0, date('Y-m-d'), 0, $sessionId, 0]);
+	}
+
+	public function addProductToCart(int $cartId, int $productId, int $quantity): void {
+		// TODO
+	}
+
 	/**
 	 * Ajoute un produit au panier de l'utilisateur.
 	 *
@@ -78,40 +104,40 @@ class ProductModel extends Model {
 	 *
 	 * @return void
 	 */
-	public function addProductToCart(array $product, int $quantity): void {
-		// Récupération ou création du customer
-		$this->getCustomer(session_id());
+	// public function addProductToCart(array $product, int $quantity): void {
+	// 	// Récupération ou création du customer
+	// 	$this->getCustomer(session_id());
 
-		// Création ou mise à jour du panier
-		$this->updateCart($product, $quantity);
+	// 	// Création ou mise à jour du panier
+	// 	$this->updateCart($product, $quantity);
 
-		// Ajout du produit au panier
-		$this->addProduct($product, $quantity);
-	}
+	// 	// Ajout du produit au panier
+	// 	$this->addProduct($product, $quantity);
+	// }
 
-	private function getCustomer(string $sessionId): void {
-		// Si le customer_id n'est pas défini, vérifie s'il existe dans la base de données
-		if (!isset($_SESSION['customer_id'])) {
-			$sql = 'SELECT customer_id FROM orders WHERE session = ?';
-			$data = self::$connexion->prepare($sql);
-			$data->execute([$sessionId]);
-			$data = $data->fetch(PDO::FETCH_ASSOC);
+	// private function getCustomer(string $sessionId): void {
+	// 	// Si le customer_id n'est pas défini, vérifie s'il existe dans la base de données
+	// 	if (!isset($_SESSION['customer_id'])) {
+	// 		$sql = 'SELECT customer_id FROM orders WHERE session = ?';
+	// 		$data = self::$connexion->prepare($sql);
+	// 		$data->execute([$sessionId]);
+	// 		$data = $data->fetch(PDO::FETCH_ASSOC);
 	
-			// Si le customer n'existe pas, créez un nouveau customer
-			if (!$data) {
-				$sql = 'INSERT INTO customers (registered) VALUES (0)';
-				$data = self::$connexion->prepare($sql);
-				$data->execute([$sessionId]);
-				$_SESSION['customer_id'] = self::$connexion->lastInsertId();
-			} else {
-				// Le customer existe, mettez à jour la session
-				$_SESSION['customer_id'] = $data['customer_id'];
-			}
+	// 		// Si le customer n'existe pas, créez un nouveau customer
+	// 		if (!$data) {
+	// 			$sql = 'INSERT INTO customers (registered) VALUES (0)';
+	// 			$data = self::$connexion->prepare($sql);
+	// 			$data->execute([$sessionId]);
+	// 			$_SESSION['customer_id'] = self::$connexion->lastInsertId();
+	// 		} else {
+	// 			// Le customer existe, mettez à jour la session
+	// 			$_SESSION['customer_id'] = $data['customer_id'];
+	// 		}
 	
-			// Vérifiez s'il a un panier
-			$_SESSION['hasCart'] = ($data !== false);
-		}
-	}
+	// 		// Vérifiez s'il a un panier
+	// 		$_SESSION['hasCart'] = ($data !== false);
+	// 	}
+	// }
 
 
 	/**
@@ -204,5 +230,3 @@ class ProductModel extends Model {
         $data->execute([$quantity, $id]);
     }
 }
-
-?>
