@@ -51,7 +51,7 @@ class LivraisonController {
             $this->livraison_model->addDeliveryAddress($address, null, $sessionId);
         }
     
-        $template = $this->twig->load('livraison.twig');
+        $template = $this->twig->load('delivery.twig');
         echo $template->render(array('customer' => $customer));
     }
 
@@ -69,14 +69,12 @@ class LivraisonController {
             $customerId = $_SESSION['customer_id']; // Assurez-vous que vous avez une variable de session pour stocker l'ID du client
             $deliveryAddress = $livraisonModel->getAddressByCustomer($customerId);
     
-            $template = $this->twig->load('livraison.twig');
+            $template = $this->twig->load('delivery.twig');
             echo $template->render(array('delivery_address' => $deliveryAddress));
         } else {
             // Affichez le formulaire pour ajouter une nouvelle adresse de livraison
-            $template = $this->twig->load('livraison.twig');
+            $template = $this->twig->load('delivery.twig');
             echo $template->render(array('delivery_address' => null, 'customer' => $customer));
         }
     }
 }
-
-?>
