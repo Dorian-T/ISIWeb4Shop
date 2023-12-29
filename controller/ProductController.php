@@ -31,6 +31,9 @@ class ProductController {
         $this->twig = $twig;
         $this->productModel = new ProductModel();
         $this->userModel = new UserModel();
+
+        // Supprime les paniers inutilisés
+        $this->productModel->removeUnusedCarts();
     }
 
     /**

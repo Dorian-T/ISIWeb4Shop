@@ -134,6 +134,9 @@ class ProductModel extends Model {
 		$sql = 'UPDATE orders SET total = total + ? WHERE id = ?';
 		$data = self::$connexion->prepare($sql);
 		$data->execute([$product['price']*$quantity, $cartId]);
+
+		// Mise à jour de la quantité en stock
+		$this->removeFromStock($product['id'], $quantity);
 	}
 
 	/**
@@ -189,11 +192,14 @@ class ProductModel extends Model {
 		$data->execute([$id_product, $name_user, $stars, $title, $description]);
 	}
 
+	
 	/**
-	 * This function removes a product from the cart.
-	 * @param $id int The id of the product.
-	 * @param $sessionId string The session id.
-	 * @param $customerId int The id of the customer.
+	 * Removes a product from the database.
+	 *
+	 * @param int $id The ID of the product to be removed.
+	 * @param float $total The total price of the product.
+	 * @param string $sessionId The session ID of the user.
+	 * @param int $customerId The ID of the customer.
 	 * @return void
 	 */
 	public function removeProduct(int $id, float $total, string $sessionId, int $customerId): void {
@@ -232,4 +238,68 @@ class ProductModel extends Model {
 			$data->execute([$total, $sessionId]);
 		}
     }
+
+	/**
+	 * Removes unused carts.
+	 *This method removes any carts that are no longer being used.
+	 * A cart is considered unused if it has not been modified for 7 days,
+	 * or if it has not been modified for 1 day and the customer is not logged in.
+	 *
+	 * @return void
+	 */
+	public function removeUnusedCarts(): void {
+		// Récupération des id des paniers à supprimer
+		$sql = 'SELECT id
+				FROM orders
+				WHERE status < 2
+					AND (
+						(date < DATE_SUB(NOW(), INTERVAL 7 DAY)
+						OR (date < DATE_SUB(NOW(), INTERVAL 1 DAY) AND customer_id IS NULL))
+					)';
+		$data = self::$connexion->prepare($sql);
+		$data->execute();
+		$ids = $data->fetchAll(PDO::FETCH_ASSOC);
+	
+		foreach($ids as $id) {
+			// Remise en stock des produits
+			$this->addToStock($id['id']);
+
+			// Suppression du panier
+			$sql = 'DELETE FROM orders WHERE id = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$id['id']]);
+		}
+	}
+
+	/**
+	 * Adds the specified cart ID to the stock.
+	 *
+	 * @param int $cartId The ID of the cart.
+	 * @return void
+	 */
+	private function addToStock(int $cartId): void {
+		$sql = 'SELECT product_id, quantity FROM orderitems WHERE order_id = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$cartId]);
+			$items = $data->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach($items as $item) {
+			$sql = 'UPDATE products SET quantity = quantity + ? WHERE id = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$item['quantity'], $item['product_id']]);
+		}
+	}
+
+	/**
+	 * Removes a specified quantity of a product from the stock.
+	 *
+	 * @param int $productId The ID of the product to remove from stock.
+	 * @param int $quantity The quantity of the product to remove from stock.
+	 * @return void
+	 */
+	private function removeFromStock(int $productId, int $quantity): void {
+		$sql = 'UPDATE products SET quantity = quantity - ? WHERE id = ?';
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$quantity, $productId]);
+	}
 }
