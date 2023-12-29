@@ -85,15 +85,6 @@ if (isset($_GET['action'])) {
             $cartController = new CartController($twig);
             $cartController->print();
             break;
-        
-        case 'removeFromCart':
-            $productController = new ProductController($twig);
-            if (isset($_POST['id'])) {
-                $productController->removeProductFromCart($_POST['id']);
-            }
-            // Redirigez l'utilisateur vers la page du panier après la suppression
-            header('Location: index.php?action=cart');
-            break;
 
         case 'payement':
             $payementController = new PayementController($twig);

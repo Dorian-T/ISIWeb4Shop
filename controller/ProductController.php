@@ -42,7 +42,7 @@ class ProductController {
      */
     public function print($id): void {
         if(isset($_POST['id'])) {
-            $this->addTocart($_POST['id'], 1);
+            $this->addTocart($_POST['id'], $_POST['quantity'] ?? 1);
         }
         if (isset($id)) {
             $this->productDetails($id);
@@ -176,39 +176,4 @@ class ProductController {
             }
         }
     }
-
-    /**
-     * Removes a product from the cart.
-     * If the product doesn't exist in the cart, does nothing.
-     *
-     * @param int $productId The ID of the product to remove.
-     * @return void
-     */
-    // public function removeProductFromCart($productId): void {
-    //     // Vérifie si le produit existe dans la session
-    //     if (isset($_SESSION['cart'][$productId])) {
-    //         // Retire le produit de la session
-    //         unset($_SESSION['cart'][$productId]);
-    
-    //         // Met à jour le panier dans la base de données
-    //         $this->productModel->removeProduct($productId, 1);
-    //     }
-    // }
-
-    /**
-     * Updates the quantity of a product in the cart.
-     * If the product doesn't exist in the cart, does nothing.
-     *
-     * @param int $productId The ID of the product to update.
-     * @param int $quantity The new quantity.
-     * @return void
-     */
-    private function calculateTotal($cart): float {
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['product']['price'] * $item['quantity'];
-        }
-        return $total;
-    }
-    
 }
