@@ -86,3 +86,51 @@
     border-radius: 5px;
     text-align: center;
 }
+
+
+/* Reviews */
+
+.add-review form > * {
+    margin-bottom: 10px;
+}
+
+.add-review form > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-review form > div:first-of-type > input {
+    width: 30%;
+}
+
+.add-review form > div:first-of-type > div {
+    display: flex;
+}
+
+.add-review input[type="number"] {
+    width: 55px;
+}
+
+.add-review div.form-control {
+    height: auto;
+    padding: 0.375rem 0.5rem;
+}
+
+.add-review div.form-control input {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+.add-review img {
+    margin: 0 5px;
+}
+
+.add-review div.form-control textarea {
+    border: none;
+}
+
+.add-review *:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}

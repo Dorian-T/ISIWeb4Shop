@@ -29,37 +29,26 @@
 		{% for review in reviews %}
 			<div class="review">
 				<h3>{{ review.title }}</h3>
-				<p>Par{{ review.name_user }}</p>
+				<p>Par {{ review.name_user }}</p>
 				<p>{{ review.description }}</p>
-				<p>Note :{{ review.stars }}/5</p>
+				<p>Note : {{ review.stars }}/5</p>
 			</div>
 		{% endfor %}
 
 		<div class="add-review mt-4">
 			<h2>Ajouter un commentaire</h2>
-			<form action="index.php?action=addReview" method="post">
+			<form method="post">
 				<input type="hidden" name="productId" value="{{ product.id }}">
-				<div class="form-group">
-					<label for="name">Votre nom :</label>
-					<input type="text" class="form-control" name="name" required>
+				<div>
+					<input type="text" class="form-control" name="name" placeholder="Votre nom" required>
+					<div>
+						<input type="number" class="form-control" value="5" name="stars" min="1" max="5" required>
+						<img src="assets/icon/star.svg" alt="étoile">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="stars">Votre note :</label>
-					<select class="form-control" name="stars" required>
-						<option value="1">1 étoile</option>
-						<option value="2">2 étoiles</option>
-						<option value="3">3 étoiles</option>
-						<option value="4">4 étoiles</option>
-						<option value="5">5 étoiles</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="title">Titre du commentaire :</label>
-					<input type="text" class="form-control" name="title" required>
-				</div>
-				<div class="form-group">
-					<label for="description">Votre commentaire :</label>
-					<textarea class="form-control" name="description" required></textarea>
+				<div class="form-control">
+					<input type="text" class="form-control" name="title" placeholder="Titre" required>
+					<textarea class="form-control" name="description" placeholder="Commentaire" required></textarea>
 				</div>
 				<button type="submit" class="btn btn-primary">Ajouter le commentaire</button>
 			</form>
