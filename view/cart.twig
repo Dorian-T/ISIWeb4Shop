@@ -26,7 +26,8 @@
                             <td>{{ item.price * item.quantity }} €</td>
                             <td>
                                 <form method="post" action="index.php?action=cart">
-                                    <input type="hidden" name="productIdToDelete" value="{{ item.id }}">
+                                    <input type="hidden" name="idToDelete" value="{{ item.id }}">
+                                    <input type="hidden" name="totalToDelete" value="{{ item.price * item.quantity }}">
                                     <button type="submit" class="btn btn-danger">
                                         <img src="assets/icon/trash.svg" alt="Supprimer" title="supprimer" width="16" height="16">
                                     </button>
@@ -46,6 +47,7 @@
             </div>
         {% else %}
             <p class="mt-4">Votre panier est vide.</p>
+            <p class="mt-4">N'hésitez pas à consulter notre <a href="index.php?action=products">catalogue</a>.</p>
         {% endif %}
     </div>
 {% endblock %}

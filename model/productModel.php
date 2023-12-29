@@ -196,10 +196,9 @@ class ProductModel extends Model {
 	 * @param $customerId int The id of the customer.
 	 * @return void
 	 */
-	public function removeProduct($id, $sessionId, $customerId): void { // TODO: update total
-		echo 'removeProduct<br>';
+	public function removeProduct(int $id, float $total, string $sessionId, int $customerId): void {
 		if($customerId !== null) {
-			echo 'customer<br>';
+			// Suppression du produit
 			$sql = 'DELETE
 					FROM orderitems
 					WHERE product_id = ? AND order_id = (
@@ -207,9 +206,16 @@ class ProductModel extends Model {
 						FROM orders
 						WHERE customer_id = ?
 					)';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$id, $customerId]);
+
+			// Mise à jour du total
+			$sql = 'UPDATE orders SET total = total - ? WHERE customer_id = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$total, $customerId]);
 		}
 		else {
-			echo 'session<br>';
+			// Suppression du produit
 			$sql = 'DELETE
 					FROM orderitems
 					WHERE product_id = ? AND order_id = (
@@ -217,8 +223,13 @@ class ProductModel extends Model {
 						FROM orders
 						WHERE session = ?
 					)';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$id, $sessionId]);
+
+			// Mise à jour du total
+			$sql = 'UPDATE orders SET total = total - ? WHERE session = ?';
+			$data = self::$connexion->prepare($sql);
+			$data->execute([$total, $sessionId]);
 		}
-		$data = self::$connexion->prepare($sql);
-		$data->execute([$id, $customerId ?? $sessionId]);
     }
 }
