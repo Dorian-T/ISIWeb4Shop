@@ -1,52 +1,50 @@
 {% extends "layout/base.twig" %}
 
-{% block title %}IsiWeb4Shop{% endblock %}
-
 {% block content %}
-
-    <form action="index.php?action=adminC" method="post">
-        <div class='form-group col-lg-5'>
-            <div class="form-row">
-                <div class="col">
-                    <select class='form-control' name='id'>
-                    {% if order is not empty %}
-                        {% for i in order %}
-                            <option value='{{ i.id }}'>Commande {{ i.id }}</option>
-                        {% endfor %}
-                    {% endif %}
-                    </select>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-secondary btn-lg center-block">Valider la commande</button>
-                </div>
-            </div>
-        </div>
-    </form>
-
-    <table class="table" aria-label="Table of orders">
-        <tr>
-            <th scope="col">Numero de Commande </th>
-            <th scope="col">Numero produit</th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Enrengistré</th>
-        </tr>
-
-        {% if orderAdmin is not empty %}
-            {% for i in orderAdmin %}
-            <tr>
-                <td>
-                    {% if i.status == 10 %}
-                        {{ i.order_id }} (Validé)
-                    {% else %}
-                        {{ i.order_id }}
-                    {% endif %}
-                </td>
-                <td>{{ i.product_id }}</td>
-                <td>{{ i.quantity }}</td>
-                <td>{{ i.registered }}</td>
-            </tr>
-            {% endfor %}
-        {% endif %}
-    </table>
-
+    <div class="container mt-4">
+        <h2 class="mb-4">Gestion des Commandes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID Commande</th>
+                    <th>Date de Commande</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orderAdmin %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>{{ order.total }}</td>
+                        <td>
+                            {% if order.status == 0 %}
+                                <span class="badge bg-warning text-dark">En attente</span>
+                            {% elseif order.status == 10 %}
+                                <span class="badge bg-success">Validée</span>
+                            {% elseif order.status == 1 %}
+                                <span class="badge bg-danger">Adresse</span>
+                            {% elseif order.status == 2 %}
+                                <span class="badge bg-danger">Paiement</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Autre</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.status == 0 or order.status == 1 or order.status == 2 %}
+                                <form method="post" action="index.php?action=adminC">
+                                    <input type="hidden" name="id" value="{{ order.id }}">
+                                    <button type="submit" class="btn btn-success">Valider</button>
+                                </form>
+                            {% else %}
+                                <span class="text-muted">Commande validée</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

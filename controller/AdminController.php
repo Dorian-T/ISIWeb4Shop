@@ -43,12 +43,17 @@ class AdminController {
         var_dump($_POST);
         if (!(empty($_POST))) {
             foreach ($orderAdmin as $i) {
-                if ($_POST['id'] == $i['id']) {
-                    $this->adminModel->updateOrderAdmin($_POST['id'], 10);
+                if (!(empty($_POST))) {
+                    $this->adminModel->validateOrder($_POST['id']);
                 }
             }
         }
-
+    
+        // Utilisez la méthode getOrdersById pour obtenir les détails de la commande
+        if (isset($_SESSION['admin_id'])) {
+            $order = $this->adminModel->getOrdersById(intval($_SESSION['admin_id']));
+        }
+    
         $template = $this->twig->load('adminC.twig');
         echo $template->render(array('order' => $order, 'orderAdmin' => $orderAdmin, 'admin' => $admin));
     }
