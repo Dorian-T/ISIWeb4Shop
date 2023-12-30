@@ -177,21 +177,6 @@ class ProductModel extends Model {
 			return [];
 		}
 	}
-
-	/**
-	 * ajout d'un commentaire
-	 * @param $id_product int The id of the product.
-	 * @param $name_user string The name of the user.
-	 * @param $stars int The number of stars.
-	 * @param $title string The title of the comment.
-	 * @param $description string The description of the comment.
-	 */
-	public function addComment($id_product, $name_user, $stars, $title, $description) {
-		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
-		$data=self::$connexion->prepare($sql);
-		$data->execute([$id_product, $name_user, $stars, $title, $description]);
-	}
-
 	
 	/**
 	 * Removes a product from the database.
@@ -301,5 +286,23 @@ class ProductModel extends Model {
 		$sql = 'UPDATE products SET quantity = quantity - ? WHERE id = ?';
 		$data = self::$connexion->prepare($sql);
 		$data->execute([$quantity, $productId]);
+	}
+
+
+	// Commentaires :
+
+	/**
+	 * ajout d'un commentaire
+	 *
+	 * @param $id_product int The id of the product.
+	 * @param $name_user string The name of the user.
+	 * @param $stars int The number of stars.
+	 * @param $title string The title of the comment.
+	 * @param $description string The description of the comment.
+	 */
+	public function addComment($id_product, $name_user, $stars, $title, $description) {
+		$sql = "INSERT INTO reviews (id_product, name_user, stars, title, description) VALUES (?, ?, ?, ?, ?)";
+		$data=self::$connexion->prepare($sql);
+		$data->execute([$id_product, $name_user, $stars, $title, $description]);
 	}
 }
