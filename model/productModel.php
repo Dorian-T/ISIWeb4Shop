@@ -156,7 +156,7 @@ class ProductModel extends Model {
 	public function getCart(string $sessionId, int $customerId): array {
 		// Récupération du panier
 		// L'utilisateur est connecté
-		if($customerId !== null) {
+		if($customerId !== -1) {
 			$cartId = $this->getCartIdByCustomerId($customerId);
 		}
 		// L'utilisateur n'est pas connecté
@@ -188,7 +188,7 @@ class ProductModel extends Model {
 	 * @return void
 	 */
 	public function removeProduct(int $id, float $total, string $sessionId, int $customerId): void {
-		if($customerId !== null) {
+		if($customerId !== -1) {
 			// Suppression du produit
 			$sql = 'DELETE
 					FROM orderitems
