@@ -33,7 +33,7 @@ class AdminModel {
 	 * @return array
 	 */
 	public function getAllOrders() {
-		$sql = "SELECT * FROM orders o JOIN orderitems oi ON o.id = oi.order_id ";
+		$sql = "SELECT DISTINCT * FROM orders o JOIN orderitems oi ON o.id = oi.order_id ";
 		$data=self::$connexion->prepare($sql);
 		$data->execute();
 		return $data->fetchAll(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class AdminModel {
 	 * @return array
 	 */
 	public function getOrder() {
-		$sql = "SELECT * FROM orders";
+		$sql = "SELECT DISTINCT * FROM orders";
 		$data=self::$connexion->prepare($sql);
 		$data->execute();
 		return $data->fetchAll(PDO::FETCH_ASSOC);
@@ -107,6 +107,28 @@ class AdminModel {
 		$data = self::$connexion->prepare($sql);
 		$data->execute(array($id));
 	}
+
+	public function validateOrder($orderId)
+	{
+		$sql = "UPDATE orders SET status = 10 WHERE id = ?";
+		$data = self::$connexion->prepare($sql);
+		if (!$data->execute([$orderId])) {
+			print_r($data->errorInfo());
+		}
+	}
+
+	public function getOrdersById($id)
+	{
+		$sql = "SELECT * FROM orders WHERE id = ? AND status != '0' LIMIT 1";
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$id]);
+		$result = $data->fetch(PDO::FETCH_ASSOC);
+		if ($result === false) {
+			return null;
+		}
+		return $result;
+	}
+
 	
 }
 ?>
