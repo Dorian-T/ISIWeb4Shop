@@ -9,6 +9,7 @@ require_once 'model/adminModel.php';
 require_once 'model/payementModel.php';
 require_once 'model/factureModel.php';
 require_once 'model/livraisonModel.php';
+require_once 'model/factureModel.php';
 
 require_once 'controller/ProductController.php';
 require_once 'controller/HomeController.php';
@@ -17,6 +18,7 @@ require_once 'controller/AdminController.php';
 require_once 'controller/CartController.php';
 require_once 'controller/PayementController.php';
 require_once 'controller/LivraisonController.php';
+require_once 'controller/FactureController.php';
 
 
 $loader = new Twig\Loader\FilesystemLoader('view');
@@ -98,6 +100,12 @@ if (isset($_GET['action'])) {
             $livraisonController = new LivraisonController($twig);
             $livraisonController->showDeliveryAddressOrForm();
         break;
+        case 'facture':
+            if (isset($_GET['id'])) {
+                $factureController = new FactureController($twig);
+                $factureController->facture($_GET['id']);
+            }
+            break;
         default:
             header('Location: ./');
     }
