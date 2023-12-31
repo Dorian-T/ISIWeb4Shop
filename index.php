@@ -3,6 +3,8 @@
 session_start();
 
 require_once 'vendor/autoload.php';
+require_once 'fpdf/fpdf_custom.php';
+
 require_once 'model/productModel.php';
 require_once 'model/userModel.php';
 require_once 'model/adminModel.php';

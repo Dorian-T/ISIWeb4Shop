@@ -28,10 +28,6 @@ class FactureController {
         $factureModel = new FactureModel();
         $order = $factureModel->getOrderById($orderId);
 
-        if ($order == null) {
-            header('Location: index.php?action=home');
-            exit();
-        }
 
         // On récupère les informations de la commande
         $cartItems = $factureModel->getOrderItems($order['id']);

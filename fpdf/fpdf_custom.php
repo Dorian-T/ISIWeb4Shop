@@ -6,7 +6,7 @@ class PDF extends FPDF
     function custom()
     {
         // Logo
-        $this->Image('src/images/cookie.png',15,9,10);
+        $this->Image('assets/img/Web4ShopHeader.png',15,9,10);
         $this->SetFont('Arial','',15);
 
         $this->Cell(28);
