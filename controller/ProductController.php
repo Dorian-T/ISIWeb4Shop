@@ -46,10 +46,16 @@ class ProductController {
     public function print($id): void {
         if(isset($_POST['id'])) {
             $this->addTocart($_POST['id'], $_POST['quantity'] ?? 1);
+            header('Location: index.php?action=products');
         }
-        if (isset($id)) {
+        elseif(isset($_POST['productId'])) {
+            $this->addReview($_POST['productId'], $_POST['name'], $_POST['stars'], $_POST['title'], $_POST['description']);
+            header('Location: index.php?action=products&id=' . $_POST['productId']);
+        }
+        elseif ($id != -1) {
             $this->productDetails($id);
-        } else {
+        }
+        else {
             $this->products();
         }
     }
@@ -107,28 +113,13 @@ class ProductController {
      *
      * @return void
      */
-    public function addReview(): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
+    public function addReview(int $productId, string $name, int $stars, string $title, string $description): void {
+        // Vérification des données du formulaire
+        $stars = ($stars < 1) ? 1 : $stars;
+        $stars = ($stars > 5) ? 5 : $stars;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Récupérez les données du formulaire
-            $productId = $_POST['productId'];
-            $name = $_POST['name'];
-            $stars = $_POST['stars'];
-            $title = $_POST['title'];
-            $description = $_POST['description'];
-
-            // Ajoutez le commentaire à la base de données
-            $this->productModel->addComment($productId, $name, $stars, $title, $description);
-
-            // Redirigez l'utilisateur vers la page du produit après l'ajout du commentaire
-            header('Location: index.php?action=products&id=' . $productId);
-            exit();
-        }
-
-        $template = $this->twig->load('productDetails.twig');
-        echo $template->render(array('customer' => $customer, 'admin' => $admin));
+        // Ajoutez le commentaire à la base de données
+        $this->productModel->addComment($productId, $name, $stars, $title, $description);
     }
 
 

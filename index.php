@@ -30,7 +30,7 @@ if (isset($_GET['action'])) {
                 $productController->print($_GET['id']);
             }
             else {
-                $productController->print(null);
+                $productController->print(-1);
             }
             break;
 
