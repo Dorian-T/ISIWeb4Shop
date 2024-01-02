@@ -153,6 +153,13 @@ class ProductModel extends Model {
 		return $data->fetch(PDO::FETCH_ASSOC) !== false;
 	}
 
+	/**
+	 * Retrieves the cart for a specific customer.
+	 *
+	 * @param string $sessionId The session ID of the customer.
+	 * @param int $customerId The ID of the customer.
+	 * @return array The cart data for the customer.
+	 */
 	public function getCart(string $sessionId, int $customerId): array {
 		// Récupération du panier
 		// L'utilisateur est connecté
