@@ -30,13 +30,15 @@ class HomeController {
      * Display the home page.
      */
     public function afficherHome() {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $customer = (isset($_SESSION['customer_id']))
+            ? $this->userModel->getCustomer(intval($_SESSION['customer_id']))
+            : null;
+        $admin = (isset($_SESSION['admin_id']))
+            ? $this->userModel->getAdminUsername(intval($_SESSION['admin_id']))
+            : null;
 
         // Charge le template 'Home.html.twig'
         $template = $this->twig->load('home.twig');
         echo $template->render(array('customer' => $customer, 'admin' => $admin));
     }
 }
-
-?>

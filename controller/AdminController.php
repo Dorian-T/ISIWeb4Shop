@@ -34,42 +34,81 @@ class AdminController {
     }
 
     /**
-     * function to display the admin page for the command
+     * Check if the user is an admin.
+     *
+     * @return bool Returns true if the user is an admin, false otherwise.
      */
-    public function generateCommand() {
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
-        $orderAdmin = $this->adminModel->getAllOrders();
-        $order = $this->adminModel->getOrder();
-        var_dump($_POST);
-        if (!(empty($_POST))) {
-            foreach ($orderAdmin as $i) {
-                if (!(empty($_POST))) {
-                    $this->adminModel->validateOrder($_POST['id']);
-                }
-            }
+    public function isAdmin() {
+        if(isset($_SESSION['admin_id'])) {
+            return $this->adminModel->isAdmin($_SESSION['admin_id']);
         }
-    
-        // Utilisez la méthode getOrdersById pour obtenir les détails de la commande
-        if (isset($_SESSION['admin_id'])) {
-            $order = $this->adminModel->getOrdersById(intval($_SESSION['admin_id']));
-        }
-    
-        $template = $this->twig->load('adminC.twig');
-        echo $template->render(array('order' => $order, 'orderAdmin' => $orderAdmin, 'admin' => $admin));
+        return false;
     }
 
     /**
-     * function to display the admin page for the product
+     * Display the admin page to validate orders.
+     
      */
-    public function generateProduct() {
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
-        $orderAdmin = $this->adminModel->getAllProducts();
+    public function generateOrders() {
+        $order = $this->adminModel->getAllOrders();
+        $username = $this->userModel->getAdminUsername($_SESSION['admin_id']);
 
-        $template = $this->twig->load('adminP.twig');
-        echo $template->render(array('orderAdmin' => $orderAdmin, 'admin' => $admin));
+        // Bouton de validation d'une commande
+        if(isset($_POST['id'])) {
+            $this->adminModel->validateOrder($_POST['id']);
+            $order = $this->adminModel->getAllOrders();
+        }
+
+        $template = $this->twig->load('adminOrders.twig');
+        echo $template->render(array('orders' => $order, 'admin' => $username));
     }
 
-    public function updateProduct() {
+    /**
+     * Display the admin page to manage products.
+     */
+    public function generateProducts() {
+        $products = $this->adminModel->getAllProducts();
+        $username = $this->userModel->getAdminUsername($_SESSION['admin_id']);
+
+        // Modification d'un produit
+        if(isset($_POST['id']) && isset($_POST['name'])) {
+            $this->updateProduct();
+            $products = $this->adminModel->getAllProducts();
+        }
+        // Bouton de suppression d'un produit
+        if(isset($_POST['delete'])) {
+            $this->adminModel->deleteProduct($_POST['delete']);
+            $products = $this->adminModel->getAllProducts();
+        }
+
+        $template = $this->twig->load('adminProducts.twig');
+        echo $template->render(array('products' => $products, 'admin' => $username));
+    }
+
+    /**
+     * Display the admin page to modify a product.
+     */
+    public function editProduct() {
+        if(isset($_GET['id'])) {
+            $productId = intval($_GET['id']);
+            $product = $this->adminModel->getProduct($productId);
+            $admin = $this->userModel->getAdminUsername($_SESSION['admin_id']);
+
+            $template = $this->twig->load('adminEditProduct.twig');
+            echo $template->render(array('product' => $product, 'admin' => $admin));
+        }
+        else {
+            header('Location: index.php?action=admin&page=products');
+        }
+    }
+
+    /**
+     * Updates a product.
+     *
+     * @access private
+     * @return void
+     */
+    private function updateProduct() {
         $productId = isset($_POST['id']) ? intval($_POST['id']) : null;
         $name = isset($_POST['name']) ? $_POST['name'] : '';
         $description = isset($_POST['description']) ? $_POST['description'] : '';
@@ -77,39 +116,5 @@ class AdminController {
         $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
     
         $this->adminModel->updateProduct($productId, $name, $description, $price, $quantity);
-    
-        // Rediriger vers la page de gestion des produits après la mise à jour
-        header('Location: index.php?action=adminP');
     }
-
-    /**
-     * function to modify a product
-     */
-    public function editProduct() {
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
-        $productId = isset($_GET['id']) ? intval($_GET['id']) : null;
-        $product = $this->adminModel->getProduct($productId);
-    
-        $template = $this->twig->load('editProduct.twig');
-        echo $template->render(array('product' => $product, 'admin' => $admin));
-    }
-
-    /**
-     * function to delete a product
-     */
-    public function deleteProduct() {
-        $productId = isset($_GET['id']) ? intval($_GET['id']) : null;
-        
-        // Vérifiez si l'ID du produit est valide avant de supprimer
-        if ($productId) {
-            // Appelez la méthode dans votre modèle pour supprimer le produit
-            $this->adminModel->deleteProduct($productId);
-        }
-    
-        // Redirigez vers la page de gestion des produits après la suppression
-        header('Location: index.php?action=adminP');
-    }
-    
 }
-
-?>

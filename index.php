@@ -24,7 +24,8 @@ require_once 'controller/FactureController.php';
 
 
 $loader = new Twig\Loader\FilesystemLoader('view');
-$twig = new Twig\Environment($loader);
+$twig = new Twig\Environment($loader, ['debug' => true]);
+$twig->addExtension(new Twig\Extension\DebugExtension()); // debug
 
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -60,29 +61,36 @@ if (isset($_GET['action'])) {
             echo $template->render(array());
             break;
 
-        case 'adminP':
-            $adminController = new AdminController($twig);
-            $adminController->generateProduct();
-            break;
+        // Admin
 
-        case 'updateProduct':
+        case 'admin':
             $adminController = new AdminController($twig);
-            $adminController->updateProduct();
-            break;
+            if ($adminController->isAdmin() && isset($_GET['page'])) {
+                switch ($_GET['page']) {
+                    case 'register':
+                        $loginController = new LoginController($twig);
+                        $loginController->registerAdmin();
+                        break;
 
-        case 'editProduct':
-            $adminController = new AdminController($twig);
-            $adminController->editProduct();
-            break;
+                    case 'orders':
+                        $adminController->generateOrders();
+                        break;
 
-        case 'deleteProduct':
-            $adminController = new AdminController($twig);
-            $adminController->deleteProduct();
-            break;
-            
-        case 'adminC':
-            $adminController = new AdminController($twig);
-            $adminController->generateCommand();
+                    case 'products':
+                        $adminController->generateProducts();
+                        break;
+
+                    case 'editProduct':
+                        $adminController->editProduct();
+                        break;
+
+                    default:
+                        header('Location: ./');
+                }
+            }
+            else {
+                header('Location: ./');
+            }
             break;
 
         case 'cart':

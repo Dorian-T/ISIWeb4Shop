@@ -29,21 +29,26 @@ class AdminModel {
 	}
 
 	/**
-	 * This function returns all the orders in the database.
-	 * @return array
+	 * Checks if a user is an admin.
+	 *
+	 * @param int $id The ID of the user.
+	 * @return bool Returns true if the user is an admin, false otherwise.
 	 */
-	public function getAllOrders() {
-		$sql = "SELECT DISTINCT * FROM orders o JOIN orderitems oi ON o.id = oi.order_id ";
-		$data=self::$connexion->prepare($sql);
-		$data->execute();
-		return $data->fetchAll(PDO::FETCH_ASSOC);
+	public function isAdmin($id): bool {
+		$sql = "SELECT id FROM admin WHERE id = ?";
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$id]);
+		if ($data->fetch(PDO::FETCH_ASSOC) === false) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
 	 * This function returns the orders in the database.
 	 * @return array
 	 */
-	public function getOrder() {
+	public function getAllOrders() {
 		$sql = "SELECT DISTINCT * FROM orders";
 		$data=self::$connexion->prepare($sql);
 		$data->execute();
@@ -108,6 +113,12 @@ class AdminModel {
 		$data->execute(array($id));
 	}
 
+	/**
+	 * Validates an order.
+	 *
+	 * @param int $orderId The ID of the order to validate.
+	 * @return void
+	 */
 	public function validateOrder($orderId)
 	{
 		$sql = "UPDATE orders SET status = 10 WHERE id = ?";
@@ -131,4 +142,3 @@ class AdminModel {
 
 	
 }
-?>

@@ -35,16 +35,17 @@ class UserModel extends Model {
 	}
 
 	/**
-	 * This function returns the admin in the database.
+	 * This function returns the admin username in the database.
+	 *
 	 * @param $i int The id of the admin.
-	 * @return array
+	 * @return string
 	 */
-	public function getAdmin ($i)
+	public function getAdminUsername($i)
 	{
-		$sql = "SELECT * FROM admin WHERE id = ?";
+		$sql = "SELECT username FROM admin WHERE id = ?";
 		$data=self::$connexion->prepare($sql);
 		$data->execute(array($i));
-		return $data->fetch(PDO::FETCH_ASSOC);
+		return $data->fetch(PDO::FETCH_ASSOC)['username'];
 	}
 
 	/**

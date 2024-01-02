@@ -66,8 +66,12 @@ class ProductController {
      * @return void
      */
     public function products(): void {
-        $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $customer = (isset($_SESSION['customer_id']))
+            ? $this->userModel->getCustomer(intval($_SESSION['customer_id']))
+            : null;
+        $admin = (isset($_SESSION['admin_id']))
+            ? $this->userModel->getAdminUsername(intval($_SESSION['admin_id']))
+            : null;
 
         $getCategory = $this->productModel->getCategory()->fetchAll(PDO::FETCH_ASSOC);
         $products = [];
@@ -100,7 +104,7 @@ class ProductController {
      */
     public function productDetails($id): void {
         $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdmin(intval($_SESSION['admin_id'])) : null;
+        $admin = (isset($_SESSION['admin_id'])) ? $this->userModel->getAdminUsername(intval($_SESSION['admin_id'])) : null;
         $product = $this->productModel->getProductById($id);
         $reviews = $this->productModel->getReviewsByProductId($id);
 

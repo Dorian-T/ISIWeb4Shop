@@ -18,7 +18,7 @@
     {% elseif admin %}
         <div class= ' col-lg-4'>
             <span class="navbar-text text-upercase">
-                <p> Admin: {{ admin.username}} </p>
+                <p> Admin: {{ admin }} </p>
             </span>
         </div>
     {% endif %}
@@ -37,10 +37,10 @@
             {% elseif admin %}
                 <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=adminC">Commande</a>
+                    <a class="nav-link" href="index.php?action=admin&page=orders">Commandes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=adminP">Gestion</a>
+                    <a class="nav-link" href="index.php?action=admin&page=products">Produits</a>
                 </li>
             {% else %}
                 <li class="nav-item">

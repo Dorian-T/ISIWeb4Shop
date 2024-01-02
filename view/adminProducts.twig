@@ -1,0 +1,35 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}IsiWeb4Shop
+{% endblock %}
+
+{% block content %}
+	<div class="container mt-4">
+		<h2>Liste des produits</h2>
+		<table class="table table-striped" aria-describedby="liste des commandes">
+			<tr>
+				<th scope="col">Nom</th>
+				<th scope="col">Description</th>
+				<th scope="col">Prix</th>
+				<th scope="col">Quantité</th>
+				<th scope="col">Action</th>
+			</tr>
+			{% if products is not empty %}
+				{% for product in products %}
+					<tr>
+						<td class="align-middle">{{ product.name }}</td>
+						<td class="align-middle">{{ product.description }}</td>
+						<td class="align-middle">{{ product.price }}</td>
+						<td class="align-middle">{{ product.quantity }}</td>
+						<td class="text-center">
+                            <a href="index.php?action=admin&page=editProduct&id={{ product.id }}" class="btn btn-primary">Modifier</a>
+                            <form method="post" action="index.php?action=admin&page=products">
+                                <button class="btn btn-danger" type="submit" name="delete" value="{{ product.id }}">Supprimer</button>
+                            </form>
+						</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+	</div>
+{% endblock %}
