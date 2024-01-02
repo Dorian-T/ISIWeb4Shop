@@ -62,7 +62,12 @@ class PayementController {
                     exit();
                     break;
                 case 'cheque':
-                    header('Location: facturePDF.php');
+                    $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
+                    $loader = new Twig\Loader\FilesystemLoader('view');
+                    $twig = new Twig\Environment($loader);
+                    $template = $twig->load('cheque.twig');
+                    echo $template->render(array('customer' => $customer));
+                    exit();
                     break;
                 case 'virement':
                     $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;

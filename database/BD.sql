@@ -13,7 +13,7 @@ USE `web4shop`;
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(40) NOT NULL
+  `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `logins` (
   `id` int(11) NOT NULL,
   `customer_id` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
