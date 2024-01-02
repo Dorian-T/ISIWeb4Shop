@@ -47,12 +47,17 @@
                                         <p>{{product.price}} €</p>
                                         <p>Quantité : {{product.quantity}}</p>
                                     </div>
-                                    <form method="post">
-                                        <input type="hidden" name="id" value="{{ product.id }}">
-                                        <button type="submit">
-                                            <img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
-                                        </button>                 
-                                    </form>
+
+                                    {% if product.quantity > 0 %}
+                                        <form method="post">
+                                            <input type="hidden" name="id" value="{{ product.id }}">
+                                            <button type="submit">
+                                                <img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
+                                            </button>                 
+                                        </form>
+                                    {% else %}
+                                        <p class="text-danger">Rupture de stock</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -14,13 +14,18 @@
 						<p>Prix : {{ product.price }}€</p>
 						<p>Quantité disponible : {{ product.quantity }}</p>
 					</div>
-					<form method="post">
-                        <input type="hidden" name="id" value="{{ product.id }}">
-						<input type="number" name="quantity" class="form-control" min="1" max="{{ product.quantity }}" value="1">
-						<button type="submit" class="btn">
-							<img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
-						</button>
-					</form>
+
+					{% if product.quantity > 0 %}
+						<form method="post">
+							<input type="hidden" name="id" value="{{ product.id }}">
+							<input type="number" name="quantity" class="form-control" min="1" max="{{ product.quantity }}" value="1">
+							<button type="submit" class="btn">
+								<img src="assets/icon/shopping-cart.svg" alt="icone panier" title="Ajouter au panier">
+							</button>
+						</form>
+					{% else %}
+						<p class="text-danger">Rupture de stock</p>
+					{% endif %}
 				</div>
 			</div>
 		</div>
