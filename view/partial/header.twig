@@ -28,14 +28,18 @@
             </li>
             {% if customer %}
                 <li class="nav-item">
+                    <a class='nav-link' href='index.php?action=logout'>Se déconnecter</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="index.php?action=products">Produits</a>
                 </li>
-                <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?action=cart">Panier</a>
                 </li>
             {% elseif admin %}
-                <a class='nav-link' href='index.php?action=logout'> Se deconnecter </a>
+                <li class="nav-item">
+                    <a class='nav-link' href='index.php?action=logout'>Se déconnecter</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?action=admin&page=orders">Commandes</a>
                 </li>
@@ -44,9 +48,11 @@
                 </li>
             {% else %}
                 <li class="nav-item">
+                    <a class='nav-link' href='index.php?action=login'>Se connecter</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="index.php?action=products">Produits</a>
                  </li>
-                <a class='nav-link' href='index.php?action=login'> Se connecter </a>
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?action=cart">Panier</a>
                 </li>
