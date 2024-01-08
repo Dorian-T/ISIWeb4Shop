@@ -1,0 +1,37 @@
+{% extends 'layout/base.twig' %}
+
+{% block content %}
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-6">
+				<h2 class="mb-4">Produits de la commande</h2>
+				<table class="table table-striped" aria-describedby="liste des produits">
+					<thead>
+						<tr>
+							<th scope="col">Produit</th>
+							<th scope="col">Quantité</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in products %}
+							<tr>
+								<td>{{ product.name }}</td>
+								<td>{{ product.quantity }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-md-6">
+				<h2 class="mb-4">Adresse de livraison</h2>
+				<p>{{ address.firstname }}
+					{{ address.lastname }}</p>
+				<p>{{ address.add1 }}
+					{{ address.add2 }}
+					{{ address.city }}
+					{{ address.postcode }}</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

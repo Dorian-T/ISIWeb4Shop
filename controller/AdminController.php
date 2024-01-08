@@ -47,16 +47,26 @@ class AdminController {
 
     /**
      * Display the admin page to validate orders.
-     
      */
     public function generateOrders() {
         $order = $this->adminModel->getAllOrders();
         $username = $this->userModel->getAdminUsername($_SESSION['admin_id']);
 
-        // Bouton de validation d'une commande
         if(isset($_POST['id'])) {
-            $this->adminModel->validateOrder($_POST['id']);
-            $order = $this->adminModel->getAllOrders();
+            // Bouton de validation d'une commande
+            if(isset($_POST['validate'])) {
+                $this->adminModel->validateOrder($_POST['id']);
+                $order = $this->adminModel->getAllOrders();
+            }
+            // Bouton de détails d'une commande
+            elseif(isset($_POST['details'])) {
+                $orderDetail = $this->adminModel->getOrderDetails($_POST['id']);
+                $template = $this->twig->load('adminOrderDetails.twig');
+                echo $template->render(
+                    array('products' => $orderDetail[0], 'address' => $orderDetail[1], 'admin' => $username)
+                );
+                exit();
+            }
         }
 
         $template = $this->twig->load('adminOrders.twig');

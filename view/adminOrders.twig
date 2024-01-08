@@ -21,28 +21,33 @@
                         <td>{{ order.total }}</td>
                         <td>
                             {% if order.status == 0 %}
-                                <span class="badge bg-warning text-dark">En attente</span>
+                                <span class="badge bg-warning">En attente</span>
                             {% elseif order.status == 10 %}
                                 <span class="badge bg-success">Validée</span>
                             {% elseif order.status == 1 %}
-                                <span class="badge bg-danger">Adresse</span>
+                                <span class="badge bg-warning">Adresse</span>
                             {% elseif order.status == 2 %}
-                                <span class="badge bg-danger">Paiement</span>
+                                <span class="badge bg-danger">Payée</span>
                             {% else %}
                                 <span class="badge bg-secondary">Autre</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if order.status == 2 %}
-                                <form method="post" action="index.php?action=admin&page=orders">
-                                    <input type="hidden" name="id" value="{{ order.id }}">
-                                    <button type="submit" class="btn btn-success">Valider</button>
-                                </form>
-                            {% elseif order.status == 10 %}
-                                <span class="text-muted">Commande validée</span>
-                            {% else %}
-                                <span class="text-muted">Commande en attente</span>
-                            {% endif %}
+                            <form method="post" action="index.php?action=admin&page=orders">
+                                <input type="hidden" name="id" value="{{ order.id }}">
+                                <button type="submit" class="btn btn-warning" name="details" title="Voir les détails">
+                                    <img src="assets/icon/search.svg" alt="bouton de détails">
+                                </button>
+                                {% if order.status == 2 %}
+                                    <button type="submit" class="btn btn-success" name="validate" title="Valider la commande">
+                                        <img src="assets/icon/check.svg" alt="bouton de validation">
+                                    </button>
+                                {% elseif order.status == 10 %}
+                                    <span class="text-muted">Commande validée</span>
+                                {% else %}
+                                    <span class="text-muted">Commande en attente</span>
+                                {% endif %}
+                            </form>
                         </td>
                     </tr>
                 {% endfor %}

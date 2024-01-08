@@ -20,6 +20,10 @@ header nav img {
   height: 40px;
 }
 
+header p {
+  margin: 0;
+}
+
 
 /* Main */
 

@@ -140,5 +140,26 @@ class AdminModel {
 		return $result;
 	}
 
-	
+	public function getOrderDetails(int $orderId): array
+	{
+		// products
+		$sql = "SELECT O.quantity, P.name
+				FROM orderitems O JOIN products P ON O.product_id = P.id
+				WHERE order_id = ?";
+		$products = self::$connexion->prepare($sql);
+		$products->execute([$orderId]);
+
+		// address
+		$sql = "SELECT firstname, lastname, add1, add2, city, postcode
+				FROM delivery_addresses
+				WHERE id = (
+					SELECT delivery_add_id
+					FROM orders
+					WHERE id = ?
+				)";
+		$address = self::$connexion->prepare($sql);
+		$address->execute([$orderId]);
+
+		return [$products->fetchAll(PDO::FETCH_ASSOC), $address->fetch(PDO::FETCH_ASSOC)];
+	}
 }
