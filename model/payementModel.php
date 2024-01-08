@@ -74,6 +74,13 @@ class PayementModel extends Model {
 		}
     }
 
+	/**
+	 * Uses the customer address as a delivery address.
+	 *
+	 * @param int $customerId The ID of the customer.
+	 * @param string $sessionId The session ID.
+	 * @return void
+	 */
 	public function useCustomerAdress(int $customerId, string $sessionId): void {
 		$sql = "SELECT forname AS firstname, surname AS lastname, add1, add2, add3 AS city, postcode, phone, email
 				FROM customers

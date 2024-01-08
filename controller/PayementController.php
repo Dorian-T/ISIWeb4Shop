@@ -57,6 +57,7 @@ class PayementController {
             ? $this->userModel->getCustomer(intval($_SESSION['customer_id']))
             : null;
 
+        // Ajout de l'adresse de livraison
         if(isset($_POST['newAdress'])) {
             $this->payementModel->addDeliveryAddress($_POST, $_SESSION['customer_id'] ?? -1, session_id());
         }
@@ -64,63 +65,40 @@ class PayementController {
             $this->payementModel->useCustomerAdress($_SESSION['customer_id'], session_id());
         }
 
+        // Choix du mode de paiement
+        if(isset($_POST['payement'])) {
+            switch ($_POST['payement']) {
+                case 'paypal':
+                    header('Location: https://www.paypal.com/fr/home');
+                    break;
+                case 'cb':
+                    $template = $this->twig->load('cb.twig');
+                    echo $template->render(array('customer' => $customer));
+                    exit();
+                case 'cheque':
+                    $template = $this->twig->load('cheque.twig');
+                    echo $template->render(array('customer' => $customer));
+                    exit();
+                case 'virement':
+                    $template = $this->twig->load('virement.twig');
+                    echo $template->render(array('customer' => $customer));
+                    exit();
+                default:
+                    header('Location: index.php?action=home');
+                    break;
+            }
+        }
+
+        // Choix du mode de paiement
         $template = $this->twig->load('payement.twig');
         echo $template->render(array('customer' => $customer));
     }
 
     /**
-     * Display the payement page.
-     *
-     * @return void
+     * Displays the thank you page after a successful payment.
      */
-    // public function payement() {
-    //     $customer = (isset($_SESSION['customer_id']))
-    //         ? $this->userModel->getCustomer(intval($_SESSION['customer_id']))
-    //         : null;
-
-    //     if (!empty($_POST)) {
-    //         $_SESSION['statut'] = 2;
-    //         if(isset($_SESSION['customer_id'], $_SESSION['SESS_ORDERNUM'], $_SESSION['adresse_id'], $_SESSION['total'])){
-    //             $this->payement_model->updateOrder($_SESSION['SESS_ORDERNUM'], $_SESSION['customer_id'], 1, $_SESSION['adresse_id'], 1, 2, $_SESSION['total'], '');
-    //         }
-    //         elseif(isset($_SESSION['SESS_ORDERNUM'], $_SESSION['adresse_id'], $_SESSION['total'])){
-    //             $this->payement_model->updateOrder($_SESSION['SESS_ORDERNUM'], 0, 0, $_SESSION['adresse_id'], 1, 2, $_SESSION['total'], session_id());
-    //         }
-
-    //         switch ($_POST['payement']) {
-    //             case 'paypal':
-    //                 header('Location: https://www.paypal.com/fr/home');
-    //                 break;
-    //             case 'cb':
-    //                 $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-    //                 $template = $this->twig->load('cb.twig');
-    //                 echo $template->render(array('customer' => $customer));
-    //                 exit();
-    //                 break;
-    //             case 'cheque':
-    //                 $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-    //                 $template = $this->twig->load('cheque.twig');
-    //                 echo $template->render(array('customer' => $customer));
-    //                 exit();
-    //                 break;
-    //             case 'virement':
-    //                 $customer = (isset($_SESSION['customer_id'])) ? $this->userModel->getCustomer(intval($_SESSION['customer_id'])) : null;
-    //                 $template = $this->twig->load('virement.twig');
-    //                 echo $template->render(array('customer' => $customer));
-    //                 exit();
-    //                 break;
-    //             default:
-    //                 header('Location: index.php?action=home');
-    //                 break;
-    //         }
-    //     }
-
-    //     $template = $this->twig->load('payement.twig');
-    //     echo $template->render(array('customer' => $customer));
-    // }
-
     public function thankYou() {
-        // Chargez le template de remerciement avec les détails de la commande
+        // Page de remerciement avec les détails de la commande
         $template = $this->twig->load('thankyou.twig');
         echo $template->render(array());
     }
