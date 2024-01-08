@@ -186,7 +186,7 @@ class ProductModel extends Model {
 	}
 	
 	/**
-	 * Removes a product from the database.
+	 * Removes a product from the cart and adds it back to the stock.
 	 *
 	 * @param int $id The ID of the product to be removed.
 	 * @param float $total The total price of the product.
@@ -194,7 +194,12 @@ class ProductModel extends Model {
 	 * @param int $customerId The ID of the customer.
 	 * @return void
 	 */
-	public function removeProduct(int $id, float $total, string $sessionId, int $customerId): void {
+	public function removeProduct(int $id, int $quantity, float $total, string $sessionId, int $customerId): void {
+		// Remise en stock du produit
+		$sql = 'UPDATE products SET quantity = quantity + ? WHERE id = ?';
+		$data = self::$connexion->prepare($sql);
+		$data->execute([$quantity, $id]);
+
 		if($customerId !== -1) {
 			// Suppression du produit
 			$sql = 'DELETE

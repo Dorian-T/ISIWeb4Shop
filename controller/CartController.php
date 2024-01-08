@@ -30,7 +30,13 @@ class CartController {
      */
     public function print(): void {
         if(isset($_POST['idToDelete'])) {
-            $this->productModel->removeProduct($_POST['idToDelete'], $_POST['totalToDelete'], session_id(), $_SESSION['customer_id'] ?? -1);
+            $this->productModel->removeProduct(
+                $_POST['idToDelete'],
+                $_POST['quantityToDelete'],
+                $_POST['totalToDelete'],
+                session_id(),
+                $_SESSION['customer_id'] ?? -1
+            );
         }
 
         $cart = $this->productModel->getCart(session_id(), $_SESSION['customer_id'] ?? -1);

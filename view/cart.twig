@@ -27,6 +27,7 @@
                             <td>
                                 <form method="post" action="index.php?action=cart">
                                     <input type="hidden" name="idToDelete" value="{{ item.id }}">
+                                    <input type="hidden" name="quantityToDelete" value="{{ item.quantity }}">
                                     <input type="hidden" name="totalToDelete" value="{{ item.price * item.quantity }}">
                                     <button type="submit" class="btn btn-danger">
                                         <img src="assets/icon/trash.svg" alt="Supprimer" title="supprimer" width="16" height="16">
