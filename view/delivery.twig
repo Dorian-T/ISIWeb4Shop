@@ -6,57 +6,40 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <h2>Ajouter une nouvelle adresse de livraison :</h2>
+                <h2 class="mb-3">Ajouter une adresse de livraison :</h2>
                 <form action="index.php?action=payement" method="post">
-                    <div class="form-group">
-                        <label for="firstname">Prénom:</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname" value="">
+                    <div class="form-group row">
+                        <input type="text" class="form-control col mx-3" id="firstname" name="firstname" placeholder="Prénom">
+                        <input type="text" class="form-control col mx-3" id="lastname" name="lastname" placeholder="Nom">
                     </div>
-                    <div class="form-group">
-                        <label for="lastname">Nom:</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" value="">
+                    <input type="text" class="form-control mb-3" id="add1" name="add1" placeholder="Adresse">
+                    <input type="text" class="form-control mb-3" id="add2" name="add2" placeholder="Complément d'adresse">
+                    <div class="form-group row">
+                        <input type="text" class="form-control col mx-3" id="city" name="city" placeholder="Ville">
+                        <input type="text" class="form-control col mx-3" id="postcode" name="postcode" placeholder="Code Postal">
                     </div>
-                    <div class="form-group">
-                        <label for="add1">Adresse 1:</label>
-                        <input type="text" class="form-control" id="add1" name="add1" value="">
+                    <div class="form-group row">
+                        <input type="number" class="form-control col mx-3" id="phone" name="phone" placeholder="Téléphone">
+                        <input type="email" class="form-control col mx-3" id="email" name="email" placeholder="Email">
                     </div>
-                    <div class="form-group">
-                        <label for="add2">Adresse 2:</label>
-                        <input type="text" class="form-control" id="add2" name="add2" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="city">Ville:</label>
-                        <input type="text" class="form-control" id="city" name="city" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="postcode">Code postal:</label>
-                        <input type="text" class="form-control" id="postcode" name="postcode" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Téléphone:</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="text" class="form-control" id="email" name="email" value="">
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Enregistrer">
+                    <input type="submit" class="btn btn-primary" name="newAdress" value="Enregistrer">
                 </form>
             </div>
-            <div class="col-md-6">
-                {% if delivery_address %}
-                    <h2>Choisir une adresse existante :</h2>
+
+            {% if delivery_address %}
+                <div class="col-md-6">
+                    <h2 class="mb-3">Choisir une adresse existante :</h2>
+                    <p> Nom : {{ delivery_address.surname }} </p>
+                    <p> Prénom : {{ delivery_address.forname }} </p>
+                    <p> Adresse 1 : {{ delivery_address.add1 }} </p>
+                    <p> Adresse 2 : {{ delivery_address.add2 }} </p>
+                    <p> Ville : {{ delivery_address.add3 }} </p>
+                    <p> Code postal : {{ delivery_address.postcode }} </p>
                     <form method='post' action='index.php?action=payement'>
-                        <p> Nom: {{ delivery_address.surname }} </p>
-                        <p> Prénom: {{ delivery_address.forname }} </p>
-                        <p> Adresse 1: {{ delivery_address.add1 }} </p>
-                        <p> Adresse 2: {{ delivery_address.add2 }} </p>
-                        <p> Ville: {{ delivery_address.add3 }} </p>
-                        <p> Code postal: {{ delivery_address.postcode }} </p>
-                        <input type='submit' class="btn btn-secondary" value='Choisir'>
+                        <input type='submit' class="btn btn-primary" name="oldAdress" value='Choisir'>
                     </form>
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

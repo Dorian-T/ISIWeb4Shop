@@ -10,7 +10,6 @@ require_once 'model/userModel.php';
 require_once 'model/adminModel.php';
 require_once 'model/payementModel.php';
 require_once 'model/factureModel.php';
-require_once 'model/livraisonModel.php';
 require_once 'model/factureModel.php';
 
 require_once 'controller/ProductController.php';
@@ -19,7 +18,6 @@ require_once 'controller/LoginController.php';
 require_once 'controller/AdminController.php';
 require_once 'controller/CartController.php';
 require_once 'controller/PayementController.php';
-require_once 'controller/LivraisonController.php';
 require_once 'controller/FactureController.php';
 
 
@@ -107,8 +105,8 @@ if (isset($_GET['action'])) {
             $payementController->thankYou();
             break;
         case 'livraison':
-            $livraisonController = new LivraisonController($twig);
-            $livraisonController->showDeliveryAddressOrForm();
+            $livraisonController = new PayementController($twig);
+            $livraisonController->deliveryAdress();
         break;
         case 'facture':
             if (isset($_GET['id'])) {

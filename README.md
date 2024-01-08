@@ -6,7 +6,7 @@
 - [ ] delivery adress ne marche pas (il faut en ajouter une nouvelle et sélectionner celle du compte) (Dorian)
 - [ ] update le statut de la commande + id adress + type payement (Dorian)
 - [ ] facture de chèque (Jules)
-- [ ] ajouter une page de détail de commande pour les admins (produits + adresse de livraison) (Dorian)
+- [x] ajouter une page de détail de commande pour les admins (produits + adresse de livraison) (Dorian)
 - [ ] le README (Dorian + Jules)
 
 
