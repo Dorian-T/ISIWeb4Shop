@@ -82,6 +82,9 @@ Nous avons fait le choix de diminuer du stock les produits ajoutés au panier po
 
 ...
 
+> Attention !
+> Pour les payements par Paypal, il peut être nécessaire d'autoriser les popups pour le site.
+
 
 ## Fonctionnalités admin
 

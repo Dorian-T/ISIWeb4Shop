@@ -67,10 +67,13 @@ class PayementController {
 
         // Choix du mode de paiement
         if(isset($_POST['payement'])) {
+            $this->payementModel->addPayementMethod($_POST['payement'], $_SESSION['customer_id'] ?? -1, session_id());
             switch ($_POST['payement']) {
                 case 'paypal':
-                    header('Location: https://www.paypal.com/fr/home');
-                    break;
+                    echo '<script type="text/javascript">window.open("https://www.paypal.com", "_blank");</script>';
+                    $template = $this->twig->load('thankyou.twig');
+                    echo $template->render(array('customer' => $customer));
+                    exit();
                 case 'cb':
                     $template = $this->twig->load('cb.twig');
                     echo $template->render(array('customer' => $customer));
@@ -84,7 +87,7 @@ class PayementController {
                     echo $template->render(array('customer' => $customer));
                     exit();
                 default:
-                    header('Location: index.php?action=home');
+                    header('Location: ./');
                     break;
             }
         }
