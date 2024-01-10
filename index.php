@@ -46,10 +46,6 @@ if (isset($_GET['action'])) {
             $loginController = new LoginController($twig);
             $loginController->register();
             break;
-        case 'registerAdmin':
-            $loginController = new LoginController($twig);
-            $loginController->registerAdmin();
-            break;
         case 'logout':
             $loginController = new LoginController($twig);
             $loginController->logOut();
@@ -62,28 +58,29 @@ if (isset($_GET['action'])) {
         // Admin
 
         case 'admin':
-            $adminController = new AdminController($twig);
-            if ($adminController->isAdmin() && isset($_GET['page'])) {
-                switch ($_GET['page']) {
-                    case 'register':
-                        $loginController = new LoginController($twig);
-                        $loginController->registerAdmin();
-                        break;
+            if (isset($_GET['page'])) {
+                $adminController = new AdminController($twig);
+                if($_GET['page'] == 'register') {
+                    $loginController = new LoginController($twig);
+                    $loginController->registerAdmin();
+                }
+                elseif ($adminController->isAdmin()) {
+                    switch ($_GET['page']) {
+                        case 'orders':
+                            $adminController->generateOrders();
+                            break;
 
-                    case 'orders':
-                        $adminController->generateOrders();
-                        break;
+                        case 'products':
+                            $adminController->generateProducts();
+                            break;
 
-                    case 'products':
-                        $adminController->generateProducts();
-                        break;
+                        case 'editProduct':
+                            $adminController->editProduct();
+                            break;
 
-                    case 'editProduct':
-                        $adminController->editProduct();
-                        break;
-
-                    default:
-                        header('Location: ./');
+                        default:
+                            header('Location: ./');
+                    }
                 }
             }
             else {
