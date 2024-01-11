@@ -37,6 +37,15 @@
     - Les identifiants de connexion à la base de données doivent être renseignés dans le fichier `config.php`
 - Installer Bootstrap avec la commande `npm install bootstrap`
 
+### Compte déja présent
+
+Il y a déja de créé un compte admin où l'identifiant est jginhac et le mot de passe est 12345.
+
+Il existe aussi un compte utilisateur où l'identifiant est ginhac et le mot de passe est 1234.
+
+Pour se connecter à un de ces comptes il faut aller sur la page de connexion.
+
+Bien sûr vous avez aussi la possiblilté de créer soit un compte utilisateur ou soit un compte admin.
 
 ## Fonctionnalités client
 
@@ -80,11 +89,15 @@ Nous avons fait le choix de diminuer du stock les produits ajoutés au panier po
 
 ### Commander
 
-...
+*Les pages liées à la commande ont été réalisé par Dorian et Jules.*
 
-> Attention !
-> Pour les payements par Paypal, il peut être nécessaire d'autoriser les popups pour le site.
+#### Adresse
 
+Après avoir appuyé sur le bouton "Commander" dans la page panier, nous sommes redirigés vers une nouvelle page permettant de soit choisir son addresse liée au compte si l'utilisateur est connecté ou sinon de rentrer une nouvelle adresse de livraison. Pour les utilisateurs non connectés, ils peuvent seulement rentrer une nouvelle adresse. 
+
+#### Paiement
+
+Après avoir choisit l'adresse de livraison, nous passons maintenant au paiement. Il y a la possibilité entre 4 paiements différents. Le premier est Paypal, l'utilisateur est redirigé vers le site de Paypal. Le deuxième est Carte de crédit, l'utilisateur est redirigé vers une page où il doit entrer ces informations de carte bancaire. La troisième est chèque, l'utilisateur est redirigé vers une page ou il peut télécharger une facture de sa commande en pdf avec les informations liées à l'envoi du chèque. Et pour finir le dernier moyen de paiement est le virement bancaire. L'utilisateur est redirigé vers une page où il rentre son IBAN est son BIC. Une fois que l'utilisateur a payé, une page de remerciement apparait et il peur revenir à  l'acceuil.
 
 ## Fonctionnalités admin
 

@@ -4,7 +4,7 @@
 -- Table `admin`
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
-    (1, 'john', 'f18bd055eec95965ee175fa9badd35ae6dbeb98f'); -- a remplacer par un vrai
+    (8, 'jginhac', '$2y$10$e81Q.QydeDSiMpn.qmmoYejsT3U4JFlaQ89gAG9sbe0Iehb4xttFq'); -- a remplacer par un vrai
 
 
 -- Table `categories`
@@ -15,28 +15,13 @@ INSERT INTO `categories` (`id`, `name`) VALUES
     (3, 'fruits secs');
 
 
--- Table `customers`
-
-INSERT INTO `customers` (`id`, `forname`, `surname`, `add1`, `add2`, `add3`, `postcode`, `phone`, `email`, `registered`) VALUES
-    (1, 'Sarah', 'Hamida', 'ligne add1', 'ligne add2', 'Meximieux', '01800', '0612345678', 's.hamida@gmail.com', 1),
-    (2, 'Jean-Benoît', 'Delaroche', 'ligne add1', 'ligne add2', 'Lyon', '69009', '0796321458', 'jb.delaroche@gmx.fr', 1);
-
-
 -- Table `delivery_adress`
 
 INSERT INTO `delivery_addresses` (`id`, `firstname`, `lastname`, `add1`, `add2`, `city`, `postcode`, `phone`, `email`) VALUES
     (46, 'Christian', 'Hamida', '15 Rue de la paix', '', 'Saint Etienne', '42000', '0477213145', 'chr.hamida@gmail.com'),
     (47, 'Sarah', 'Hamida', 'ligne add1', 'ligne add2', 'Meximieux', '01800', '0612345678', 's.hamida@gmail.com'),
     (48, 'Jean-Benoît', 'Delaroche', 'ligne add1', 'ligne add2', 'Lyon', '69009', '0796321458', 'jb.delaroche@gmx.fr'),
-    (49, 'Louise', 'Delaroche', '12 avenue condorcet', 'étage 2', 'Saint Priest', '45097', '0526117898', 'louise.delaroche@yahoo.fr');
-
-
--- Table `logins`
-
-INSERT INTO `logins` (`id`, `customer_id`, `username`, `password`) VALUES
-    (1, '1', 'Hamidou', 'd6ee53abcd3b045befa8af69f445fafc33f1f88b'),
-    (2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad');
--- a remplacer par des vrais
+    (49, 'Jules', 'Ginhac', '18C rue de la Doua', '', 'Villeurbanne', '69100', '0781912526', 'jules@ginhac.com');
 
 
 -- Table `orderitems`
@@ -138,3 +123,17 @@ INSERT INTO `reviews` (`id_product`, `name_user`, `stars`, `title`, `description
     (17, 'sabrina', 5, 'à essayer', 'un café doux et savoureux dans un emballage de qualité. le prix est raisonnable; je recommande!'),
     (20, 'Dominique', 3, 'bon', 'un produit de qualité; ce thé est parfumé et on apprécie le gout délicat de la cannelle; je vous le recommande.'),
     (22, 'Sylvain', 5, 'délicieux', 'une boisson très parfumée; idéale pour bien démarrer la journée; à essayer les yeux fermés.');
+
+    -- Table `customers`
+
+INSERT INTO `customers` (`id`, `forname`, `surname`, `add1`, `add2`, `add3`, `postcode`, `phone`, `email`, `registered`) VALUES
+    (1, 'Sarah', 'Hamida', 'ligne add1', 'ligne add2', 'Meximieux', '01800', '0612345678', 's.hamida@gmail.com', 1),
+    (2, 'Jean-Benoît', 'Delaroche', 'ligne add1', 'ligne add2', 'Lyon', '69009', '0796321458', 'jb.delaroche@gmx.fr', 1),
+    (3, 'Jules', 'Ginhac', '18C rue de la Doua', '', 'Villeurbanne', '69100', '0781912526', 'jules@ginhac.com', 1);
+
+-- Table `logins`
+
+INSERT INTO `logins` (`id`, `customer_id`, `username`, `password`) VALUES
+    (1, '1', 'Hamidou', 'd6ee53abcd3b045befa8af69f445fafc33f1f88b'),
+    (2, '2', 'Delaroche', '56a5d2bd85e6c9956d122f59f79540ee0f75e5ad'),
+    (3, '3', 'ginhac', '$2y$10$gSXuZnnKOmG/kJYnHgTeb.nfsyybVg3.DhpUk7LE0LzNhIkco8TXy');
