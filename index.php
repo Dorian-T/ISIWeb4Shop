@@ -9,8 +9,6 @@ require_once 'model/productModel.php';
 require_once 'model/userModel.php';
 require_once 'model/adminModel.php';
 require_once 'model/payementModel.php';
-require_once 'model/factureModel.php';
-require_once 'model/factureModel.php';
 
 require_once 'controller/ProductController.php';
 require_once 'controller/HomeController.php';
@@ -106,11 +104,9 @@ if (isset($_GET['action'])) {
             $livraisonController->deliveryAdress();
         break;
         case 'facture':
-            if (isset($_GET['id'])) {
-                $factureController = new FactureController($twig);
-                $factureController->facture($_GET['id']);
-            }
-            break;
+            $factureController = new FactureController($twig);
+            $factureController->facture();
+        break;
         default:
             header('Location: ./');
     }

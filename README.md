@@ -1,17 +1,5 @@
 # ISIWeb4Shop
 
-
-## TODO
-
-- [x] delivery adress ne marche pas (il faut en ajouter une nouvelle et sélectionner celle du compte) (Dorian)
-- [x] update le statut de la commande + id adress
-- [ ] update le statut de la commande + type payement
-- [ ] facture de chèque (Jules)
-- [x] ajouter une page de détail de commande pour les admins (produits + adresse de livraison) (Dorian)
-- ~~fusion des paniers quand on se connecte en plein milieu d'une commande~~
-- [ ] le README (Dorian + Jules)
-
-
 ## Contributeurs
 
 - Jules Ginhac
